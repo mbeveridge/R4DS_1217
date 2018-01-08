@@ -1,0 +1,116 @@
+library(tidyverse)
+
+----------
+# 10. "Tibbles" [Chapter 7 hardcopy]
+# 10.5 Exercises
+  
+# Q1. How can you tell if an object is a tibble?
+# (Hint: try printing mtcars, which is a regular data frame)
+print(mtcars)
+print(as_tibble(mtcars))
+
+# A1.
+# "Tibbles have a refined print method that shows only the first 10 rows, and all the columns that fit
+# on screen. This makes it much easier to work with large data. In addition to its name, each column
+# reports its type, a nice feature borrowed from str()" -- s10.3.1
+
+
+# Q2.
+# Compare and contrast the following operations on a data.frame and equivalent tibble.
+# What is different? Why might the default data frame behaviours cause you frustration?
+
+df <- data.frame(abc = 1, xyz = "a")
+df$x                                     # Q2.1
+df[, "xyz"]                              # Q2.2
+df[, c("abc", "xyz")]                    # Q2.3
+
+dftibb <- as_tibble(data.frame(abc = 1, xyz = "a"))
+dftibb$x                                 # Q2.1
+dftibb[, "xyz"]                          # Q2.2
+dftibb[, c("abc", "xyz")]                # Q2.3
+
+# A2.
+# "Compared to a data.frame, tibbles are more strict: they never do partial matching, and they will
+# generate a warning if the column you are trying to access does not exist" -- s10.3.2
+# So for Q2.1, the tibble says "Unknown or uninitialised column: 'x'", but the data.frame finds 'xyz'.
+# This saves keystrokes, but might return (the value of) a 'wrong'/unintended variable
+
+# "With base R data frames, [ sometimes returns a data frame, and sometimes returns a vector <if 1 col>.
+# With tibbles, [ always returns another tibble" -- s10.4
+# So for Q2.2 & # Q2.3 the tibble returns a tibble. The data.frame returns a vector & data.frame
+# Output able to be either vector or data.frame means code acting on it has to determine which (else error)
+
+
+# Q3.
+# If you have the name of a variable stored in an object, e.g. var <- "mpg", how can you extract
+# the reference variable from a tibble?
+
+# A3.
+# You can use the double bracket, like df[[var]].
+# You can't use the dollar sign, because df$var would look for a column named var
+# https://jrnold.github.io/e4qf/tibbles.html#exercises-12
+
+
+# Q4.
+# Practice referring to non-syntactic names in the following data frame by:
+  
+# Q4.1 Extracting the variable called 1
+# Q4.2 Plotting a scatterplot of 1 vs 2
+# Q4.3 Creating a new column called 3 which is 2 divided by 1
+# Q4.4 Renaming the columns to one, two and three
+annoying <- tibble(
+  `1` = 1:10,
+  `2` = `1` * 2 + rnorm(length(`1`))
+)
+
+# A4.
+# It’s possible for a tibble to have column names that are not valid R variable names, aka non-syntactic
+# names. For example, they might not start with a letter, or they might contain unusual characters like
+# a space. To refer to these variables, you need to surround them with backticks, ` -- s10.2
+
+# A4.1
+annoying$`1`           # OK
+annoying[[`1`]]        # not ok ...??
+annoying$"1"           # OK ...?
+annoying[["1"]]        # OK ...?
+
+# A4.2
+ggplot(annoying, aes(`1`,`2`)) + geom_point()
+
+# A4.3
+# "To use these in a pipe, you’ll need to use the special placeholder ." -- s10.3.2
+(annoying %>% mutate(`3` = `2`/`1`)) # The above comment does NOT seem to apply here - I'm not subsetting
+
+# A4.4
+(annoying %>%
+    mutate(`3` = `2`/`1`) %>%
+    rename(one = `1`, two = `2`, three = `3`))
+
+
+# Q5. What does tibble::enframe() do? When might you use it?
+?tibble::enframe()
+
+# A5.
+# "enframe() converts named atomic vectors or lists to two-column data frames" (with names and values).
+# "You might use it if you have data stored in a named vector and you want to add it to a data frame
+# and preserve both the name attribute and the actual value" -- http://cfss.uchicago.edu/r4ds_solutions.html
+enframe(c(a = 1, b = 2, c = 3))
+
+
+# Q6. What option controls how many additional column names are printed at the footer of a tibble?
+
+# A6.
+# "you can explicitly print() the data frame and control the number of rows (n) and the width of the
+# display. width = Inf will display all columns" -- s10.3.1
+# So, the number of columns displayed will affect how many (others) are printed at the footer
+
+nycflights13::flights %>% print(n = 10, width = 80)    # 'width' in characters (not qty of columns)
+
+# 'n_extra' : columns to print abbreviated information for, if the width is too small for the entire tibble.
+# If NULL, the default, it will print information about at most 'tibble.max_extra_cols' extra columns
+getOption("tibble.max_extra_cols")                     # Tells current value of tibble.max_extra_cols
+options(tibble.max_extra_cols = 100)                   # Set to 100
+
+# "You can also control the default print behaviour by setting options: ...
+# Use options(tibble.width = Inf) to always print all columns, regardless of the width of the screen" -- s10.3.1
+
