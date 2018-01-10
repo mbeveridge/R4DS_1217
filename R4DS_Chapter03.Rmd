@@ -1,11 +1,14 @@
 ---
 title: "Chapter03"
-output: github_document
+output:
+  github_document: default
+  html_notebook: default
 ---
 
 ```{r}
 library(tidyverse)
 ```
+
 
 ## 3. "Data visualisation" [Chapter 1 hardcopy]
 ### 3.2.4 Exercises
@@ -15,14 +18,13 @@ Q1. Run ggplot(data = mpg). What do you see?
 ggplot(data = mpg)
 ```
 
-A1. Grey background. No axes or data visaible
+A1. Grey background. No axes or data visible
 
 
 Q2. How many rows are in mpg? How many columns?
 ```{r}
 mpg
 ```
-
 A2. 234 rows x 11 columns
 
 
@@ -51,7 +53,7 @@ ggplot(data = mpg) +
 A5. The plot has 2 categorical variables, (but shows no dependency), with an unknown number of points at many intersections (ie. overlap)
 
 
------------
+
 ## 3. "Data visualisation" [Chapter 1 hardcopy]
 ### 3.3.1 Exercises
 
@@ -81,8 +83,10 @@ How do these aesthetics behave differently for categorical vs. continuous variab
 ```{r}
 ggplot(data = mpg) + geom_point(mapping = aes(x = displ, y = hwy, color = cty))
 ggplot(data = mpg) + geom_point(mapping = aes(x = displ, y = hwy, size = cty))
-ggplot(data = mpg) + geom_point(mapping = aes(x = displ, y = hwy, shape = cty))
+```
+`ggplot(data = mpg) + geom_point(mapping = aes(x = displ, y = hwy, shape = cty))` # "Error: A continuous variable cannot be mapped to shape""
 
+```{r}
 ggplot(data = mpg) + geom_point(mapping = aes(x = displ, y = hwy, color = drv))
 ggplot(data = mpg) + geom_point(mapping = aes(x = displ, y = hwy, size = drv))
 ggplot(data = mpg) + geom_point(mapping = aes(x = displ, y = hwy, shape = drv))
@@ -122,7 +126,7 @@ ggplot(data = mpg) +
 A6. Expression is True/False for each point, splitting 'displ' into 2 sets with different colours
 
 
------------
+
 ## 3. "Data visualisation" [Chapter 1 hardcopy]
 ### 3.5.1 Exercises
 
@@ -140,6 +144,7 @@ Q2. What do the empty cells in plot with facet_grid(drv ~ cyl) mean? How do they
 ```{r}
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = drv, y = cyl))
+
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = drv, y = cyl)) +
   facet_grid(drv ~ cyl)
@@ -155,6 +160,7 @@ Q3. What plots does the following code make? What does . do?
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy)) +
   facet_grid(drv ~ .)
+
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy)) +
   facet_grid(. ~ cyl)
@@ -174,6 +180,7 @@ How might the balance change if you had a larger dataset?
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy)) +
   facet_wrap(~ class, nrow = 2)
+
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy, colour = class))
 ```
@@ -203,7 +210,7 @@ Q6. When using facet_grid() you should usually put the variable with more unique
 A6. PC displays are usually landscape format, so a reader can distinguish many columns more easily than many rows (and dependent variable is usually y-axis)
 
 
------------
+
 ## 3. "Data visualisation" [Chapter 1 hardcopy]
 ### 3.6.1 Exercises
 
@@ -246,6 +253,7 @@ Q5. Will these two graphs look different? Why/why not?
 ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) +
   geom_point() +
   geom_smooth()
+
 ggplot() +
   geom_point(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) +
   geom_smooth(data = mpg, mapping = aes(x = displ, y = hwy, color = drv))
@@ -308,7 +316,7 @@ A6.6 Instead of 'stroke=2' could have used 'size=4' (from seeing someone else's 
 A6.6 Actually, why did 'stroke' work? - does it not need to be with a shapetype that can have color+fill?
 
 
------------
+
 ## 3. "Data visualisation" [Chapter 1 hardcopy]
 ### 3.7.1 Exercises
 
@@ -385,7 +393,7 @@ ggplot(data = diamonds) +
 ```
 
 
------------
+
 ## 3. "Data visualisation" [Chapter 1 hardcopy]
 ### 3.8.1 Exercises
   
@@ -438,11 +446,12 @@ ggplot(data = mpg, mapping = aes(x = class, y = hwy, color = drv)) +
 ```
 
 
------------
+
 ## 3. "Data visualisation" [Chapter 1 hardcopy]
 ### 3.9.1 Exercises
 
 Q1. Turn a stacked bar chart into a pie chart using coord_polar()
+
 A1.
 ```{r}
 ggplot(data = mpg, mapping = (aes(x = 1, fill = class))) + # Need x. x=1 gave a single stack, centred on '1'. x=factor(1) would get rid of extra scaling marks
