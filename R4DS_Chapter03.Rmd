@@ -312,156 +312,195 @@ A6.6 Actually, why did 'stroke' work? - does it not need to be with a shapetype 
 ## 3. "Data visualisation" [Chapter 1 hardcopy]
 ### 3.7.1 Exercises
 
-# Q1.
-# What is the default geom associated with stat_summary()?
-#  How could you rewrite the previous plot to use that geom function instead of the stat function?
+Q1.
+What is the default geom associated with stat_summary()?
+How could you rewrite the previous plot to use that geom function instead of the stat function?
+```{r}
 ?stat_summary
 ?geom_pointrange
 ggplot(data = diamonds) +
   stat_summary(mapping = aes(x = cut, y = depth), fun.ymin = min, fun.ymax = max, fun.y = median)
+```
 
-# A1.
-# Default geom for stat_summary is geom_pointrange. But default stat for geom_pointrange is identity, so use geom_pointrange(stat = "summary")
+A1.
+Default geom for stat_summary is geom_pointrange. But default stat for geom_pointrange is identity, so use `geom_pointrange(stat = "summary")`
+```{r}
 ggplot(data = diamonds) +
   geom_pointrange(mapping = aes(x = cut, y = depth), stat = "summary", fun.ymin = min, fun.ymax = max, fun.y = median)
+```
 
 
-# Q2. What does geom_col() do? How is it different to geom_bar()?
+Q2. What does geom_col() do? How is it different to geom_bar()?
+```{r}
 ?geom_col
 ?geom_bar
+```
 
-# A2.
-# "geom_bar uses stat_count by default: it counts the number of cases at each x position.
-# geom_col uses stat_identity: it leaves the data as is"
-# geom_bar(stat = "identity") and geom_col() are equivalent
-
-
-# Q3.
-# Most geoms and stats come in pairs that are almost always used in concert
-# Read through the documentation and make a list of all the pairs. What do they have in common?
-
-# A3.
-# http://ggplot2.tidyverse.org/reference/
-# ?
+A2.
+"geom_bar uses stat_count by default: it counts the number of cases at each x position.
+geom_col uses stat_identity: it leaves the data as is"
+geom_bar(stat = "identity") and geom_col() are equivalent
 
 
-# Q4. What variables does stat_smooth() compute? What parameters control its behaviour?
+Q3.
+Most geoms and stats come in pairs that are almost always used in concert
+Read through the documentation and make a list of all the pairs. What do they have in common?
+
+A3.
+http://ggplot2.tidyverse.org/reference/
+?
+
+
+Q4. What variables does stat_smooth() compute? What parameters control its behaviour?
+```{r}
 ?stat_smooth
-# A4.
-# Four : y [predicted value]; ymin [lower pointwise confidence interval around the mean]; ymax [upper pointwise confidence interval around the mean]; se [standard error]
-# Most importantly : method [smoothing method (function) to use]; se [whether to display confidence interval]; level [level of confidence interval to use (0.95 default)]
+```
+
+A4.
+Four : y [predicted value]; ymin [lower pointwise confidence interval around the mean]; ymax [upper pointwise confidence interval around the mean]; se [standard error]
+Most importantly : method [smoothing method (function) to use]; se [whether to display confidence interval]; level [level of confidence interval to use (0.95 default)]
 
 
-# Q5.
-# In our proportion bar chart, we need to set group = 1. Why?
-# In other words what is the problem with these two graphs?
+Q5.
+In our proportion bar chart, we need to set group = 1. Why?
+In other words what is the problem with these two graphs?
+```{r}
 ggplot(data = diamonds) +
   geom_bar(mapping = aes(x = cut, y = ..prop..)) # 'prop' is 1.00 for each value of 'cut'
 ggplot(data = diamonds) +
   geom_bar(mapping = aes(x = cut, fill = color, y = ..prop..)) # 'prop' is 7 for each value of 'cut' (7 colors)
+```
 
-# A5.
-# We've relied on other variables to change aggregation (eg. color = drv instead of a separate group = drv)
-# cf. s3.6 : "It is convenient to rely on this feature because the group aesthetic by itself does not add a legend or distinguishing features to the geoms"
-# But '..prop..' means proportion of group, and that will be 100% unless we force it otherwise
-# group=1 means everything is in the same group (named '1'), rather than in different groups (named Fair, Good, etc ...if group=cut) ...Imagine a field called 'group', where every row has the value '1' there
-# group=2 or group=X would have the same effect. (Don't know why it has to be inside aes(), since it's a constant)
+A5.
+We've relied on other variables to change aggregation (eg. color = drv instead of a separate group = drv)
+cf. s3.6 : "It is convenient to rely on this feature because the group aesthetic by itself does not add a legend or distinguishing features to the geoms"
+But '..prop..' means proportion of group, and that will be 100% unless we force it otherwise
+group=1 means everything is in the same group (named '1'), rather than in different groups (named Fair, Good, etc ...if group=cut) ...Imagine a field called 'group', where every row has the value '1' there
+group=2 or group=X would have the same effect. (Don't know why it has to be inside aes(), since it's a constant)
+```{r}
 ggplot(data = diamonds) +
   geom_bar(mapping = aes(x = cut, y = ..prop.., group = 1))
 ggplot(data = diamonds) +
   geom_bar(mapping = aes(x = cut, fill = color, y = ..prop.., group = 1)) # Why isn't chart coloured?
+```
 
 
 -----------
-# 3. "Data visualisation" [Chapter 1 hardcopy]
-# 3.8.1 Exercises
+## 3. "Data visualisation" [Chapter 1 hardcopy]
+### 3.8.1 Exercises
   
-# Q1. What is the problem with this plot? How could you improve it?
+Q1. What is the problem with this plot? How could you improve it?
+```{r}
 ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
   geom_point()
+```
 
-# A1.
-# Many of the data points overlap (overplotting).
-# We can jitter the points, to improve the overall visualization (in this case)
+A1.
+Many of the data points overlap (overplotting).
+We can jitter the points, to improve the overall visualization (in this case)
+```{r}
 ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
   geom_jitter()
+```
 
 
-# Q2. What parameters to geom_jitter() control the amount of jittering?
+Q2. What parameters to geom_jitter() control the amount of jittering?
+```{r}
 ?geom_jitter
+```
 
-# A2. width and height
+A2. width and height
 
 
-# Q3. Compare and contrast geom_jitter() with geom_count()
+Q3. Compare and contrast geom_jitter() with geom_count()
+```{r}
 ?geom_count
 ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
   geom_count()
+```
 
-# A3.
-# "This is a variant geom_point that counts the number of observations at each location, then maps the count to point area"
-# It makes larger points where there is overplotting, so the number of visible points is equal to geom_point()
+A3.
+"This is a variant geom_point that counts the number of observations at each location, then maps the count to point area"
+It makes larger points where there is overplotting, so the number of visible points is equal to geom_point()
 
 
-# Q4.
-# What’s the default position adjustment for geom_boxplot()?
-# Create a visualisation of the mpg dataset that demonstrates it
+Q4.
+What’s the default position adjustment for geom_boxplot()?
+Create a visualisation of the mpg dataset that demonstrates it
+```{r}
 ?geom_boxplot
+```
 
-#A4. position = "dodge" is the default
+A4. position = "dodge" is the default
+```{r}
 ggplot(data = mpg, mapping = aes(x = class, y = hwy, color = drv)) +
   geom_boxplot(position = "dodge")
+```
 
 
 -----------
-# 3. "Data visualisation" [Chapter 1 hardcopy]
-# 3.9.1 Exercises
+## 3. "Data visualisation" [Chapter 1 hardcopy]
+### 3.9.1 Exercises
 
-# Q1. Turn a stacked bar chart into a pie chart using coord_polar()
-# A1.
+Q1. Turn a stacked bar chart into a pie chart using coord_polar()
+A1.
+```{r}
 ggplot(data = mpg, mapping = (aes(x = 1, fill = class))) + # Need x. x=1 gave a single stack, centred on '1'. x=factor(1) would get rid of extra scaling marks
   geom_bar(position = "stack")
+```
 
+```{r}
 ?coord_polar
 ggplot(data = mpg, mapping = (aes(x = 1, fill = class))) + # x=factor(1) would get rid of extra scaling marks
   geom_bar(position = "stack") +
   coord_polar(theta = "y") # theta="y" gave pie segments, (instead of rings)
+```
 
 
-# Q2. What does labs() do? Read the documentation
+Q2. What does labs() do? Read the documentation
+```{r}
 ?labs
-# A2. labs is a shortcut function to add labels to different scales ...title, subtitle, axes, and caption
+```
+
+A2. labs is a shortcut function to add labels to different scales ...title, subtitle, axes, and caption
 
 
-# Q3. What’s the difference between coord_quickmap() and coord_map()?
+Q3. What’s the difference between coord_quickmap() and coord_map()?
+```{r}
 ?coord_map
-# A3.
-# "coord_quickmap() sets the aspect ratio correctly for maps" -- R4DS text
-# "coord_map projects a portion of the earth, which is approximately spherical, onto a flat 2D plane
-# using any projection defined by the mapproj package. Map projections do not, in general, preserve
-# straight lines, so this requires considerable computation. coord_quickmap is a quick approximation
-# that does preserve straight lines. It works best for smaller areas closer to the equator"
+```
+
+A3.
+"coord_quickmap() sets the aspect ratio correctly for maps" -- R4DS text
+"coord_map projects a portion of the earth, which is approximately spherical, onto a flat 2D plane
+using any projection defined by the mapproj package. Map projections do not, in general, preserve
+straight lines, so this requires considerable computation. coord_quickmap is a quick approximation
+that does preserve straight lines. It works best for smaller areas closer to the equator"
 
 
-# Q4. What does the plot below tell you about the relationship between city and highway mpg?
-# Why is coord_fixed() important? What does geom_abline() do?
+Q4. What does the plot below tell you about the relationship between city and highway mpg?
+Why is coord_fixed() important? What does geom_abline() do?
+```{r}
 ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
   geom_point() +
   geom_abline() +
   coord_fixed()
+```
 
-# A4. Relationship is positive and approximately linear. Slightly better highway mpg than city mpg
+A4. Relationship is positive and approximately linear. Slightly better highway mpg than city mpg
+```{r}
 ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
   geom_point() +
   geom_abline() + # draws a line that, by default, has an intercept of 0 and slope of 1
   coord_fixed() # draws equal intervals on the \(x\) and \(y\) axes so they are directly comparable (so abline is at 45 degrees)
+```
 
 
 -----------
-# Comment & code from @aaron_g in (R4DS Slack) board=02_week on 15/9/17 06:25, in reply to query from @darh78
-# Not one of the exercises, but saved here in case useful in future. (Slope charts in a lattice)
-# "i think this kind of graph is much more informative (maybe this is what you had in mind to begin with)"
-  
+Comment & code from @aaron_g in (R4DS Slack) board=02_week on 15/9/17 06:25, in reply to query from @darh78
+Not one of the exercises, but saved here in case useful in future. (Slope charts in a lattice)
+"i think this kind of graph is much more informative (maybe this is what you had in mind to begin with)"
+```{r}
 mpg1 <- mpg %>% 
   mutate(unique = rownames(mpg)) %>%
   gather("road_type" ,"MPG", c("cty", "hwy"))
@@ -471,9 +510,5 @@ ggplot(data = mpg1,mapping = aes(x = road_type, y = MPG, color=drv ,group=unique
   facet_wrap(~manufacturer, nrow=3)+
   geom_line(alpha=0.5) +
   theme_linedraw(base_size = 14)
-
-
-
-
-
+```
 
