@@ -13,7 +13,7 @@ library(tidyverse)
 ## 3. "Data visualisation" [Chapter 1 hardcopy]
 ### 3.2.4 Exercises
 
-Q1. Run ggplot(data = mpg). What do you see?
+Q1. Run `ggplot(data = mpg)`. What do you see?
 ```{r}
 ggplot(data = mpg)
 ```
@@ -21,22 +21,22 @@ ggplot(data = mpg)
 A1. Grey background. No axes or data visible
 
 
-Q2. How many rows are in mpg? How many columns?
+Q2. How many rows are in `mpg`? How many columns?
 ```{r}
 mpg
 ```
 A2. 234 rows x 11 columns
 
 
-Q3. What does the drv variable describe? Read the help for ?mpg to find out
+Q3. What does the `drv` variable describe? Read the help for `?mpg` to find out
 ```{r}
 ?mpg
 ```
 
-A3. f = front-wheel drive, r = rear wheel drive, 4 = 4wd
+A3. `f` = front-wheel drive, `r` = rear wheel drive, `4` = 4wd
 
 
-Q4. Make a scatterplot of hwy vs cyl [...y v's x]
+Q4. Make a scatterplot of `hwy` vs `cyl` [...y v's x]
 A4.
 ```{r}
 ggplot(data = mpg) +
@@ -44,7 +44,7 @@ ggplot(data = mpg) +
 ```
 
 
-Q5. What happens if you make a scatterplot of class vs drv? Why is the plot not useful?
+Q5. What happens if you make a scatterplot of `class` vs `drv`? Why is the plot not useful?
 ```{r}
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = drv, y = class))
@@ -63,39 +63,39 @@ ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy, color = "blue"))
 ```
 
-A1. Needs to be outside the aes() to work like that. (Inside, it just creates a 'True' condition, but with no say over what colour represents it in the plot)
+A1. Needs to be outside the `aes()` to work like that. (Inside, it just creates a 'True' condition, but with no say over what colour represents it in the plot)
 
 
-Q2. Which variables in mpg are categorical? Which variables are continuous? How can you see this information when you run mpg?
+Q2. Which variables in `mpg` are categorical? Which variables are continuous? How can you see this information when you run `mpg`?
 ```{r}
 ?mpg
 mpg
 ```
 
 A2.
-Categorical : <chr> : manufacturer; model; trans; drv; fl; class ...6
-Continuous : <dbl> or <int> : displ; year; cyl; cty; hwy ...5
+Categorical : <chr> : `manufacturer`; `model`; `trans`; `drv`; `fl`; `class` ...6
+Continuous : <dbl> or <int> : `displ`; `year`; `cyl`; `cty`; `hwy` ...5
 
 
 Q3.
-Map a continuous variable to color, size, and shape. [I initially misunderstood the requirement, and mapped them all in one plot]
-How do these aesthetics behave differently for categorical vs. continuous variables?
-```{r}
-ggplot(data = mpg) + geom_point(mapping = aes(x = displ, y = hwy, color = cty))
-ggplot(data = mpg) + geom_point(mapping = aes(x = displ, y = hwy, size = cty))
-```
-`ggplot(data = mpg) + geom_point(mapping = aes(x = displ, y = hwy, shape = cty))` # "Error: A continuous variable cannot be mapped to shape""
-
+Map a continuous variable to `color`, `size`, and `shape`. [I initially misunderstood the requirement, and mapped them all in one plot]
+How do these aesthetics behave differently for categorical vs. continuous variables? [eg. `drv` <chr>; `cty` <int>]
 ```{r}
 ggplot(data = mpg) + geom_point(mapping = aes(x = displ, y = hwy, color = drv))
 ggplot(data = mpg) + geom_point(mapping = aes(x = displ, y = hwy, size = drv))
 ggplot(data = mpg) + geom_point(mapping = aes(x = displ, y = hwy, shape = drv))
 ```
 
-A3.
-color : different hues v's tints & shades of a single hue
-size : allocation of size to variable is arbitrary (warning) v's relates to size of variable
-shape : allocation of shape to variable is arbitrary v's error (as 'meaningless')
+```{r}
+ggplot(data = mpg) + geom_point(mapping = aes(x = displ, y = hwy, color = cty))
+ggplot(data = mpg) + geom_point(mapping = aes(x = displ, y = hwy, size = cty))
+```
+`ggplot(data = mpg) + geom_point(mapping = aes(x = displ, y = hwy, shape = cty))` # "Error: A continuous variable cannot be mapped to shape""
+
+A3. [categorical v's continuous]
+`color` : different hues v's tints & shades of a single hue
+`size` : allocation of size to variable is arbitrary (warning) v's relates to size of variable
+`shape` : allocation of shape to variable is arbitrary v's error (as 'meaningless')
 
 
 Q4. What happens if you map the same variable to multiple aesthetics?
@@ -104,26 +104,26 @@ ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy, color = displ, size = hwy))
 ```
 
-A4. The plot uses all the aesthetics. But there is redundancy, which can also be confusing (as a reader expects that an aesthetic is added for extra insight)
+A4. The plot does use all the aesthetics. But there is redundancy, which may be confusing (as a reader expects that an aesthetic is added for extra insight)
 
 
-Q5. What does the stroke aesthetic do? What shapes does it work with?
+Q5. What does the `stroke` aesthetic do? What shapes does it work with?
 ```{r}
 ?geom_point
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy), shape = 21, colour = "black", fill = "white", size = 5, stroke = 5)
 ```
 
-A5. "For shapes that have a border (like 21), you can colour the inside and outside separately. Use the stroke aesthetic to modify the width of the border"
+A5. "For shapes that have a border (like 21), you can colour the inside and outside separately. Use the `stroke` aesthetic to modify the width of the border"
 
 
-Q6. What happens if you map an aesthetic to something other than a variable name, like aes(colour = displ < 5) ?
+Q6. What happens if you map an aesthetic to something other than a variable name, like `aes(colour = displ < 5`) ?
 ```{r}
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy, color = displ < 5))
 ```
 
-A6. Expression is True/False for each point, splitting 'displ' into 2 sets with different colours
+A6. Expression is True/False for each point, splitting `displ` into 2 sets with different colours
 
 
 
@@ -140,7 +140,7 @@ ggplot(data = mpg) +
 A1. A cell is created for every value of the continuous variable. (Unlikely to be the most insightful choice)
 
 
-Q2. What do the empty cells in plot with facet_grid(drv ~ cyl) mean? How do they relate to this plot?
+Q2. What do the empty cells in plot with `facet_grid(drv ~ cyl)` mean? How do they relate to this plot?
 ```{r}
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = drv, y = cyl))
@@ -155,7 +155,7 @@ A2.
 2nd plot has an empty cell when 'the data doesn't contain that combination'
 
 
-Q3. What plots does the following code make? What does . do?
+Q3. What plots does the following code make? What does `.` do?
 ```{r}
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy)) +
@@ -169,7 +169,7 @@ ggplot(data = mpg) +
 A3.
 1st plot has long horizontal cells (3 rows, no cols)
 2nd plot has tall vertical cells (0 rows, 4 cols)
-. acts as a placeholder in the script (when facet_grid is missing a variable), and causes no faceting in that dimension
+`.` acts as a placeholder in the script (when facet_grid is missing a variable), and causes no faceting in that dimension
 
 
 Q4.
@@ -186,27 +186,27 @@ ggplot(data = mpg) +
 ```
 
 A4.
-Adv : reduces qty of points in a cell, so less overlapping and easier to spot different trends
-Disadv : harder to judge location of points in a cell relative to other cells (ie. overall picture). Squeezes the size of a cell
-Larger dataset has more overlapping, unless faceting used. (Though if the categorical variables used for faceting have many values, the cells will be tiny)
+* Adv : reduces qty of points in a cell, so less overlapping and easier to spot different trends
+* Disadv : harder to judge location of points in a cell relative to other cells (ie. overall picture). Squeezes the size of a cell
+* Larger dataset has more overlapping, unless faceting used. (Though if the categorical variables used for faceting have many values, the cells will be tiny)
 
 
 Q5. 
-Read ?facet_wrap. What does nrow do? What does ncol do?
+Read `?facet_wrap`. What does `nrow` do? What does `ncol` do?
 What other options control the layout of the individual panels?
-Why doesn’t facet_grid() have nrow and ncol argument?
+Why doesn’t `facet_grid()` have `nrow` and `ncol` argument?
 ```{r}
 ?facet_wrap
 ```
 
 A5.
 facet_wrap wraps a 1d sequence of panels into 2d. This is generally a better use of screen space than facet_grid because most displays are roughly rectangular
-nrow breaks a single row of cells into the specified number of rows. Similarly ncol specifies number of cols to have in the plot
-as.table [= TRUE or FALSE] determines the starting facet to begin filling the plot. And dir [= "h" or "v"] determines the starting direction for filling in the plot
-facet_grid() has its x and y dimensions determined by its arguments (number of unique values of the 2 variables)
+* nrow breaks a single row of cells into the specified number of rows. Similarly ncol specifies number of cols to have in the plot
+* as.table [= TRUE or FALSE] determines the starting facet to begin filling the plot. And dir [= "h" or "v"] determines the starting direction for filling in the plot
+* facet_grid() has its x and y dimensions determined by its arguments (number of unique values of the 2 variables)
 
 
-Q6. When using facet_grid() you should usually put the variable with more unique levels in the columns. Why?
+Q6. When using `facet_grid()` you should usually put the variable with more unique levels in the columns. Why?
 A6. PC displays are usually landscape format, so a reader can distinguish many columns more easily than many rows (and dependent variable is usually y-axis)
 
 
@@ -215,7 +215,7 @@ A6. PC displays are usually landscape format, so a reader can distinguish many c
 ### 3.6.1 Exercises
 
 Q1. What geom would you use to draw a line chart? A boxplot? A histogram? An area chart?
-A1. geom_line(), geom_boxplot(), geom_histogram(), geom_area()
+A1. `geom_line()`, `geom_boxplot()`, `geom_histogram()`, `geom_area()`
 
 
 Q2. Run this code in your head and predict what the output will look like. Then, run the code in R and check your predictions
@@ -227,7 +227,7 @@ ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) +
 
 
 Q3.
-What does show.legend = FALSE do? What happens if you remove it?
+What does `show.legend = FALSE` do? What happens if you remove it?
 Why do you think I used it earlier in the chapter?
 ```{r}
 ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) +
@@ -236,11 +236,11 @@ ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) +
 ```
 
 A3.
-Plot does not have a legend. Removing 'FALSE' will add a legend (because default is 'TRUE')
-'FALSE' used earlier, to 'expand' the size of the plot used by data
+* Plot does not have a legend. Removing 'FALSE' will add a legend (because default is 'TRUE')
+* 'FALSE' used earlier, to 'expand' the size of the plot used by data
 
 
-Q4.What does the se argument to geom_smooth() do?
+Q4.What does the `se` argument to `geom_smooth()` do?
 ```{r}
 ?geom_smooth
 ```
@@ -312,7 +312,7 @@ ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
   geom_point(mapping = aes(color = drv))
 ```
 A6.6 Note the white points are in the earlier layer, with the colours then on top
-A6.6 Instead of 'stroke=2' could have used 'size=4' (from seeing someone else's answer)
+A6.6 Instead of `stroke=2` could have used `size=4` (from seeing someone else's answer)
 A6.6 Actually, why did 'stroke' work? - does it not need to be with a shapetype that can have color+fill?
 
 
@@ -321,7 +321,7 @@ A6.6 Actually, why did 'stroke' work? - does it not need to be with a shapetype 
 ### 3.7.1 Exercises
 
 Q1.
-What is the default geom associated with stat_summary()?
+What is the default geom associated with `stat_summary()`?
 How could you rewrite the previous plot to use that geom function instead of the stat function?
 ```{r}
 ?stat_summary
@@ -338,7 +338,7 @@ ggplot(data = diamonds) +
 ```
 
 
-Q2. What does geom_col() do? How is it different to geom_bar()?
+Q2. What does `geom_col()` do? How is it different to `geom_bar()`?
 ```{r}
 ?geom_col
 ?geom_bar
@@ -347,7 +347,7 @@ Q2. What does geom_col() do? How is it different to geom_bar()?
 A2.
 "geom_bar uses stat_count by default: it counts the number of cases at each x position.
 geom_col uses stat_identity: it leaves the data as is"
-geom_bar(stat = "identity") and geom_col() are equivalent
+However, `geom_bar(stat = "identity")` and `geom_col()` are equivalent
 
 
 Q3.
@@ -359,18 +359,18 @@ http://ggplot2.tidyverse.org/reference/
 ?
 
 
-Q4. What variables does stat_smooth() compute? What parameters control its behaviour?
+Q4. What variables does `stat_smooth()` compute? What parameters control its behaviour?
 ```{r}
 ?stat_smooth
 ```
 
 A4.
-Four : y [predicted value]; ymin [lower pointwise confidence interval around the mean]; ymax [upper pointwise confidence interval around the mean]; se [standard error]
-Most importantly : method [smoothing method (function) to use]; se [whether to display confidence interval]; level [level of confidence interval to use (0.95 default)]
+* Four : `y` [predicted value]; `ymin` [lower pointwise confidence interval around the mean]; `ymax` [upper pointwise confidence interval around the mean]; `se` [standard error]
+* Most importantly : `method` [smoothing method (function) to use]; `se` [whether to display confidence interval]; `level` [level of confidence interval to use (0.95 default)]
 
 
 Q5.
-In our proportion bar chart, we need to set group = 1. Why?
+In our proportion bar chart, we need to set `group = 1`. Why?
 In other words what is the problem with these two graphs?
 ```{r}
 ggplot(data = diamonds) +
@@ -380,10 +380,10 @@ ggplot(data = diamonds) +
 ```
 
 A5.
-We've relied on other variables to change aggregation (eg. color = drv instead of a separate group = drv)
+We've relied on other variables to change aggregation (eg. `color = drv` instead of a separate `group = drv`)
 cf. s3.6 : "It is convenient to rely on this feature because the group aesthetic by itself does not add a legend or distinguishing features to the geoms"
-But '..prop..' means proportion of group, and that will be 100% unless we force it otherwise
-group=1 means everything is in the same group (named '1'), rather than in different groups (named Fair, Good, etc ...if group=cut) ...Imagine a field called 'group', where every row has the value '1' there
+But `..prop..` means proportion of group, and that will be 100% unless we force it otherwise
+`group=1` means everything is in the same group (named '1'), rather than in different groups (named Fair, Good, etc ...if group=cut) ...Imagine a field called 'group', where every row has the value '1' there
 group=2 or group=X would have the same effect. (Don't know why it has to be inside aes(), since it's a constant)
 ```{r}
 ggplot(data = diamonds) +
@@ -404,23 +404,23 @@ ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
 ```
 
 A1.
-Many of the data points overlap (overplotting).
-We can jitter the points, to improve the overall visualization (in this case)
+* Many of the data points overlap (overplotting).
+* We can jitter the points, to improve the overall visualization (in this case)
 ```{r}
 ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
   geom_jitter()
 ```
 
 
-Q2. What parameters to geom_jitter() control the amount of jittering?
+Q2. What parameters to `geom_jitter()` control the amount of jittering?
 ```{r}
 ?geom_jitter
 ```
 
-A2. width and height
+A2. `width` and `height`
 
 
-Q3. Compare and contrast geom_jitter() with geom_count()
+Q3. Compare and contrast `geom_jitter()` with `geom_count()`
 ```{r}
 ?geom_count
 ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
@@ -429,17 +429,17 @@ ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
 
 A3.
 "This is a variant geom_point that counts the number of observations at each location, then maps the count to point area"
-It makes larger points where there is overplotting, so the number of visible points is equal to geom_point()
+`geom_count()` makes larger points where there is overplotting, so the number of visible points is equal to `geom_point()`
 
 
 Q4.
-What’s the default position adjustment for geom_boxplot()?
-Create a visualisation of the mpg dataset that demonstrates it
+What’s the default position adjustment for `geom_boxplot()`?
+Create a visualisation of the `mpg` dataset that demonstrates it
 ```{r}
 ?geom_boxplot
 ```
 
-A4. position = "dodge" is the default
+A4. `position = "dodge"` is the default
 ```{r}
 ggplot(data = mpg, mapping = aes(x = class, y = hwy, color = drv)) +
   geom_boxplot(position = "dodge")
@@ -450,7 +450,7 @@ ggplot(data = mpg, mapping = aes(x = class, y = hwy, color = drv)) +
 ## 3. "Data visualisation" [Chapter 1 hardcopy]
 ### 3.9.1 Exercises
 
-Q1. Turn a stacked bar chart into a pie chart using coord_polar()
+Q1. Turn a stacked bar chart into a pie chart using `coord_polar()`
 
 A1.
 ```{r}
@@ -466,7 +466,7 @@ ggplot(data = mpg, mapping = (aes(x = 1, fill = class))) + # x=factor(1) would g
 ```
 
 
-Q2. What does labs() do? Read the documentation
+Q2. What does `labs()` do? Read the documentation
 ```{r}
 ?labs
 ```
@@ -474,21 +474,21 @@ Q2. What does labs() do? Read the documentation
 A2. labs is a shortcut function to add labels to different scales ...title, subtitle, axes, and caption
 
 
-Q3. What’s the difference between coord_quickmap() and coord_map()?
+Q3. What’s the difference between `coord_quickmap()` and `coord_map()`?
 ```{r}
 ?coord_map
 ```
 
 A3.
-"coord_quickmap() sets the aspect ratio correctly for maps" -- R4DS text
-"coord_map projects a portion of the earth, which is approximately spherical, onto a flat 2D plane
+* "`coord_quickmap()` sets the aspect ratio correctly for maps" -- R4DS text
+* "coord_map projects a portion of the earth, which is approximately spherical, onto a flat 2D plane
 using any projection defined by the mapproj package. Map projections do not, in general, preserve
 straight lines, so this requires considerable computation. coord_quickmap is a quick approximation
 that does preserve straight lines. It works best for smaller areas closer to the equator"
 
 
 Q4. What does the plot below tell you about the relationship between city and highway mpg?
-Why is coord_fixed() important? What does geom_abline() do?
+Why is `coord_fixed()` important? What does `geom_abline()` do?
 ```{r}
 ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
   geom_point() +
