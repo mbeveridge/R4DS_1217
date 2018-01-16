@@ -14,29 +14,34 @@ library(tidyverse)
 ### 3.2.4 Exercises
 
 Q1. Run `ggplot(data = mpg)`. What do you see?
+
+A1.
 ```{r}
 ggplot(data = mpg)
 ```
-
-A1. Grey background. No axes or data visible
+Grey background. No axes or data visible
 
 
 Q2. How many rows are in `mpg`? How many columns?
+
+A2.
 ```{r}
 mpg
 ```
-A2. 234 rows x 11 columns
+234 rows x 11 columns
 
 
 Q3. What does the `drv` variable describe? Read the help for `?mpg` to find out
+
+A3.
 ```{r}
 ?mpg
 ```
+`f` = front-wheel drive, `r` = rear wheel drive, `4` = 4wd
 
-A3. `f` = front-wheel drive, `r` = rear wheel drive, `4` = 4wd
 
+Q4. Make a scatterplot of `hwy` vs `cyl` ...[ie. y v's x]
 
-Q4. Make a scatterplot of `hwy` vs `cyl` [...y v's x]
 A4.
 ```{r}
 ggplot(data = mpg) +
@@ -45,12 +50,13 @@ ggplot(data = mpg) +
 
 
 Q5. What happens if you make a scatterplot of `class` vs `drv`? Why is the plot not useful?
+
+A5.
 ```{r}
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = drv, y = class))
 ```
-
-A5. The plot has 2 categorical variables, (but shows no dependency), with an unknown number of points at many intersections (ie. overlap)
+The plot has 2 categorical variables, (but shows no dependency), with an unknown number of points at many intersections (ie. overlap)
 
 
 
@@ -66,20 +72,20 @@ ggplot(data = mpg) +
 A1. Needs to be outside the `aes()` to work like that. (Inside, it just creates a 'True' condition, but with no say over what colour represents it in the plot)
 
 
-Q2. Which variables in `mpg` are categorical? Which variables are continuous? How can you see this information when you run `mpg`?
+Q2. Which variables in `mpg` are categorical? Which variables are continuous? (Hint: type `?mpg` to read the documentation for the dataset). How can you see this information when you run `mpg`?
+
+A2.
 ```{r}
 ?mpg
 mpg
 ```
-
-A2.
-Categorical : <chr> : `manufacturer`; `model`; `trans`; `drv`; `fl`; `class` ...6
-Continuous : <dbl> or <int> : `displ`; `year`; `cyl`; `cty`; `hwy` ...5
+* Categorical : `<chr>` : `manufacturer`; `model`; `trans`; `drv`; `fl`; `class` ...6
+* Continuous : `<dbl>` or `<int>` : `displ`; `year`; `cyl`; `cty`; `hwy` ...5
 
 
 Q3.
-Map a continuous variable to `color`, `size`, and `shape`. [I initially misunderstood the requirement, and mapped them all in one plot]
-How do these aesthetics behave differently for categorical vs. continuous variables? [eg. `drv` <chr>; `cty` <int>]
+Map a continuous variable to `color`, `size`, and `shape` ...[I initially misunderstood the requirement, and mapped them all in one plot]
+How do these aesthetics behave differently for categorical vs. continuous variables? ...[eg. `drv` `<chr>`; `cty` `<int>`]
 ```{r}
 ggplot(data = mpg) + geom_point(mapping = aes(x = displ, y = hwy, color = drv))
 ggplot(data = mpg) + geom_point(mapping = aes(x = displ, y = hwy, size = drv))
@@ -93,9 +99,10 @@ ggplot(data = mpg) + geom_point(mapping = aes(x = displ, y = hwy, size = cty))
 `ggplot(data = mpg) + geom_point(mapping = aes(x = displ, y = hwy, shape = cty))` # "Error: A continuous variable cannot be mapped to shape""
 
 A3. [categorical v's continuous]
-`color` : different hues v's tints & shades of a single hue
-`size` : allocation of size to variable is arbitrary (warning) v's relates to size of variable
-`shape` : allocation of shape to variable is arbitrary v's error (as 'meaningless')
+
+* `color` : different hues v's tints & shades of a single hue
+* `size` : allocation of size to variable is arbitrary (warning) v's relates to size of variable
+* `shape` : allocation of shape to variable is arbitrary v's error (as 'meaningless')
 
 
 Q4. What happens if you map the same variable to multiple aesthetics?
@@ -107,23 +114,25 @@ ggplot(data = mpg) +
 A4. The plot does use all the aesthetics. But there is redundancy, which may be confusing (as a reader expects that an aesthetic is added for extra insight)
 
 
-Q5. What does the `stroke` aesthetic do? What shapes does it work with?
+Q5. What does the `stroke` aesthetic do? What shapes does it work with? (Hint: use `?geom_point`)
+
+A5.
 ```{r}
 ?geom_point
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy), shape = 21, colour = "black", fill = "white", size = 5, stroke = 5)
 ```
-
-A5. "For shapes that have a border (like 21), you can colour the inside and outside separately. Use the `stroke` aesthetic to modify the width of the border"
+"For shapes that have a border (like 21), you can colour the inside and outside separately. Use the `stroke` aesthetic to modify the width of the border"
 
 
 Q6. What happens if you map an aesthetic to something other than a variable name, like `aes(colour = displ < 5`) ?
+
+A6.
 ```{r}
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy, color = displ < 5))
 ```
-
-A6. Expression is True/False for each point, splitting `displ` into 2 sets with different colours
+Expression is True/False for each point, splitting `displ` into 2 sets with different colours
 
 
 
@@ -131,13 +140,14 @@ A6. Expression is True/False for each point, splitting `displ` into 2 sets with 
 ### 3.5.1 Exercises
 
 Q1. What happens if you facet on a continuous variable?
+
+A1.
 ```{r}
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = drv, y = cyl)) +
   facet_wrap(~ displ)
 ```
-
-A1. A cell is created for every value of the continuous variable. (Unlikely to be the most insightful choice)
+A cell is created for every value of the continuous variable. (Unlikely to be the most insightful choice)
 
 
 Q2. What do the empty cells in plot with `facet_grid(drv ~ cyl)` mean? How do they relate to this plot?
@@ -151,8 +161,9 @@ ggplot(data = mpg) +
 ```
 
 A2.
-1st plot maps combinations of 2 categorical variables. No point at an intersection means the data doesn't contain that combination
-2nd plot has an empty cell when 'the data doesn't contain that combination'
+
+* 1st plot maps combinations of 2 categorical variables. No point at an intersection means the data doesn't contain that combination
+* 2nd plot has an empty cell when 'the data doesn't contain that combination'
 
 
 Q3. What plots does the following code make? What does `.` do?
@@ -167,15 +178,14 @@ ggplot(data = mpg) +
 ```
 
 A3.
-1st plot has long horizontal cells (3 rows, no cols)
-2nd plot has tall vertical cells (0 rows, 4 cols)
-`.` acts as a placeholder in the script (when facet_grid is missing a variable), and causes no faceting in that dimension
+
+* 1st plot has long horizontal cells (3 rows, no cols)
+* 2nd plot has tall vertical cells (0 rows, 4 cols)
+* `.` acts as a placeholder in the script (when facet_grid is missing a variable), and causes no faceting in that dimension
 
 
 Q4.
-Take the first faceted plot in this section.
-What are the advantages to using faceting instead of the colour aesthetic? What are the disadvantages?
-How might the balance change if you had a larger dataset?
+Take the first faceted plot in this section:
 ```{r}
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy)) +
@@ -184,8 +194,11 @@ ggplot(data = mpg) +
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy, colour = class))
 ```
+What are the advantages to using faceting instead of the colour aesthetic? What are the disadvantages?
+How might the balance change if you had a larger dataset?
 
 A4.
+
 * Adv : reduces qty of points in a cell, so less overlapping and easier to spot different trends
 * Disadv : harder to judge location of points in a cell relative to other cells (ie. overall picture). Squeezes the size of a cell
 * Larger dataset has more overlapping, unless faceting used. (Though if the categorical variables used for faceting have many values, the cells will be tiny)
@@ -195,18 +208,20 @@ Q5.
 Read `?facet_wrap`. What does `nrow` do? What does `ncol` do?
 What other options control the layout of the individual panels?
 Why doesn’t `facet_grid()` have `nrow` and `ncol` argument?
+
+A5.
 ```{r}
 ?facet_wrap
 ```
+"`facet_wrap` wraps a 1d sequence of panels into 2d. This is generally a better use of screen space than `facet_grid` because most displays are roughly rectangular" -- Help
 
-A5.
-facet_wrap wraps a 1d sequence of panels into 2d. This is generally a better use of screen space than facet_grid because most displays are roughly rectangular
-* nrow breaks a single row of cells into the specified number of rows. Similarly ncol specifies number of cols to have in the plot
-* as.table [= TRUE or FALSE] determines the starting facet to begin filling the plot. And dir [= "h" or "v"] determines the starting direction for filling in the plot
-* facet_grid() has its x and y dimensions determined by its arguments (number of unique values of the 2 variables)
+* `nrow` breaks a single row of cells into the specified number of rows. Similarly `ncol` specifies number of cols to have in the plot
+* `as.table` [= TRUE or FALSE] determines the starting facet to begin filling the plot. And `dir` [= "h" or "v"] determines the starting direction for filling in the plot
+* `facet_grid()` has its x and y dimensions determined by its arguments (number of unique values of the 2 variables)
 
 
 Q6. When using `facet_grid()` you should usually put the variable with more unique levels in the columns. Why?
+
 A6. PC displays are usually landscape format, so a reader can distinguish many columns more easily than many rows (and dependent variable is usually y-axis)
 
 
