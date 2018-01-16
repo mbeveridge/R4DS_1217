@@ -230,6 +230,7 @@ A6. PC displays are usually landscape format, so a reader can distinguish many c
 ### 3.6.1 Exercises
 
 Q1. What geom would you use to draw a line chart? A boxplot? A histogram? An area chart?
+
 A1. `geom_line()`, `geom_boxplot()`, `geom_histogram()`, `geom_area()`
 
 
@@ -251,16 +252,18 @@ ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) +
 ```
 
 A3.
+
 * Plot does not have a legend. Removing 'FALSE' will add a legend (because default is 'TRUE')
 * 'FALSE' used earlier, to 'expand' the size of the plot used by data
 
 
 Q4.What does the `se` argument to `geom_smooth()` do?
+
+A4.
 ```{r}
 ?geom_smooth
 ```
-
-A4. "display confidence interval around smooth? (TRUE by default, see level to control" ...ie. adds error bands to a line
+"display confidence interval around smooth? (TRUE by default, see level to control" ...ie. adds error bands to a line
 
 
 Q5. Will these two graphs look different? Why/why not?
@@ -280,6 +283,7 @@ They will look the same, because the data & mapping settings are the same in eac
 
 
 Q6. Recreate the R code necessary to generate the following graphs
+
 A6.1
 ```{r}
 ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
@@ -326,9 +330,9 @@ ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
   geom_point(color = "white", stroke = 2) +
   geom_point(mapping = aes(color = drv))
 ```
-A6.6 Note the white points are in the earlier layer, with the colours then on top
-A6.6 Instead of `stroke=2` could have used `size=4` (from seeing someone else's answer)
-A6.6 Actually, why did 'stroke' work? - does it not need to be with a shapetype that can have color+fill?
+* Note the white points are in the earlier layer, with the colours then on top
+* Instead of `stroke=2` could have used `size=4` (from seeing someone else's answer)
+* Actually, why did 'stroke' work? - does it not need to be with a shapetype that can have color+fill?
 
 
 
@@ -338,15 +342,18 @@ A6.6 Actually, why did 'stroke' work? - does it not need to be with a shapetype 
 Q1.
 What is the default geom associated with `stat_summary()`?
 How could you rewrite the previous plot to use that geom function instead of the stat function?
+
+A1.
 ```{r}
 ?stat_summary
 ?geom_pointrange
+
+# 'previous plot' in the book text, before 3.7.1 Exercises :
 ggplot(data = diamonds) +
   stat_summary(mapping = aes(x = cut, y = depth), fun.ymin = min, fun.ymax = max, fun.y = median)
 ```
 
-A1.
-Default geom for stat_summary is geom_pointrange. But default stat for geom_pointrange is identity, so use `geom_pointrange(stat = "summary")`
+Default geom for `stat_summary` is `geom_pointrange`. But default stat for `geom_pointrange` is `identity` (which is NOT what we want), so specify `geom_pointrange(stat = "summary")` [see below] :
 ```{r}
 ggplot(data = diamonds) +
   geom_pointrange(mapping = aes(x = cut, y = depth), stat = "summary", fun.ymin = min, fun.ymax = max, fun.y = median)
@@ -360,26 +367,28 @@ Q2. What does `geom_col()` do? How is it different to `geom_bar()`?
 ```
 
 A2.
-"geom_bar uses stat_count by default: it counts the number of cases at each x position.
-geom_col uses stat_identity: it leaves the data as is"
-However, `geom_bar(stat = "identity")` and `geom_col()` are equivalent
+
+* "`geom_bar` uses `stat_count` by default: it counts the number of cases at each x position.
+* `geom_col` uses `stat_identity`: it leaves the data as is" -- Help
+* [However, `geom_bar(stat = "identity")` and `geom_col()` are equivalent]
 
 
 Q3.
-Most geoms and stats come in pairs that are almost always used in concert
+Most geoms and stats come in pairs that are almost always used in concert.
 Read through the documentation and make a list of all the pairs. What do they have in common?
 
 A3.
 http://ggplot2.tidyverse.org/reference/
+
 ?
 
 
 Q4. What variables does `stat_smooth()` compute? What parameters control its behaviour?
+
+A4.
 ```{r}
 ?stat_smooth
 ```
-
-A4.
 * Four : `y` [predicted value]; `ymin` [lower pointwise confidence interval around the mean]; `ymax` [upper pointwise confidence interval around the mean]; `se` [standard error]
 * Most importantly : `method` [smoothing method (function) to use]; `se` [whether to display confidence interval]; `level` [level of confidence interval to use (0.95 default)]
 
@@ -390,19 +399,22 @@ In other words what is the problem with these two graphs?
 ```{r}
 ggplot(data = diamonds) +
   geom_bar(mapping = aes(x = cut, y = ..prop..)) # 'prop' is 1.00 for each value of 'cut'
+
 ggplot(data = diamonds) +
   geom_bar(mapping = aes(x = cut, fill = color, y = ..prop..)) # 'prop' is 7 for each value of 'cut' (7 colors)
 ```
 
 A5.
 We've relied on other variables to change aggregation (eg. `color = drv` instead of a separate `group = drv`)
-cf. s3.6 : "It is convenient to rely on this feature because the group aesthetic by itself does not add a legend or distinguishing features to the geoms"
+cf. s3.6 : "It is convenient to rely on this feature because the group aesthetic by itself does not add a legend or distinguishing features to the geoms".
+
 But `..prop..` means proportion of group, and that will be 100% unless we force it otherwise
 `group=1` means everything is in the same group (named '1'), rather than in different groups (named Fair, Good, etc ...if group=cut) ...Imagine a field called 'group', where every row has the value '1' there
-group=2 or group=X would have the same effect. (Don't know why it has to be inside aes(), since it's a constant)
+group=2 or group=X would have the same effect. [?? Don't know why it has to be inside aes(), since it's a constant ??]
 ```{r}
 ggplot(data = diamonds) +
   geom_bar(mapping = aes(x = cut, y = ..prop.., group = 1))
+
 ggplot(data = diamonds) +
   geom_bar(mapping = aes(x = cut, fill = color, y = ..prop.., group = 1)) # Why isn't chart coloured?
 ```
@@ -419,6 +431,7 @@ ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
 ```
 
 A1.
+
 * Many of the data points overlap (overplotting).
 * We can jitter the points, to improve the overall visualization (in this case)
 ```{r}
@@ -428,33 +441,35 @@ ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
 
 
 Q2. What parameters to `geom_jitter()` control the amount of jittering?
+
+A2.
 ```{r}
 ?geom_jitter
 ```
-
-A2. `width` and `height`
+`width` and `height`
 
 
 Q3. Compare and contrast `geom_jitter()` with `geom_count()`
+
+A3.
 ```{r}
 ?geom_count
 ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
   geom_count()
 ```
-
-A3.
-"This is a variant geom_point that counts the number of observations at each location, then maps the count to point area"
+"This is a variant `geom_point` that counts the number of observations at each location, then maps the count to point area".
 `geom_count()` makes larger points where there is overplotting, so the number of visible points is equal to `geom_point()`
 
 
 Q4.
 What’s the default position adjustment for `geom_boxplot()`?
 Create a visualisation of the `mpg` dataset that demonstrates it
+
+A4.
 ```{r}
 ?geom_boxplot
 ```
-
-A4. `position = "dodge"` is the default
+`position = "dodge"` is the default
 ```{r}
 ggplot(data = mpg, mapping = aes(x = class, y = hwy, color = drv)) +
   geom_boxplot(position = "dodge")
@@ -475,6 +490,7 @@ ggplot(data = mpg, mapping = (aes(x = 1, fill = class))) + # Need x. x=1 gave a 
 
 ```{r}
 ?coord_polar
+
 ggplot(data = mpg, mapping = (aes(x = 1, fill = class))) + # x=factor(1) would get rid of extra scaling marks
   geom_bar(position = "stack") +
   coord_polar(theta = "y") # theta="y" gave pie segments, (instead of rings)
@@ -482,24 +498,25 @@ ggplot(data = mpg, mapping = (aes(x = 1, fill = class))) + # x=factor(1) would g
 
 
 Q2. What does `labs()` do? Read the documentation
+
+A2.
 ```{r}
 ?labs
 ```
-
-A2. labs is a shortcut function to add labels to different scales ...title, subtitle, axes, and caption
+`labs()` is a shortcut function to add labels to different scales ...title, subtitle, axes, and caption
 
 
 Q3. What’s the difference between `coord_quickmap()` and `coord_map()`?
+
+A3.
 ```{r}
 ?coord_map
 ```
-
-A3.
 * "`coord_quickmap()` sets the aspect ratio correctly for maps" -- R4DS text
-* "coord_map projects a portion of the earth, which is approximately spherical, onto a flat 2D plane
-using any projection defined by the mapproj package. Map projections do not, in general, preserve
-straight lines, so this requires considerable computation. coord_quickmap is a quick approximation
-that does preserve straight lines. It works best for smaller areas closer to the equator"
+* "`coord_map` projects a portion of the earth, which is approximately spherical, onto a flat 2D plane
+using any projection defined by the `mapproj` package. Map projections do not, in general, preserve
+straight lines, so this requires considerable computation. `coord_quickmap` is a quick approximation
+that does preserve straight lines. It works best for smaller areas closer to the equator" -- Help
 
 
 Q4. What does the plot below tell you about the relationship between city and highway mpg?
