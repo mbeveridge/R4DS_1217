@@ -533,7 +533,7 @@ A4. Relationship is positive and approximately linear. Slightly better highway m
 ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
   geom_point() +
   geom_abline() + # draws a line that, by default, has an intercept of 0 and slope of 1
-  coord_fixed() # draws equal intervals on the \(x\) and \(y\) axes so they are directly comparable (so abline is at 45 degrees)
+  coord_fixed() # draws equal intervals on \(x\) & \(y\) axes, so more easily comparable (`abline` at 45 degrees)
 ```
 
 
