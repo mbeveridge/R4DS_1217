@@ -27,40 +27,41 @@ Q1.7 Departed between midnight and 6am (inclusive)
 
 A1.
 ```{r}
-flights
+flights # 336776 rows
 glimpse(flights)
 
 filter(flights, arr_delay >= 120) # A1.1
-filter(flights, dest == "IAH" | dest == "HOU")  # A1.2
-filter(flights, dest %in% c("IAH", "HOU")) # A1.2 alternate
-filter(flights, carrier %in% c("UA", "AA", "DL")) # A1.3
-filter(flights, month %in% c(7, 8, 9)) # A1.4
-filter(flights, arr_delay >= 120, dep_delay <= 0) # A1.5
-filter(flights, dep_delay >= 60, dep_delay - arr_delay >= 30) # A1.6
-filter(flights, dep_time >= 0000, dep_time <= 0600) # A1.7
+filter(flights, dest == "IAH" | dest == "HOU")  # A1.2 ...9313 rows
+filter(flights, dest %in% c("IAH", "HOU")) # A1.2 alternate ...9313 rows
+filter(flights, carrier %in% c("UA", "AA", "DL")) # A1.3 ...139504 rows
+filter(flights, month %in% c(7, 8, 9)) # A1.4 ...86326 rows
+filter(flights, arr_delay >= 120, dep_delay <= 0) # A1.5 ...29 rows
+filter(flights, dep_delay >= 60, dep_delay - arr_delay >= 30) # A1.6 ...2074 rows
+filter(flights, dep_time >= 0000, dep_time <= 0600) # A1.7 ...9344 rows
 ```
 
 -----------
 
 Q2.
-Another useful dplyr filtering helper is between(). What does it do?
+Another useful dplyr filtering helper is `between()`. What does it do?
 Can you use it to simplify the code needed to answer the previous challenges?
 
 A2.
 ```{r}
 ?between # This is a shortcut for x >= left & x <= right
-filter(flights, between(month, 7, 9)) # A1.4
-filter(flights, between(dep_time, 0000, 0600)) # A1.7
+filter(flights, between(month, 7, 9)) # A1.4 ...86326 rows
+filter(flights, between(dep_time, 0000, 0600)) # A1.7 ...9344 rows
 ```
 
 -----------
 
 Q3.
-How many flights have a missing dep_time? What other variables are missing?
+How many flights have a missing `dep_time`? What other variables are missing?
 What might these rows represent?
 
 A3.
-filter(flights, dep_time == NA) ...doesn't work
+`filter(flights, dep_time == NA)` ...doesn't work
+
 ```{r}
 filter(flights, is.na(dep_time))
 ```
@@ -91,7 +92,7 @@ A1.
 ```{r}
 arrange(flights, !is.na(dep_time))
 ```
-# ?Rows with 'dep_time' missing will return a value of FALSE/0, so will be at start
+?Rows with `dep_time` missing will return a value of FALSE/0, so will be at start
 
 -----------
 
@@ -108,6 +109,7 @@ arrange(flights, dep_delay)
 -----------
 
 Q3. Sort flights to find the fastest flights
+
 A3.
 ```{r}
 arrange(flights, desc(distance / air_time))
@@ -131,7 +133,8 @@ arrange(flights, distance)
 ## 5. "Data transformation" [Chapter 3 hardcopy]
 ### 5.4.1 Exercises
   
-Q1. Brainstorm as many ways as possible to select dep_time, dep_delay, arr_time, and arr_delay from flights
+Q1. Brainstorm as many ways as possible to select `dep_time`, `dep_delay`, `arr_time`, and `arr_delay` from `flights`
+
 A1.
 ```{r}
 select(flights, dep_time, dep_delay, arr_time, arr_delay)
@@ -145,7 +148,7 @@ select(flights, matches("^(dep|arr)_(time|delay)$")) # Am not familiar with this
 
 -----------
 
-Q2. What happens if you include the name of a variable multiple times in a select() call?
+Q2. What happens if you include the name of a variable multiple times in a `select()` call?
 ```{r}
 select(flights, dep_time, dep_time, dep_time)
 ```
@@ -153,7 +156,7 @@ A2. The variable is included only once in the new data frame. (No error/warning 
 
 -----------
 
-Q3 What does the one_of() function do? Why might it be helpful in conjunction with this vector?
+Q3 What does the `one_of()` function do? Why might it be helpful in conjunction with this vector?
 ```{r}
 vars <- c("year", "month", "day", "dep_delay", "arr_delay")
 ?one_of()
@@ -162,8 +165,8 @@ select(flights, one_of(vars))
 
 A3.
 It selects any variable which matches one of those in the vector
-It’s useful because then you can easily pass vectors to select()
-PS. as a memory-jogger : In filter() we had '%in% c(,,)'
+It’s useful because then you can easily pass vectors to `select()`
+PS. as a memory-jogger : In `filter()` we had `%in% c(,,)`
 
 -----------
 
@@ -176,8 +179,8 @@ select(flights, contains("TIME"))
 
 
 A4.
-By default the select() helpers ignore case
-To change that, set ignore.case = FALSE in the helper function
+By default the `select()` helpers ignore case
+To change that, set `ignore.case = FALSE` in the helper function
 ```{r}
 select(flights, contains("TIME", ignore.case = FALSE)) # eg. for contains()
 ```
@@ -189,7 +192,7 @@ select(flights, contains("TIME", ignore.case = FALSE)) # eg. for contains()
 ### 5.5.2 Exercises
   
 Q1.
-Currently dep_time and sched_dep_time are convenient to look at, but hard to compute with
+Currently `dep_time` and `sched_dep_time` are convenient to look at, but hard to compute with
 because they’re not really continuous numbers. 
 Convert them to a more convenient representation of number of minutes since midnight
 
@@ -201,14 +204,14 @@ transmute(flights, dep_time = (dep_time %/% 100) * 60 + dep_time %% 100, sched_d
 -----------
 
 Q2.
-Compare air_time with arr_time - dep_time.
+Compare `air_time` with `arr_time - dep_time`.
 What do you expect to see? What do you see? What do you need to do to fix it?
 ```{r}
 transmute(flights, air_time, arr_time, dep_time, arr_time - dep_time)
 ```
 
 A2:
-Expect that air_time equals arr_time - dep_time in 'reality'. But from Q1 we know that representation prevents that computation
+Expect that `air_time` equals `arr_time - dep_time` in 'reality'. But from Q1 we know that representation prevents that computation
 ```{r}
 transmute(flights, air_time, air_time_new = ((arr_time %/% 100) * 60 + arr_time %% 100) - ((dep_time %/% 100) * 60 + dep_time %% 100))
 ```
@@ -223,7 +226,7 @@ transmute(flights, air_time, air_time_new = ((arr_time %/% 100) * 60 + arr_time 
 -----------
 
 Q3.
-Compare dep_time, sched_dep_time, and dep_delay.
+Compare `dep_time`, `sched_dep_time`, and `dep_delay`.
 How would you expect those three numbers to be related?
 ```{r}
 select(flights, dep_time, sched_dep_time, dep_delay)
@@ -235,7 +238,7 @@ A3. dep_time = sched_dep_time + dep_delay ...If we convert dep_time and sched_de
 
 Q4.
 Find the 10 most delayed flights using a ranking function.
-How do you want to handle ties? Carefully read the documentation for min_rank()
+How do you want to handle ties? Carefully read the documentation for `min_rank()`
 
 A4.
 ```{r}
