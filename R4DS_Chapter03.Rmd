@@ -594,10 +594,10 @@ Relationship is positive and approximately linear. Slightly better highway mpg t
 
 -----------
 
-Comment & code from @aaron_g in (R4DS Slack) board=02_week on 15/9/17 06:25, in reply to query from @darh78.
-Not one of the exercises, but saved here in case useful in future. (Slope charts in a lattice) :
+_Comment & code from @aaron_g in (R4DS Slack) board=02_week on 15/9/17 06:25, in reply to query from @darh78.
+Not one of the exercises, but saved here in case useful in future. (Slope charts in a lattice) :_
 
-"i think this kind of graph is much more informative (maybe this is what you had in mind to begin with)"
+_"i think this kind of graph is much more informative (maybe this is what you had in mind to begin with)"_
 ```{r}
 mpg1 <- mpg %>% 
   mutate(unique = rownames(mpg)) %>%
