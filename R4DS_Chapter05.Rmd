@@ -89,32 +89,35 @@ A4.4 "In operations, any value interacting with an NA becomes missing. Missing v
 ## 5. "Data transformation" [Chapter 3 hardcopy]
 ### 5.3.1 Exercises
   
-Q1. How could you use arrange() to sort all missing values to the start? (Hint: use is.na())
+Q1. How could you use `arrange()` to sort all missing values to the start? (Hint: use `is.na()`)
+
 A1.
 ```{r}
-arrange(flights, !is.na(dep_time))
+arrange(flights, !is.na(dep_time)) # In 5.2.4 Exercises Q3 we said some "flights have a missing `dep_time`"
 ```
-?Rows with `dep_time` missing will return a value of FALSE/0, so will be at start
+Rows with `dep_time` missing will return a value of FALSE (0), so will be at start
 
 -----------
 
 Q2.
-Sort flights to find the most delayed flights
-Find the flights that left earliest
+
+* Sort `flights` to find the most delayed flights
+* Find the flights that left earliest
 
 A2.
 ```{r}
-arrange(flights, desc(arr_delay))
-arrange(flights, dep_delay)
+arrange(flights, desc(arr_delay)) # 1272 minutes on 2013-01-09
+
+arrange(flights, dep_delay) # 43 minutes early on 2013-12-07
 ```
 
 -----------
 
-Q3. Sort flights to find the fastest flights
+Q3. Sort `flights` to find the fastest flights
 
 A3.
 ```{r}
-arrange(flights, desc(distance / air_time))
+arrange(flights, desc(distance / air_time)) # flight=1499 on 2013-05-25
 ```
 
 -----------
@@ -125,8 +128,9 @@ Which travelled the shortest?
 
 A4.
 ```{r}
-arrange(flights, desc(distance))
-arrange(flights, distance)
+arrange(flights, desc(distance)) # Various at 4983 miles
+
+arrange(flights, distance) # One at 17 miles (if valid), and various at 80 miles
 ```
 
 
