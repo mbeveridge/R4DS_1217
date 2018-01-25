@@ -7,7 +7,7 @@ output:
 
 ```{r}
 # install.packages("nycflights13")
-library(nycflights13)
+library(nycflights13) # dataset on flights departing New York City in 2013
 library(tidyverse)
 ```
 
@@ -30,12 +30,12 @@ A1.
 flights # 336776 rows
 glimpse(flights)
 
-filter(flights, arr_delay >= 120) # A1.1
+filter(flights, arr_delay >= 120) # A1.1 ...10200 rows
 filter(flights, dest == "IAH" | dest == "HOU")  # A1.2 ...9313 rows
 filter(flights, dest %in% c("IAH", "HOU")) # A1.2 alternate ...9313 rows
 filter(flights, carrier %in% c("UA", "AA", "DL")) # A1.3 ...139504 rows
 filter(flights, month %in% c(7, 8, 9)) # A1.4 ...86326 rows
-filter(flights, arr_delay >= 120, dep_delay <= 0) # A1.5 ...29 rows
+filter(flights, arr_delay > 120, dep_delay <= 0) # A1.5 ...29 rows
 filter(flights, dep_delay >= 60, dep_delay - arr_delay >= 30) # A1.6 ...2074 rows
 filter(flights, dep_time >= 0000, dep_time <= 0600) # A1.7 ...9344 rows
 ```
@@ -43,12 +43,13 @@ filter(flights, dep_time >= 0000, dep_time <= 0600) # A1.7 ...9344 rows
 -----------
 
 Q2.
-Another useful dplyr filtering helper is `between()`. What does it do?
+Another useful **dplyr** filtering helper is `between()`. What does it do?
 Can you use it to simplify the code needed to answer the previous challenges?
 
 A2.
 ```{r}
 ?between # This is a shortcut for x >= left & x <= right
+
 filter(flights, between(month, 7, 9)) # A1.4 ...86326 rows
 filter(flights, between(dep_time, 0000, 0600)) # A1.7 ...9344 rows
 ```
@@ -60,26 +61,27 @@ How many flights have a missing `dep_time`? What other variables are missing?
 What might these rows represent?
 
 A3.
-`filter(flights, dep_time == NA)` ...doesn't work
+`filter(flights, dep_time == NA)` ...doesn't work : "A tibble: 0 x 19"
 
 ```{r}
-filter(flights, is.na(dep_time))
+filter(flights, is.na(dep_time)) # 8255 rows
 ```
-Arrival time (and departure/arrival delay) also missing. These are probably cancelled flights
+* Arrival time (and departure/arrival delay) also missing.
+* These rows are probably cancelled flights
 
 -----------
 
 Q4.
-Q4.1 Why is NA ^ 0 not missing?
-Q4.2 Why is NA | TRUE not missing?
-Q4.3 Why is FALSE & NA not missing?
-Q4.4 Can you figure out the general rule? (NA * 0 is a tricky counterexample!)
+Q4.1 Why is `NA ^ 0` not missing?
+Q4.2 Why is `NA | TRUE` not missing?
+Q4.3 Why is `FALSE & NA` not missing?
+Q4.4 Can you figure out the general rule? (`NA * 0` is a tricky counterexample!)
 
-A4. (In practice, expressions will evaluate to these things. Try running them, to confirm outcome)
-A4.1 NA ^ 0 == 1, because any numeric value to the 0th power equals 1. (So we know result is 1)
+A4. [In practice, expressions will evaluate to these things. Try running them, to confirm outcome]
+A4.1 `NA ^ 0 == 1`, because any numeric value to the 0th power equals 1. (So we know result is 1)
 A4.2 One of the 'OR' expressions is TRUE, so the other doesn't affect the outcome. (So we know result is TRUE)
 A4.3 One of the 'AND' expressions is FALSE, so the other doesn't affect the outcome. (So we know result is FALSE)
-A4.4 "In operations, any value interacting with an NA becomes missing. Missing values are ignored in conditional expressions"
+A4.4 "In operations, any value interacting with an NA becomes missing. Missing values are ignored in conditional expressions". (`NA * 0` evaluates to `NA`, instead of the 'zero' that might be expected. +/- infinity can be multiplied by 0 and not evaluate to 0 ...but I don't know if that's the reason `NA` was chosen as the output)
 
 
 -----------
