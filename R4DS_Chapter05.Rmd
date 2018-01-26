@@ -209,7 +209,7 @@ Convert them to a more convenient representation of number of minutes since midn
 
 A1.
 ```{r}
-transmute(flights, dep_time = (dep_time %/% 100) * 60 + dep_time %% 100, sched_dep_time = (sched_dep_time %/% 100) * 60 + sched_dep_time %% 100)
+transmute(flights, dep_time = (dep_time %/% 100) * 60 + dep_time %% 100, sched_dep_time = (sched_dep_time %/% 100) * 60 + sched_dep_time %% 100) # eg. Originally `dep_time` of 5:17am shown as 517. Now as 317 mins since midnight
 ```
 
 -----------
@@ -217,33 +217,35 @@ transmute(flights, dep_time = (dep_time %/% 100) * 60 + dep_time %% 100, sched_d
 Q2.
 Compare `air_time` with `arr_time - dep_time`.
 What do you expect to see? What do you see? What do you need to do to fix it?
+
+A2.
 ```{r}
 transmute(flights, air_time, arr_time, dep_time, arr_time - dep_time)
 ```
+Expect that `air_time` equals `arr_time - dep_time` in 'reality'. But from Q1 we know that the original representation prevents that computation
 
-A2:
-Expect that `air_time` equals `arr_time - dep_time` in 'reality'. But from Q1 we know that representation prevents that computation
+To fix it we can do the same conversion as in A1 :
 ```{r}
-transmute(flights, air_time, air_time_new = ((arr_time %/% 100) * 60 + arr_time %% 100) - ((dep_time %/% 100) * 60 + dep_time %% 100))
+transmute(flights, air_time, air_time_new = ((arr_time %/% 100) * 60 + arr_time %% 100) - ((dep_time %/% 100) * 60 + dep_time %% 100)) # `air_time_new` is calculated (after conversion), and `air_time` exists from original dataset
 ```
-* air_time 'still' doesn't equal air_time_new. Why not?
-* My air_time_new values are correct (ie. calc same as some online answers). How are air_time values obtained??
+
+* HOWEVER, `air_time` 'still' doesn't equal `air_time_new`. Why not?
+* My `air_time_new` values are correct (ie. calc same as some online answers). **How are `air_time` values obtained??**
 * Some flights may cross timezones (and arrival and departure times are reported in local time)
 * Some flights may leave before midnight and arrive after (giving large -ve values)
-* But (without yet including the latter 2 effects in my calculation) the differences I still see
- are rarely a multiple of 60 (nor half etc), so is this worth pursuing, or will I never match
- to the ‘air_time’ number with available info ?
+* But (without yet including the latter 2 effects in my calculation) the differences I still see are rarely a multiple of 60 (nor half etc), so is this worth pursuing, or will I never match to the `air_time` number with available info ?
 
 -----------
 
 Q3.
 Compare `dep_time`, `sched_dep_time`, and `dep_delay`.
 How would you expect those three numbers to be related?
+
+A3.
 ```{r}
 select(flights, dep_time, sched_dep_time, dep_delay)
 ```
-
-A3. dep_time = sched_dep_time + dep_delay ...If we convert dep_time and sched_dep_time to minutes past midnight, etc etc
+`dep_time = sched_dep_time + dep_delay` ...If we convert `dep_time` and `sched_dep_time` to minutes past midnight, etc etc
 
 -----------
 
@@ -254,13 +256,14 @@ How do you want to handle ties? Carefully read the documentation for `min_rank()
 A4.
 ```{r}
 arrange(flights, min_rank(desc(arr_delay))) # Didn't use filter() here, but 10 results displayed by default
-filter(flights, min_rank(desc(dep_delay))<=10) # Displays 10 results (there were no ties), but not in order
+filter(flights, min_rank(desc(dep_delay)) <= 10) # Only 10 results (there were no ties), but not in order
+
 ?min_rank
 ```
 
-min_rank() "does the most usual type of ranking (e.g. 1st, 2nd, 2nd, 4th)" ...so could be >10 rows, if ties
+`min_rank()` "does the most usual type of ranking (e.g. 1st, 2nd, 2nd, 4th)" -- Book text. ...So there could be >10 rows, if ties
 
-Using pipes, it would look like
+Using pipes (which we haven't covered in the book yet, but are just about to), we could "Find the 10 most delayed flights" (and also show the rank) like this :
 ```{r}
 flights %>% 
   mutate(rank = min_rank(desc(dep_delay))) %>%
@@ -270,26 +273,28 @@ flights %>%
 -----------
 
 Q5. What does 1:3 + 1:10 return? Why?
+
+A5.
 ```{r}
 1:3 + 1:10
 ```
 
-A5.
-Vector of (2,4,6,5,7,9,8,10,12,11) and Warning message "longer object length is not a multiple of shorter object length"
-The two vectors are not the same length, so R 'recycles' the shorter one until each vector is the same length
-Because 10 doesn't divide exactly by 3, the vectors do not line up properly and we get a Warning
+* Vector of (2,4,6,5,7,9,8,10,12,11) and Warning message "longer object length is not a multiple of shorter object length"
+* (The two vectors are not the same length, so R 'recycles' the shorter one until each vector is the same length)
+* Because 10 doesn't divide exactly by 3, the vectors do not line up properly and we get a Warning
 
 -----------
 
 Q6. What trigonometric functions does R provide?
+
+A6.
 ```{r}
 ?Trig
 ```
 
-A6.
-cos(x), sin(x), tan(x)
-acos(x), asin(x), atan(x), atan2(y, x)
-cospi(x), sinpi(x), tanpi(x)
+* `cos(x)`, `sin(x)`, `tan(x)`
+* `acos(x)`, `asin(x)`, `atan(x)`, `atan2(y, x)`
+* `cospi(x)`, `sinpi(x)`, `tanpi(x)`
 
 
 -----------
