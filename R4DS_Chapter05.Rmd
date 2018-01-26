@@ -145,33 +145,38 @@ A1.
 ```{r}
 select(flights, dep_time, dep_delay, arr_time, arr_delay)
 select(flights, starts_with("dep"), starts_with("arr"))
-select(flights, ends_with("_time"), ends_with("_delay")) # though this also gives 'sched_dep_time', 'sched_arr_time' and air_time'
+select(flights, ends_with("_time"), ends_with("_delay")) # though this also gives `sched_dep_time`, `sched_arr_time` and `air_time`
 select(flights, ends_with("time"), ends_with("delay"), -(starts_with("sched")), -(starts_with("air")))
-select(flights, contains("dep_"), contains("arr_")) # though this also gives 'sched_dep_time'and 'sched_arr_time'
+select(flights, contains("dep_"), contains("arr_")) # though this also gives `sched_dep_time` and `sched_arr_time`
 select(flights, contains("dep"), contains("arr_"), -(contains("sched")))
-select(flights, matches("^(dep|arr)_(time|delay)$")) # Am not familiar with this [https://jrnold.github.io/e4qf/data-transformation.html]
+select(flights, matches("^(dep|arr)_(time|delay)$")) # Regex [https://jrnold.github.io/e4qf/data-transformation.html]
 ```
 
 -----------
 
 Q2. What happens if you include the name of a variable multiple times in a `select()` call?
+
+A2.
 ```{r}
 select(flights, dep_time, dep_time, dep_time)
 ```
-A2. The variable is included only once in the new data frame. (No error/warning messages)
+The variable is included only once in the new data frame. (No error/warning messages)
 
 -----------
 
 Q3 What does the `one_of()` function do? Why might it be helpful in conjunction with this vector?
+`vars <- c("year", "month", "day", "dep_delay", "arr_delay")`
+
+A3.
 ```{r}
-vars <- c("year", "month", "day", "dep_delay", "arr_delay")
 ?one_of()
+
+vars <- c("year", "month", "day", "dep_delay", "arr_delay")
 select(flights, one_of(vars))
 ```
 
-A3.
-It selects any variable which matches one of those in the vector
-It’s useful because then you can easily pass vectors to `select()`
+* It selects any variable which matches one of those in the vector
+* It’s useful because then you can easily pass vectors to `select()`
 PS. as a memory-jogger : In `filter()` we had `%in% c(,,)`
 
 -----------
@@ -186,9 +191,9 @@ select(flights, contains("TIME"))
 
 A4.
 By default the `select()` helpers ignore case
-To change that, set `ignore.case = FALSE` in the helper function
+To change that, set `ignore.case = FALSE` in the helper function. (Then, no variables are selected - see 'blank' tibble below)
 ```{r}
-select(flights, contains("TIME", ignore.case = FALSE)) # eg. for contains()
+select(flights, contains("TIME", ignore.case = FALSE)) # eg. for `contains()`
 ```
 
 
