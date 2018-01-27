@@ -304,6 +304,7 @@ A6.
 
 Q1: Brainstorm at least 5 different ways to assess the typical delay characteristics
 of a group of flights. Consider the following scenarios:
+
 Q1.1 A flight is 15 minutes early 50% of the time, and 15 minutes late 50% of the time.
 Q1.2 A flight is always 10 minutes late.
 Q1.3 A flight is 30 minutes early 50% of the time, and 30 minutes late 50% of the time.
@@ -311,7 +312,7 @@ Q1.4 99% of the time a flight is on time. 1% of the time it’s 2 hours late.
 Q1.5 Which is more important: arrival delay or departure delay?
 
 A1.
-A1.1 A flight is 15 minutes early 50% of the time, and 15 minutes late 50% of the time
+A1.1 A flight is 15 minutes early 50% of the time, and 15 minutes late 50% of the time :
 ```{r}
 flights %>%
   group_by(flight) %>%
@@ -321,7 +322,7 @@ flights %>%
 ```
 A1.1 This gives zero rows (flight numbers)
 
-A1.1 A flight is >=15 minutes early 50% of the time, and >=15 minutes late 50% of the time
+A1.1 A flight is >=15 minutes early 50% of the time, and >=15 minutes late 50% of the time :
 ```{r}
 flights %>%
   group_by(flight) %>%
@@ -331,7 +332,7 @@ flights %>%
 ```
 A1.1 This gives 18 rows (flight numbers)
 
-A1.1 using mean() instead of sum()/n()
+A1.1 using `mean()` instead of `sum()/n()` :
 ```{r}
 View(flights %>%
   group_by(flight) %>%
@@ -339,20 +340,26 @@ View(flights %>%
             late_15min = mean(arr_delay >= 15, na.rm = TRUE)) %>%
   filter(early_15min == 0.5, late_15min == 0.5))
 ```
-A1.1 This gives 21 rows (including flight=3505, flight=4436, flight=5910 not got with 'sum/n')
+A1.1 This gives 21 rows ...including flight=3505, flight=4436, flight=5910 not got with `sum()/n()`. [See below]
+
+```{r}
+flights %>%
+  filter(flight == 3505) # as an example, to see why it is treated differently by mean() v's sum()/n()
+```
+A1.1 `sum()/n()` removes the `NA` row from the `sum()`, but not from the `n()`, so we have a count of 3 rows and don't end up with 0.5 as the mean/proportion (but 0.33), and don't see flight=3505. However, `mean()` removes `NA` and so only considers 2 rows. Neither answer is definitely right/wrong, and you have to decide what you really want to know]
 
 
-A1.2 A flight is always 10 minutes late
+A1.2 A flight is always 10 minutes late :
 ```{r}
 flights %>%
   group_by(flight) %>%
   summarise(late_10min = sum(arr_delay == 10, na.rm = TRUE) / n()) %>%
   filter(late_10min == 1)
 ```
-A1.2 This gives 4 rows (flight=2254, 3656, 3880, 5854)
+A1.2 This gives 4 rows : flight=2254, 3656, 3880, 5854
 
 
-A1.3 A flight is 30 minutes early 50% of the time, and 30 minutes late 50% of the time
+A1.3 A flight is 30 minutes early 50% of the time, and 30 minutes late 50% of the time :
 ```{r}
 flights %>%
   group_by(flight) %>%
@@ -360,10 +367,10 @@ flights %>%
             late_30min = sum(arr_delay >= 30, na.rm = TRUE) / n()) %>%
   filter(early_30min == 0.5, late_30min == 0.5)
 ```
-A1.3 This gives 3 rows (flight=3651, 3916, 3951)
+A1.3 This gives 3 rows : flight=3651, 3916, 3951
 
 
-A1.4 99% of the time a flight is on time. 1% of the time it's 2 hours late
+A1.4 99% of the time a flight is on time. 1% of the time it's 2 hours late :
 ```{r}
 flights %>%
   group_by(flight) %>%
@@ -371,39 +378,38 @@ flights %>%
             late_120min = sum(arr_delay >= 120, na.rm = TRUE) / n()) %>%
   filter(on_time == .99, late_120min == .01)
 ```
-A1.4 This gives zero rows, even though I made '2 hours late' looser
+A1.4 This gives zero rows, even though I made '2 hours late' looser (ie. 2 hours or more)
 
 
-A1.5 Which is more important: arrival delay or departure delay?
+A1.5 Which is more important: arrival delay or departure delay? :
+[Q1 didn't seem to require calculations, just that we consider what different 'clusters'/ summaries might exist, and whether they might be important. I did the calculations above for practice, and to see the quantities involved]
+
 * For an individual, it's personal preference (eg. extra time in air v's extra time waiting at airport,
- or need to be at a meeting on time).
-* May also depend on certainty (low variance) for that flight (could you arrive late IF gate stays open,
- and could you plan/book onward travel 'knowing' there would be delay)
-
-* For an airport/(airline), both could affect capacity planning & wastage & customer compensation,
- and again certainty (low variance) would be important
-
-* For both (specific flightroute, overall group), could create scatterplot (delay v's count) as in s5.6.3.
- And/or could create an aggregate calculation of 'typical' delay (taking account probability)
+ or need to be at a meeting on time)
+* For an individual, it may also depend on certainty (low variance) for that flight. (Could you arrive late IF gate stays open, and could you plan/book onward travel 'knowing' what the delay might be?)
+* For an airport/(airline), both could affect capacity planning & wastage & customer compensation, and again certainty (low variance) would be important
+* For both (and for specific flightroute, or overall group), we could create scatterplot (delay v's count) as in s5.6.3. And/or could create an aggregate calculation of 'typical' delay (taking account probability)
 
 -----------
 
 Q2.
-Come up with another approach that will give you the same output as not_cancelled %>% count(dest)
-and not_cancelled %>% count(tailnum, wt = distance) (without using count())
+Come up with another approach that will give you the same output as `not_cancelled %>% count(dest)`
+and `not_cancelled %>% count(tailnum, wt = distance)` (without using `count()`)
+
+A2. [We have this definition of `not cancelled` from s5.6.2 in the book text] :
 ```{r}
 not_cancelled <- flights %>% 
   filter(!is.na(dep_delay), !is.na(arr_delay))
 ```
 
-A2.1 cf. not_cancelled %>% count(dest) ...[104 rows x 2 cols (dest, n)]
+A2.1 cf. `not_cancelled %>% count(dest)` ...[104 rows x 2 cols (dest, n)]
 ```{r}
 not_cancelled %>%
   group_by(dest) %>%
   summarise(n())
 ```
 
-A2.2 cf. not_cancelled %>% count(tailnum, wt = distance) ...[4037 rows x 2 cols (tailnum, n)]
+A2.2 cf. `not_cancelled %>% count(tailnum, wt = distance)` ...[4037 rows x 2 cols (tailnum, n)]
 ```{r}
 not_cancelled %>%
   group_by(tailnum) %>%
@@ -413,18 +419,19 @@ not_cancelled %>%
 -----------
 
 Q3.
-Our definition of cancelled flights (is.na(dep_delay) | is.na(arr_delay) ) is slightly suboptimal.
+Our definition of cancelled flights (`is.na(dep_delay) | is.na(arr_delay)`) is slightly suboptimal.
 Why? Which is the most important column?
+
+A3.
 ```{r}
 flights %>%
   group_by(!is.na(dep_delay), !is.na(arr_delay)) %>%
   summarise(n())
 ```
 
-A3.
 The data has some flights that departed but didn't arrive (so those weren't cancelled
 and shouldn't be excluded as such). It doesn't have any that arrived but didn't depart.
-So the important column is 'dep_delay', and our optimal definition of cancelled flights is now
+**So the important column is `dep_delay`**, and our optimal definition of cancelled flights is now
 `(is.na(dep_delay)`
 
 -----------
@@ -436,42 +443,43 @@ Q4.2 Is the proportion of cancelled flights related to the average delay?
 A4.1
 ```{r}
 cancelled <- flights %>%
-  filter(is.na(dep_delay)) %>%
+  filter(is.na(dep_delay)) %>%    # From A3: "definition of cancelled flights is now `(is.na(dep_delay)`"
   group_by(year, month, day) %>%
   summarise(count = n())
 ```
 
 ```{r}
-View(cancelled) # Can't tell a pattern from looking at table
+View(cancelled) # Can't tell a pattern from looking at this table. Try a chart...
 ```
 
 ```{r}
 ggplot(data = cancelled, mapping = aes(x = day, y = count)) +
   geom_point() # 31 days along x-axis (with one point per month). 2 days had a point with count=400ish : 8th & 9th
 
-date_long <- paste(cancelled$year, cancelled$month, cancelled$day) # trying to get 365 days in a timeline
+date_long <- paste(cancelled$year, cancelled$month, cancelled$day) # trying to get 365 days as complete dates
 ggplot(data = cancelled, mapping = aes(x = date_long, y = count)) +
   geom_point() # still 2 days with count=400ish : 8Feb and 9Feb. Why are these *midway* along x-axis?
 ```
-There is no obvious pattern
+There is no obvious pattern. (IIRC, 8Feb and 9Feb are midway along because the months get sorted 1, 10, 11, 12, 2, etc ...so Feb is 5th of 12, which is midway-ish.) Below is a way to get the 2nd chart I wanted (but still no obvious pattern), and the '#comments' are mine :
 
 --------------------------
-Comment & code from @michaeljw in (R4DS Slack) board=03_week on 20/9/17 ~16:15
+_Comment & code from @michaeljw [to me, in R4DS Slack on board=03_week] on 20/9/17 ~16:15 :
+
 Using `paste()` is a fine guess, but there's an even simpler way: the data frame has a column
 called `time_hour`, which contains the date and the time of the flight. You can use `as.Date()`
-to strip the time out, like so:
+to strip the time out, like so:_
 ```{r}
 cancelled <- flights %>%
 filter(is.na(dep_delay)) %>%
-mutate(date = as.Date(time_hour)) %>%
-group_by(date) %>%
+mutate(date = as.Date(time_hour)) %>%    # This is an extra line (v's my attempt above)
+group_by(date) %>%                       # Instead of `group_by(year, month, day)`
 summarise(count = n())
 ```
 
-Note that I've done this in a `mutate()` call so that the new `date` column is part of the `cancelled`
+_Note that I've done this in a `mutate()` call so that the new `date` column is part of the `cancelled`
 data frame. That will make it easier to use as the axis when plotting.
 This `cancelled` data frame now just has `date` and `count` columns; with a small modification to
-your original code we can plot them like so:
+your original code we can plot them like so:_
 ```{r}
 ggplot(data = cancelled, mapping = aes(x = date, y = count)) +
   geom_point()
@@ -480,7 +488,7 @@ ggplot(data = cancelled, mapping = aes(x = date, y = count)) +
 --------------------------
 
 
-A4.2
+A4.2 [reminder: "Is the proportion of cancelled flights related to the average delay?"]
 ```{r}
 flights %>%
   group_by(year, month, day) %>%
@@ -496,7 +504,7 @@ flights %>%
   xlab('average delay (minutes)') +
   ylab('proportion of cancelled flights')
 ```
-There is a +ve correlation between proportion of cancelled flights and average delay
+There is a +ve correlation between `proportion of cancelled flights` and `average delay`
 So (simplifying), on days with a lot of delays, there will also be a lot of cancellations
 
 -----------
@@ -504,16 +512,17 @@ So (simplifying), on days with a lot of delays, there will also be a lot of canc
 Q5.
 Q5.1 Which carrier has the worst delays?
 Q5.2 Challenge: can you disentangle the effects of bad airports vs. bad carriers?
-Why/why not? (Hint: think about flights %>% group_by(carrier, dest) %>% summarise(n()))
+Why/why not? (Hint: think about `flights %>% group_by(carrier, dest) %>% summarise(n())`)
 
 A5.1
 ```{r}
 flights %>%
   filter(!is.na(dep_delay), !is.na(arr_delay)) %>%
   group_by(carrier) %>%
-  summarise(mean_arr_delay = mean(arr_delay)) %>% # 'na.rm = TRUE' argument not needed, as filter() does similar
+  summarise(mean_arr_delay = mean(arr_delay)) %>% # `na.rm = TRUE` argument not needed, as `filter()` does similar
   arrange(desc(mean_arr_delay))
 # carrier=F9 has the highest average delay, of 22 minutes
+
 filter(airlines, carrier == "F9") # Frontier Airlines Inc
 ```
 
@@ -525,6 +534,7 @@ View(flights %>% group_by(dest) %>% summarise(n())) # 105 destination airports
 flights %>% group_by(carrier, dest) %>% summarise(n()) # sometimes airlines flew to dest only 1 or 2 times
 View(flights %>% group_by(dest) %>% summarise(unique = n_distinct(carrier)) %>% arrange(desc(unique))) # s5.6.4
 ```
+
 * We could try to disentangle the effects of bad carriers v's bad airports by comparing a carrier’s delay
  at a destination airport v's average delay at that airport (where latter excludes that carrier's flights)
 * However, 53 of those airports only receive 1 or 2 carriers (and max is 7), so it would be hard to disentangle
@@ -532,10 +542,11 @@ View(flights %>% group_by(dest) %>% summarise(unique = n_distinct(carrier)) %>% 
 
 -----------
 
-Q6. What does the sort argument to count() do. When might you use it?
+Q6. What does the `sort` argument to `count()` do. When might you use it?
+
 A6.
-The sort argument will sort the results of count() in descending order of n.
-You might use this (to save a line of code), if you want to count() and then arrange() the results
+The `sort` argument will sort the results of `count()` in descending order of n.
+You might use this (to save a line of code), if you want to `count()` and then `arrange()` the results
 ...and you might want to do that because the most important results are often in the Top10
 
 
