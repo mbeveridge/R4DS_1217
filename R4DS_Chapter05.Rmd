@@ -560,175 +560,185 @@ Refer back to the lists of useful mutate and filtering functions.
 Describe how each operation changes when you combine it with grouping
 
 A1.
-Not sure which lists (but possibly s5.5.1 and probably s5.6.4) ...eg. min_rank(), rank(), n(), sum()
+[Not sure which lists (but possibly s5.5.1 and probably s5.6.4) ...eg. `min_rank()`, `rank()`, `n()`, `sum()`]
 The function operates within each group rather than over the entire data frame.
-eg. mean() will calculate the mean within each group
+eg. `mean()` will calculate the mean within each group
 
 -----------
 
-Q2. Which plane (tailnum) has the worst on-time record?
+Q2. Which plane (`tailnum`) has the worst on-time record?
+
 A2.
 ```{r}
-flights %>% # 336,776 x 19
-  group_by(tailnum) %>% # 336,776 x 19
-  summarise(arr_delay = mean(arr_delay, na.rm = TRUE)) %>% # 4044 x 2
-  filter(min_rank(desc(arr_delay)) == 1) # 1 x 2
+flights %>%                                                  # 336,776 x 19
+  group_by(tailnum) %>%                                      # 336,776 x 19
+  summarise(arr_delay = mean(arr_delay, na.rm = TRUE)) %>%   # 4044 x 2 ...`tailnum` and the redefined `arr_delay
+  filter(min_rank(desc(arr_delay)) == 1)                     # 1 x 2    ....taking just the first-ranked out of 4044
 ```
-tailnum = N844MH
+`tailnum` = N844MH has the highest average `arr_delay` ...320 minutes. (There are other ways we could define 'worst')
 
 -----------
 
 Q3. What time of day should you fly if you want to avoid delays as much as possible?
-A3. Grouping by hour, and only considering delays >15min
+
+A3. Grouping by hour, and visualising delays >15min (having tried a few alternate values)
 ```{r}
 flights %>%
   group_by(hour) %>%
-  summarise(arr_delay = sum(arr_delay > 0, na.rm = TRUE) / n()) %>%
+  summarise(arr_delay = sum(arr_delay > 15, na.rm = TRUE) / n()) %>%     # redefined `arr_delay`, as T/F proportion
   ggplot(aes(x = hour, y = arr_delay)) +
   geom_col()
 ```
+
 * Flying midnight to 5am has zero chance of arrival delay (because no flights available?)
 * The later you fly the worse (peaking at 9pm). (Delays early in the morning have a knockon effect throughout the day. Etc)
 
 -----------
 
 Q4.
-For each destination, compute the total minutes of delay.
-For each flight, compute the proportion of the total delay for its destination
+Q4.1 For each destination, compute the total minutes of delay.
+Q4.2 For each flight, compute the proportion of the total delay for its destination
 
-A4.
-THIS WORKED
+A4.1
 ```{r}
 flights %>%
   filter(!is.na(arr_delay), arr_delay > 0) %>%  # 1st condition not really needed. Exclude -ve delays
   group_by(dest) %>%
-#  mutate(total_delay = sum(arr_delay)) %>%
+# mutate(total_delay = sum(arr_delay)) %>%
   summarise(total_delay = sum(arr_delay)) %>%
   select(dest, total_delay)
 ```
 
-THIS DIDN'T WORK. (See a working solution below, a reply to my request for help)
-I could do the first part in isolation. But the way I picture grouping might be a bit shaky, so I’m
-struggling with rolling up (and when to use ungroup(), etc etc), and I seem to be at the point of ‘throwing
-code, to see what sticks’, and lost. Can anyone give me pointers towards a solution?
+A4.2 [reminder: "For each flight, compute the proportion of the total delay for its destination"]
 ```{r}
 flights %>%
-  filter(!is.na(arr_delay), arr_delay > 0) %>%  # 133,004 x 19
-  group_by(dest, flight) %>% # 133,004 x 19. Groups: dest, flight [8,505]
+  filter(!is.na(arr_delay), arr_delay > 0) %>%        # 133,004 x 19
+  group_by(dest, flight) %>%                          # 133,004 x 19. Groups: dest, flight [8505]
   mutate(total_delay = sum(arr_delay),
-         prop_delay = arr_delay / total_delay) %>% # 133,004 x 21. Groups: dest, flight [8,505]
-# First I want total_delay for each flight within each dest. But how will I access total delay per dest, for proportion calc?
+         prop_delay = arr_delay / total_delay) %>%    # 133,004 x 21. Groups: dest, flight [8505]
+# First I want `total_delay` for each flight within each dest. But how will I access total delay per dest, for proportion calc?
   summarise(total_delay = sum(arr_delay),
-            prop_delay = arr_delay / total_delay) %>% # error : Column `prop_delay` must be length 1 (a summary value), not 52
+            prop_delay = arr_delay / total_delay) %>% # error: "Column `prop_delay` must be length 1 (a summary value), not 52"
   select(dest, total_delay, flight, prop_delay)
 ```
-THIS DIDN'T WORK. (See a working solution below, a reply to my request for help)
 
+MY ABOVE ATTEMPT DIDN'T WORK. (BUT a working solution is below, a reply to this/my request for help)
+"I could do the first part in isolation. But the way I picture grouping might be a bit shaky, so I’m
+struggling with rolling up (and when to use `ungroup()`, etc etc), and I seem to be at the point of ‘throwing
+code, to see what sticks’, and lost. Can anyone give me pointers towards a solution?"
+
+Note: I edited @jmoran's code [below], from `tailnum` to `flight`. And to include `filter(arr_delay > 0)`. And '#comments' there are mine
+PS. The solution relies on `left_join()`, which isn't a function we've met in the book yet
 
 --------------------------
-Comment & code from @jmoran in (R4DS Slack) board=03_week on 21/9/17 13:10
-And for part 2, I did the following, which I think gets us the answer. It’s likely more steps than are needed.
-EDIT: I see the question was for `flight` and not `tailnum`; however, I think the logic does not change
-if you sub in `flight` in the following code
+_Comment & code from @jmoran [to me, in R4DS Slack on board=03_week] on 21/9/17 13:10 :
 
-MDAB has edited this code, from 'tailnum' to 'flight'. And to include filter(arr_delay > 0)
-PS. left_join() isn't a function we've met yet
+And for part 2, I did the following, which I think gets us the answer. It’s likely more steps than are needed.
   
-Create a table of total delays by destination
+Create a table of total delays by 'destination' :_
 ```{r}
 total_delay <- flights %>%
-  filter(arr_delay >= 0) %>% # MDAB added
+  filter(arr_delay >= 0) %>%                                   # MDAB added
   group_by(dest) %>%
-  dplyr::summarise(total_delay = sum(arr_delay, na.rm= TRUE))
+  dplyr::summarise(total_delay = sum(arr_delay, na.rm= TRUE))  # define `total_delay`
 ```
 
-Create a table of total delays by FLIGHT for each destination. [MDAB: flight means 'Flight number', not an individual trip. Could be to multiple destinations]
+_Create a table of total delays by 'FLIGHT' for each destination. [MDAB: flight means 'Flight number', not an individual trip. Could be to multiple destinations] :_
 ```{r}
 flight_delays <- flights %>%
-  filter(arr_delay >= 0) %>% # MDAB added
+  filter(arr_delay >= 0) %>%                                   # MDAB added
   group_by(flight, dest) %>%
-  dplyr::summarise(delay_per = sum(arr_delay, na.rm = TRUE))
+  dplyr::summarise(delay_per = sum(arr_delay, na.rm = TRUE))   # define `delay_per`
 ```
 
-Join the two tables (on 'dest') and create a proportion delay column
+_Join the two tables (on `dest`) and create a 'proportion delay' column :_
 ```{r}
 flight_delays <- flight_delays %>%
   left_join(total_delay,by = "dest") %>%
-  mutate(prop_delay = delay_per / total_delay) %>%
-  arrange(dest, flight) # MDAB added, to sort by 'dest' first, to see that each dest total adds to 1.0
+  mutate(prop_delay = delay_per / total_delay) %>%             # define `prop_delay
+  arrange(dest, flight)             # MDAB added, to sort by `dest` first, to see that each `dest` total adds to 1.0
 ```
-flight_delays # 8620 x 5
-What would I change, to have all the columns (not just the 'necessary' 5)?
+
+```{r}
+flight_delays                       # 8620 x 5
+```
+
 --------------------------
 
 -----------
 
 Q5.
-Delays are typically temporally correlated: even once the problem that caused the initial delay
-has been resolved, later flights are delayed to allow earlier flights to leave.
-Using lag() explore how the delay of a flight is related to the delay of the immediately preceding flight
-```{r}
-?lag # See s5.5.1
-```
+Delays are typically temporally correlated: even once the problem that caused the initial delay has been resolved, later flights are delayed to allow earlier flights to leave.
+Using `lag()` explore how the delay of a flight is related to the delay of the immediately preceding flight
 
 A5.
-* This relates to departures from each location, so use 'dep_delay' and 'origin'
-* Want to compare flights from the same origin, not simply at consecutive times
-* Avoid comparing 05:00 flight with 23:59 flight. Grouping by day makes each 1st lag an NA (?) and can filter()
-* Filter out NA's before and after calculating the lag_delay
+```{r}
+?lag # See s5.5.1 of book text instead
+```
+
+* This relates to departures from each location, so use `dep_delay` and `origin`
+* ie. Want to compare flights from the same `origin`, not simply at consecutive times
+* Avoid comparing 05:00 flight with 23:59 flight. Grouping by day makes each 1st lag an `NA` (?) and can `filter()`
+* Filter out NA's before and after calculating the `lag_delay`
+
 ```{r}
 flights %>%
   group_by(year, month, day, origin) %>%
-  arrange(year, month, day, hour, minute) %>%
+  arrange(year, month, day, hour, minute) %>%         # sorting by hour & minute, within each group
   filter(!is.na(dep_delay)) %>%
-  mutate(lag_delay = lag(dep_delay)) %>%
-  filter(!is.na(lag_delay)) %>%
-  ggplot(aes(x = lag_delay, y = dep_delay)) +
+  mutate(lag_delay = lag(dep_delay)) %>%              # define `lag_delay` for consecutive flights from an `origin`
+  filter(!is.na(lag_delay)) %>%                       # ...And now plot it...
+  ggplot(aes(x = dep_delay, y = lag_delay)) +
   geom_point() +
   geom_smooth()
 ```
 
+Note: Wondering how much reliance to place on the geom_smooth line, as it was a similar shape when I (originally) had the x & y axes transposed
+
 -----------
 
 Q6.
-Q6.1 Look at each destination. Can you find flights that are suspiciously fast?
-(i.e. flights that represent a potential data entry error).
-Q6.2 Compute the air time of a flight relative to the shortest flight to that destination.
-Which flights were most delayed in the air?
+Q6.1 Look at each destination. Can you find flights that are suspiciously fast? (i.e. flights that represent a potential data entry error).
+Q6.2 Compute the air time of a flight relative to the shortest flight to that destination. Which flights were most delayed in the air?
 
 A6.1
-* Surely we can't just compare air_time to the median value for a destination - what about the fact
- that flights also have different 'origin'/distance ?
-* Well, the dataset is "dataset on flights departing New York City in 2013", so it's probably ok
+
+* Surely we can't just compare `air_time` to the median value for a destination - what about the fact
+ that flights also have different `origin`/distance ?
+* Well, the dataset is "dataset on flights departing New York City in 2013", so it's probably ok (ie. any `origin` is near to every other `origin` airport)
+
 ```{r}
 flights %>%
   filter(!is.na(air_time)) %>%
   group_by(dest) %>%
-  mutate(med_time = median(air_time),
-         fast = (air_time - med_time) / med_time) %>%
+  mutate(med_time = median(air_time),                   # define `med_time` (uses the group, but not `summarise()`)
+         fast = (air_time - med_time) / med_time) %>%   # define it relative to median for `dest`, as a PROPORTION
   arrange(fast) %>%
   select(dest, origin, year, month, day, carrier, flight, air_time, med_time, fast) %>%
   head(20)
 ```
 * Shorter flights might be disproportionately affected by delays of a few minutes (eg. circling above
  destination, waiting for permission to land, good/bad weather/wind?)
-* The flights at the top of the 'fast' list have ~40% time savings, which is significant
+* The flights at the top of the `fast` list have ~40% time savings, which is significant
 * Are all of the numbers entered (v's calculated)? I don't see (eg) transposition errors as indication
  that data entry is a problem
 
-A6.2
+A6.2 [reminder: "Compute the air time of a flight relative to the shortest flight to that destination. Which flights were most delayed in the air?"]
+
 * What does "relative to the shortest flight to that destination" mean? Are we supposed to ignore that
- flights also have different 'origin'/distance? - it would give misleading 'delayed in the air' values.
-* Well, the dataset is "dataset on flights departing New York City in 2013", so it's probably ok
+ flights also have different `origin`/distance? - it would give misleading 'delayed in the air' values.
+* Well, the dataset is "dataset on flights departing New York City in 2013", so it's probably ok (ie. any `origin` is near to every other `origin` airport)
+
 ```{r}
 flights %>%
-  filter(!is.na(air_time)) %>%
-  group_by(dest) %>%
-  mutate(air_time_relative = air_time - min(air_time)) %>%
+  filter(!is.na(air_time)) %>%                              # [same as for A6.1]
+  group_by(dest) %>%                                        # [same as for A6.1]
+  mutate(air_time_relative = air_time - min(air_time)) %>%  # define it relative to minimum for `dest`, as ABSOLUTE
   arrange(desc(air_time_relative)) %>%
-  select(dest, origin, year, month, day, carrier, flight, air_time, air_time_relative)
+  select(dest, origin, year, month, day, carrier, flight, air_time, air_time_relative) %>%
+  head(20)
 ```
-* The 28/7 DL flight into SFO was most delayed. carrier=DL into SFO and LAX shows up several times
+* The 2013-07-28 DL flight into SFO was 'most delayed'. carrier=DL into SFO and LAX shows up several times
  near the top of the 'most delayed' list (but flight numbers differ)
 * Is this what the question meant, or did the last part intend an average per flight?
 
@@ -739,25 +749,25 @@ Find all destinations that are flown by at least two carriers.
 Use that information to rank the carriers
 
 A7.
-cf. A5.2 : flights %>% group_by(dest) %>% summarise(unique = n_distinct(carrier)) %>% arrange(desc(unique))
-Rank the carriers according to number of destinations they fly to. (But filtering out some destinations)
+cf. A5.2 : `flights %>% group_by(dest) %>% summarise(unique = n_distinct(carrier)) %>% arrange(desc(unique))`
+Rank the carriers according to number of destinations they fly to. (But filtering out some destinations) :
 ```{r}
-flights %>% # 336,776 x 19
-  group_by(dest) %>% # 336,776 x 19
-  filter(n_distinct(carrier)>=2) %>% # 325,397 x 19
-  group_by(carrier) %>% # 325,397 x 19. THIS group_by REPLACES the previous one (?)
-  summarise(carrier_dests = n_distinct(dest)) %>% # 16 x 2 ...carrier, carrier_dests
-  arrange(desc(carrier_dests)) # 16 x 2 ...carrier, carrier_dests
+flights %>%                                       # 336,776 x 19
+  group_by(dest) %>%                              # 336,776 x 19
+  filter(n_distinct(carrier)>=2) %>%              # 325,397 x 19
+  group_by(carrier) %>%                           # 325,397 x 19. THIS `group_by` REPLACES the previous one (??)
+  summarise(carrier_dests = n_distinct(dest)) %>% # 16 x 2 ...`carrier`, `carrier_dests`
+  arrange(desc(carrier_dests))                    # 16 x 2 ...`carrier`, `carrier_dests`
 ```
 
-This gives same answer. But I don't know how the count() works, nor why 2 of them are needed (but they are)
+This gives same answer. But I don't know how the `count()` works, nor why 2 of them are needed (but they are) :
 ```{r}
-flights %>% # 336,776 x 19
-  group_by(dest) %>% # 336,776 x 19
-  filter(n_distinct(carrier)>=2) %>% # 325,397 x 19
-  count(carrier) %>% # 285 x 3 ...dest, carrier, n. THIS did the job of a summarise() ?
-  group_by(carrier) %>% # 285 x 3 ...dest, carrier, n
-  count(sort = TRUE) # 16 x 2 ...carrier, nn
+flights %>%                                       # 336,776 x 19
+  group_by(dest) %>%                              # 336,776 x 19
+  filter(n_distinct(carrier)>=2) %>%              # 325,397 x 19
+  count(carrier) %>%                              # 285 x 3 ...dest, carrier, n. THIS did the job of a summarise() ?
+  group_by(carrier) %>%                           # 285 x 3 ...dest, carrier, n
+  count(sort = TRUE)                              # 16 x 2 ...carrier, nn
 ```
 
 -----------
@@ -765,8 +775,13 @@ flights %>% # 336,776 x 19
 Q8. For each plane, count the number of flights before the first delay of greater than 1 hour
 [This was previously s5.6.7 Exercises Q6]
 
-A8. [3 snippets & comments (not mine), giving same 3748x2 answer. I don't follow any - all use unfamiliar functions]
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX The comments below are not by MDAB
+A8. [3 snippets+comments (not mine). 2&3 give same 3748x2 answer. I don't follow any - all use unfamiliar patterns]
+
+_This uses a grouped summary operation. First I group by plane (`tailnum`), then I create a variable
+that defines the row number within each plane. I then filter the data to only include flights with
+delays longer than an hour, and use `summarize()` in conjunction with `first()` to find for each plane
+the `row_num` of the first flight with an 1+ hour delay. I subtract 1 from that value to count the
+number of flights before the first delay, rather than including the first flight with the hour or more delay_
 ```{r}
 flights %>%
   group_by(tailnum) %>%
@@ -774,14 +789,9 @@ flights %>%
   filter(arr_delay > 60) %>%
   summarize(first_hour_delay = first(row_num) - 1)
 ```
-This uses a grouped summary operation. First I group by plane (tailnum), then I create a variable
-that defines the row number within each plane. I then filter the data to only include flights with
-delays longer than an hour, and use summarize() in conjunction with first() to find for each plane
-the row_num of the first flight with an 1+ hour delay. I subtract 1 from that value to count the
-number of flights before the first delay, rather than including the first flight with the hour or more delay
 
 
-I think this requires grouped mutate (but I may be wrong):
+_I think this requires grouped mutate (but I may be wrong) :_
 ```{r}
 flights %>%
   arrange(tailnum, year, month, day) %>%
