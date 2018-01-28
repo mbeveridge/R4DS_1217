@@ -460,7 +460,7 @@ date_long <- paste(cancelled$year, cancelled$month, cancelled$day) # trying to g
 ggplot(data = cancelled, mapping = aes(x = date_long, y = count)) +
   geom_point() # still 2 days with count=400ish : 8Feb and 9Feb. Why are these *midway* along x-axis?
 ```
-There is no obvious pattern. (IIRC, 8Feb and 9Feb are midway along because the months get sorted 1, 10, 11, 12, 2, etc ...so Feb is 5th of 12, which is midway-ish.) Below is a way to get the 2nd chart I wanted (but still no obvious pattern), and the '#comments' are mine :
+There is no obvious pattern. (IIRC, 8Feb and 9Feb are midway along because the months get sorted 1, 10, 11, 12, 2, etc ...so Feb is 5th of 12, which is midway-ish.) Below is a way to get the 2nd chart I wanted (but still no obvious pattern), and the two '#comments' there are mine :
 
 --------------------------
 _Comment & code from @michaeljw [to me, in R4DS Slack on board=03_week] on 20/9/17 ~16:15 :
@@ -492,19 +492,19 @@ A4.2 [reminder: "Is the proportion of cancelled flights related to the average d
 ```{r}
 flights %>%
   group_by(year, month, day) %>%
-  summarise(cancelled = sum(is.na(dep_delay)),
-            cancelled_propn = mean(is.na(dep_delay)),
-            mean_dep_delay = mean(dep_delay,na.rm=TRUE),
-            mean_arr_delay = mean(arr_delay,na.rm=TRUE)) %>%
+  summarise(cancelled = sum(is.na(dep_delay)),                        # define 'cancelled' ...not used
+            cancelled_propn = mean(is.na(dep_delay)),                 # define 'cancelled propn' ...for y-axis
+            mean_dep_delay = mean(dep_delay,na.rm=TRUE),              # define 'mean_dep_delay' ...for x-axis
+            mean_arr_delay = mean(arr_delay,na.rm=TRUE)) %>%          # define 'mean_arr_delay' ...for x-axis
   ggplot(aes(y = cancelled_propn)) +
-  geom_point(aes(x=mean_dep_delay), colour='blue', alpha=0.5) +
-  geom_point(aes(x=mean_arr_delay), colour='red', alpha=0.5) +
-  geom_smooth(aes(x=mean_dep_delay), colour='blue') +
-  geom_smooth(aes(x=mean_arr_delay), colour='red') +
-  xlab('average delay (minutes)') +
-  ylab('proportion of cancelled flights')
+  geom_point(aes(x=mean_dep_delay), colour='blue', alpha=0.5) +       # blue scatter (1 point per day)
+  geom_point(aes(x=mean_arr_delay), colour='red', alpha=0.5) +        # red scatter (1 point per day)
+  geom_smooth(aes(x=mean_dep_delay), colour='blue') +                 # blue line
+  geom_smooth(aes(x=mean_arr_delay), colour='red') +                  # red line
+  xlab('average delay (minutes)') +                                   # x-axis label (both arrival and departure)
+  ylab('proportion of cancelled flights')                             # y-axis label
 ```
-There is a +ve correlation between `proportion of cancelled flights` and `average delay`
+Yes. There is a +ve correlation between `proportion of cancelled flights` and `average delay`.
 So (simplifying), on days with a lot of delays, there will also be a lot of cancellations
 
 -----------
@@ -520,25 +520,25 @@ flights %>%
   filter(!is.na(dep_delay), !is.na(arr_delay)) %>%
   group_by(carrier) %>%
   summarise(mean_arr_delay = mean(arr_delay)) %>% # `na.rm = TRUE` argument not needed, as `filter()` does similar
-  arrange(desc(mean_arr_delay))
-# carrier=F9 has the highest average delay, of 22 minutes
+  arrange(desc(mean_arr_delay))                   # ---> carrier=F9 is first on the list, with 22 minutes
 
-filter(airlines, carrier == "F9") # Frontier Airlines Inc
+filter(airlines, carrier == "F9")                 # 'Frontier Airlines Inc' is the carrier with worst average delay
 ```
 
-A5.2
+A5.2 [reminder: "can you disentangle the effects of bad airports vs. bad carriers? Why/why not?"]
 ```{r}
-flights %>% group_by(carrier) %>% summarise(n()) # 16 carriers
-View(flights %>% group_by(dest) %>% summarise(n())) # 105 destination airports
+flights %>% group_by(carrier) %>% summarise(n())       # 16 carriers
+flights %>% group_by(dest) %>% summarise(n())          # 105 destination airports
 
-flights %>% group_by(carrier, dest) %>% summarise(n()) # sometimes airlines flew to dest only 1 or 2 times
-View(flights %>% group_by(dest) %>% summarise(unique = n_distinct(carrier)) %>% arrange(desc(unique))) # s5.6.4
+flights %>% group_by(carrier, dest) %>% summarise(n()) # 314 rows. (+ Sometimes carrier-dest was only 1 or 2 times)
+flights %>% group_by(dest) %>% summarise(unique = n_distinct(carrier)) %>% arrange(desc(unique)) # s5.6.4 in book
 ```
+...Thoughts from this brief look at the data :
 
-* We could try to disentangle the effects of bad carriers v's bad airports by comparing a carrier’s delay
- at a destination airport v's average delay at that airport (where latter excludes that carrier's flights)
-* However, 53 of those airports only receive 1 or 2 carriers (and max is 7), so it would be hard to disentangle
-* NOTE: I haven't done any calculations, to actually try and disentangle the effects
+* We could try to disentangle the effects of bad carriers v's bad airports by comparing a specific carrier’s delay
+ at a destination airport v's average delay at that airport (where latter has excluded that carrier's flights)
+* However, 53 of those 105 airports only receive 1 or 2 carriers (and max is 7), so it would be hard to disentangle
+* (NOTE: I haven't done any calculations, to actually try and disentangle the effects)
 
 -----------
 
