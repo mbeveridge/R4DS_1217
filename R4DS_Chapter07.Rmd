@@ -249,6 +249,7 @@ How does this compare to using `coord_flip()`?
 install.packages("ggstance") # Not available in Anaconda Navigator, to install
 library(ggstance)
 ```
+
 ```{r}
 ?ggstance # Showed nothing
 ```
@@ -266,7 +267,7 @@ ggplot(data = mpg) +
   geom_boxploth(mapping = aes(x = hwy, y = reorder(class, hwy, FUN = median)))
 ```
 
-Output is the same, but the order of x & y is different (and 'right' now). With coord_flip(), it
+Output is the same, but the order of x & y is different (and 'right' now). With `coord_flip()`, it
 was the order as if for vertical boxplots
 
 
@@ -277,11 +278,12 @@ is the letter value plot. Install the `lvplot` package, and try using `geom_lv()
 distribution of `price` vs `cut`. What do you learn? How do you interpret the plots?
 
 ```{r}
-install.packages("lvplot") # Not available in Anaconda Navigator, to install
+install.packages("lvplot")                 # Not available in Anaconda Navigator, to install
 library(lvplot)
 ```
+
 ```{r}
-?lvplot # Showed nothing
+?lvplot                                    # Showed nothing
 ```
 
 s7.5.1 boxplot
@@ -311,30 +313,30 @@ Compare and contrast `geom_violin()` with a facetted `geom_histogram()`, or a co
 What are the pros and cons of each method?
 
 A5.
-`geom_violin()`
+`geom_violin()` :
 ```{r}
 ggplot(data = diamonds, mapping = aes(x = cut, y = price)) +
   geom_violin() +
   coord_flip()
 ```
 
-`geom_histogram()` ...faceted
+`geom_histogram()` ...faceted :
 ```{r}
 ggplot(data = diamonds, mapping = aes(x = price)) +
   geom_histogram() +
   facet_grid(cut~.)
 ```
 
-The geom_violin and faceted geom_histogram have similar strengths & weaknesses.
+The `geom_violin` and faceted `geom_histogram` have similar strengths & weaknesses.
 It's easy to visually distinguish differences in the overall shape of distributions (skewness,
 central values, variance, etc). However, it isn't easy to compare their vertical values
 
-`geom_freqpoly()` ...coloured
+`geom_freqpoly()` ...coloured :
 ```{r}
 ggplot(data = diamonds, mapping = aes(x = price, y = ..density.., colour = cut)) +
   geom_freqpoly()
 ```
-geom_freqpoly is better for look-up: given a price, it's easy to tell which cut has highest density.
+`geom_freqpoly` is better for look-up: given a price, it's easy to tell which cut has highest density.
 However, overlapping lines make it difficult to see how overall distributions compare
 
 (They all depend on tuning parameters to determine the smoothness of the distribution)
@@ -349,6 +351,7 @@ similar to `geom_jitter()`. List them and briefly describe what each one does
 install.packages("ggbeeswarm") # Not available in Anaconda Navigator, to install
 library(ggbeeswarm)
 ```
+
 ```{r}
 ?ggbeeswarm
 ```
