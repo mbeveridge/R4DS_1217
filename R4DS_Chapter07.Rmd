@@ -135,14 +135,14 @@ A1.
 ggplot(data = nycflights13::flights, mapping = aes(x = dep_delay)) +
   geom_histogram()
 ```
-"Warning message: Removed 8255 rows containing non-finite values (stat_bin)."
-NA values can't be placed in a particular bin, as their numeric values are unknown. They are removed
+"Warning message: Removed 8255 rows containing non-finite values (`stat_bin`)."
+`NA` values can't be placed in a particular bin, as their numeric values are unknown. They are removed
 
 ```{r}
 ggplot(data = nycflights13::flights, mapping = aes(x = dep_delay)) +
   geom_bar()
 ```
-"Warning message: Removed 8255 rows containing non-finite values (stat_count)."
+"Warning message: Removed 8255 rows containing non-finite values (`stat_count`)."
 Same warning. But we'd used a continuous variable again (just not binned). Try categorical...
 
 ```{r}
@@ -151,7 +151,7 @@ nycflights13::flights %>%
   ggplot(mapping = aes(x = carrier)) +
   geom_bar()
 ```
-We artificially made one carrier NA. (Easier than finding a categorical variable with NAs already)
+We artificially made one carrier `NA`. (Easier than finding a categorical variable with `NA`s already)
 
 "Histograms omit missing values, whereas bar charts draw them as a separate category. For continuous
  variables, like in a histogram, there is no meaningful location to draw missing values ... But for
@@ -161,9 +161,10 @@ We artificially made one carrier NA. (Easier than finding a categorical variable
 
 
 Q2. What does `na.rm = TRUE` do in `mean()` and `sum()`?
-A2. It removes NA values, before calculating the mean and sum
+A2. It removes `NA` values, before calculating the mean and sum
 
 
+-----------
 
 ## 7. "Exploratory Data Analysis" [Chapter 5 hardcopy]
 ### 7.5.1.1 Exercises
