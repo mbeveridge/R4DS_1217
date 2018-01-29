@@ -30,14 +30,14 @@ ggplot(data = diamonds) +
   geom_histogram(mapping = aes(x = z), binwidth = 0.5) +
   coord_cartesian(xlim = c(0, 10))
 ```
-
 The distributions are right-skewed, with double peaks. `y` & `z` have a few outliers. `z` is smallest
 average, so I assume is 'depth'. Can't see difference between `x` & `y`, so which is length & width ?
+
 ```{r}
 ?diamonds
 ```
 "Prices of 50,000 round cut diamonds"
-"x length in mm (0–10.74), y width in mm (0–58.9), z depth in mm (0–31.8)"
+"`x` length in mm (0–10.74), `y` width in mm (0–58.9), `z` depth in mm (0–31.8)"
 
 
 Q2.
@@ -55,6 +55,7 @@ ggplot (data = diamonds, mapping = aes(x = price)) +
 ggplot (filter(diamonds, price < 2000), mapping = aes(x = price)) +
   geom_histogram(binwidth = 10)
 ```
+
 * "price in US dollars (\$326–\$18,823)"
 * Sharp climb to peak ~$700, then exponential decay, with 'bump' (~$1700 and) at ~$4300
 * Zero diamonds in price band  ~$1460-1540
@@ -75,6 +76,7 @@ ggplot(data = diamonds, mapping = aes(x = carat)) +
   geom_histogram(binwidth = .01) +
   coord_cartesian(xlim = c(0.9, 1.1))
 ```
+
 * 23 diamonds are 0.99 carat. 1558 diamonds are 1 carat
 * Diamonds at 1 carat (just 0.01 more, and smallest $increase possible) are disproportionately more
  attractive than 0.99 in 'marketing/label/psychological' terms to the gifter & recipient (demand),
@@ -88,6 +90,7 @@ What happens if you try and zoom so only half a bar shows?
 
 A4.
 The question relates to using them inside `coord_cartesian()` v's using them in `ggplot()`...
+
 * s7.3.3 : `coord_cartesian()` has `xlim` & `ylim` arguments for when you need to zoom into the x-axis.
  `ggplot()` has `xlim()` and `ylim()` functions that work slightly differently: they throw away the
  data outside the limits
@@ -97,6 +100,7 @@ ggplot(data = diamonds, mapping = aes(x = carat)) +
   geom_histogram() +
   coord_cartesian(xlim = c(0.5, 1.5), ylim = c(1000, 2000))
 ```
+
 * `coord_cartesian()` simply zooms in on the area specified by the limits. In this example (with binwidth
  unset), 7 of the default 'bins = 30' are visible (as fat 'half' bars)
 
@@ -110,11 +114,13 @@ ggplot(data = diamonds, mapping = aes(x = carat)) +
   xlim(0.5, 1.5)
   ylim(1000, 2000)
 ```
+
 * However, the `xlim()` and `ylim()` functions first drop any values outside the limits (the ylim doesn’t
  matter in this case?), then calculates the histogram. So 30 narrow bars are visible at 'full' height
  (but some of the previous counts will now be missing)
 
 
+-----------
 
 ## 7. "Exploratory Data Analysis" [Chapter 5 hardcopy]
 ### 7.4.1 Exercises
