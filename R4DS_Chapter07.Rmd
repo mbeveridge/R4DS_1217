@@ -130,35 +130,33 @@ Why is there a difference?
 A1.
 ```{r}
 ggplot(data = nycflights13::flights, mapping = aes(x = dep_delay)) +
-  geom_histogram()
+  geom_histogram()                                                        # histogram (with default 30 bins)
 ```
 "Warning message: Removed 8255 rows containing non-finite values (`stat_bin`)."
-`NA` values can't be placed in a particular bin, as their numeric values are unknown. They are removed
+ie. `NA`/'missing' values can't be placed in a particular bin, as their numeric values are unknown. They are removed
 
 ```{r}
 ggplot(data = nycflights13::flights, mapping = aes(x = dep_delay)) +
-  geom_bar()
+  geom_bar()                                                              # bar chart of the same data
 ```
 "Warning message: Removed 8255 rows containing non-finite values (`stat_count`)."
-Same warning. But we'd used a continuous variable again (just not binned). Try categorical...
+Same warning as before. But we'd used a continuous variable again (though not binned it). Try categorical...
 
 ```{r}
 nycflights13::flights %>%
-  mutate(carrier = ifelse(carrier == "AA", NA, carrier)) %>%
+  mutate(carrier = ifelse(carrier == "AA", NA, carrier)) %>%              # replacing "AA" with `NA`
   ggplot(mapping = aes(x = carrier)) +
-  geom_bar()
+  geom_bar()                                                              # bar chart of a categorical variable
 ```
 We artificially made one carrier `NA`. (Easier than finding a categorical variable with `NA`s already)
+No warning message about missing values, this time, (even though we'd created one : category at far-right on chart)
 
-"Histograms omit missing values, whereas bar charts draw them as a separate category. For continuous
- variables, like in a histogram, there is no meaningful location to draw missing values ... But for
- bar charts, which are used for categorical variables, you could draw them as a distinct bar; ...
- (conventionally it is drawn on the right side). You can override this default to completely remove
- missing values from the chart if you prefer" -- http://cfss.uchicago.edu/r4ds_solutions.html
+"Histograms omit missing values, whereas bar charts draw them as a separate category. For continuous variables, like in a histogram, there is no meaningful location to draw missing values ... But for bar charts, which are used for categorical variables, you could draw them as a distinct bar; ... (conventionally it is drawn on the right side). You can override this default to completely remove missing values from the chart if you prefer" -- http://cfss.uchicago.edu/r4ds_solutions.html
 
+-----------
 
 Q2. What does `na.rm = TRUE` do in `mean()` and `sum()`?
-A2. It removes `NA` values, before calculating the mean and sum
+A2. It removes `NA` values, before calculating the `mean` and `sum`
 
 
 -----------
