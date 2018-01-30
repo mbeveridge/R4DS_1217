@@ -170,7 +170,7 @@ Q1.
 Use what you’ve learned to improve the visualisation of the departure times of cancelled vs. non-cancelled flights
 
 A1.
-This question relates to a visualisation [below] in s7.4 book text :
+This question relates to the visualisation [below] in s7.4 book text :
 ```{r}
 nycflights13::flights %>% 
   mutate(
@@ -184,7 +184,7 @@ nycflights13::flights %>%
 ```
 ...In s7.4, this was followed by : "However this plot isn’t great because there are many more non-cancelled flights than cancelled flights. In the next section [s7.5] we’ll explore some techniques for improving this comparison"...
 
-"density, which is the count standardised so that the area under each frequency polygon is one" :
+[Improved #1of2] : "Instead of displaying count, we'll display _density_, which is the count standardized so that the area under each frequency polygon is one" -- s7.5.1 book text :
 ```{r}
 nycflights13::flights %>% 
   mutate(
@@ -192,12 +192,12 @@ nycflights13::flights %>%
     sched_hour = sched_dep_time %/% 100,
     sched_min = sched_dep_time %% 100,
     sched_dep_time = sched_hour + sched_min / 60
-  ) %>% 
-  ggplot(mapping = aes(x = sched_dep_time, y = ..density..)) + 
-  geom_freqpoly(mapping = aes(colour = cancelled), binwidth = 1/4)
+  ) %>%                                                              # everything above is same as in s7.4
+  ggplot(mapping = aes(x = sched_dep_time, y = ..density..)) +       # `y = ..density..` : added, as in s7.5.1
+  geom_freqpoly(mapping = aes(colour = cancelled), binwidth = 1/4)   # same as in s7.4 (15minute bins)
 ```
 
-boxplot :
+[Improved #2of2] : "Another alternative to display the distribution of a continuous variable broken down by a categorical variable is the boxplot" -- s7.5.1 book text :
 ```{r}
 nycflights13::flights %>% 
   mutate(
@@ -205,7 +205,7 @@ nycflights13::flights %>%
     sched_hour = sched_dep_time %/% 100,
     sched_min = sched_dep_time %% 100,
     sched_dep_time = sched_hour + sched_min / 60
-  ) %>% 
+  ) %>%                                                              # everything above is same as in s7.4
   ggplot(mapping = aes(x = cancelled, y = sched_dep_time)) +
   geom_boxplot()
 ```
@@ -219,11 +219,12 @@ Why does the combination of those two relationships lead to lower quality diamon
 
 A2.
 ```{r}
-? diamonds # price, carat, cut, color, clarity, x, y, z, depth, table
+? diamonds                         # variables are : price, carat, cut, color, clarity, x, y, z, depth, table
 ```
 
+Relationship to `price` :
 ```{r}
-ggplot(data = diamonds, mapping = aes(x = carat, y = price)) +
+ggplot(data = diamonds, mapping = aes(x = carat, y = price)) +   # Plotted a variable v's `price`. This is `carat` 
   geom_point() +
   geom_smooth()
 ```
@@ -231,14 +232,16 @@ ggplot(data = diamonds, mapping = aes(x = carat, y = price)) +
 
 * Assume `carat`/weight is most important for predicting `price`. (Because haven't done stats yet in R4DS)
 
+Relationship to `cut` :
 ```{r}
-ggplot(data = diamonds, mapping = aes(x = cut, y = carat)) +
+ggplot(data = diamonds, mapping = aes(x = cut, y = carat)) +      # s7.5.1 had `y = price`, to raise this question
   geom_boxplot()
 ```
-(Median) average size of Fair & Good cuts is higher than VeryGood & Ideal (and close to Premium).
+(Median) average size of Fair & Good `cut`s is higher than VeryGood & Ideal (and close to Premium).
 
-* We said that `carat` is most important for predicting `price`, so large lower quality diamonds are more
- expensive than small higher quality. And the same might be true on average (?)
+* We said that `carat` is most important for predicting `price`, so the presumed explanation is that [large] lower quality diamonds are more expensive than [small] higher quality
+
+re. "It supports the counterintuitive finding that better quality diamonds are cheaper on average! In the exercises, you’ll be challenged to figure out why" -- s7.5.1 book text
 
 -----------
 
@@ -246,30 +249,27 @@ Q3.
 Install the `ggstance` package, and create a horizontal boxplot.
 How does this compare to using `coord_flip()`?
 
-```{r}
-install.packages("ggstance")                 # Not available in Anaconda Navigator, to install
-library(ggstance)
-```
-
-```{r}
-?ggstance                                    # Showed nothing
-```
-
-s7.5.1 `coord_flip()` :
+A3.
+For comparision, from s7.5.1 book text : `coord_flip()` :
 ```{r}
 ggplot(data = mpg) +
   geom_boxplot(mapping = aes(x = reorder(class, hwy, FUN = median), y = hwy)) +
   coord_flip()
 ```
 
-A3.
+
 ```{r}
-ggplot(data = mpg) +
-  geom_boxploth(mapping = aes(x = hwy, y = reorder(class, hwy, FUN = median)))
+install.packages("ggstance")                 # Not available in Anaconda Navigator, to install
+library(ggstance)
 ```
 
-Output is the same, but the order of x & y is different (and 'right' now). With `coord_flip()`, it
-was the order as if for vertical boxplots
+
+```{r}
+ggplot(data = mpg) +
+  geom_boxploth(mapping = aes(x = hwy, y = reorder(class, hwy, FUN = median))) # `boxploth()`. And `x` & `y` swapped
+```
+
+Output is the same, but the order of `x` & `y` is different (and 'correct' now). With `coord_flip()`, the order inside `aes()` was correct for vertical boxplots
 
 -----------
 
@@ -279,35 +279,36 @@ to display a prohibitively large number of “outlying values”. One approach t
 is the letter value plot. Install the `lvplot` package, and try using `geom_lv()` to display the
 distribution of `price` vs `cut`. What do you learn? How do you interpret the plots?
 
-```{r}
-install.packages("lvplot")                 # Not available in Anaconda Navigator, to install
-library(lvplot)
-```
-
-```{r}
-?lvplot                                    # Showed nothing
-```
-
-s7.5.1 boxplot :
+A4.
+For comparision, from s7.5.1 book text (and shown in A2 [above]) :
 ```{r}
 ggplot(data = diamonds, mapping = aes(x = cut, y = price)) +
   geom_boxplot()
 ```
 
-A4.
+
 ```{r}
-ggplot(data = diamonds, mapping = aes(x = cut, y = price)) +
-  geom_lv()
+install.packages("lvplot")                 # Not available in Anaconda Navigator, to install
+library(lvplot)
 ```
+
+
+```{r}
+ggplot(data = diamonds, mapping = aes(x = cut, y = price)) +      # same as for s7.5.1 book text [above]
+  geom_lv()                                                       # instead of `geom_boxplot()`
+```
+
 "The boxes of the letter-value plot correspond to many more quantiles. They are useful for larger
-datasets because (1) larger datasets can give precise estiamtes of quantiles beyond the quartiles
-(2) in expectation, larger datasets should have many more outliers"
+datasets because :
+
+1. larger datasets can give precise estimates of quantiles beyond the quartiles
+2. in expectation, larger datasets should have many more outliers"
 
 The letter-value plot is described in:
 Heike Hofmann, Karen Kafadar, and Hadley Wickham. 2011. “Letter-value plots: Boxplots for large data”
 http://vita.had.co.nz/papers/letter-value-plot.pdf ...<See: P5, 10-12>
 
--- https://jrnold.github.io/e4qf/exploratory-data-analysis.html#a-categorical-and-continuous-variable
+-- both from https://jrnold.github.io/r4ds-exercise-solutions/exploratory-data-analysis.html#covariation
 
 -----------
 
@@ -318,7 +319,7 @@ What are the pros and cons of each method?
 A5.
 `geom_violin()` :
 ```{r}
-ggplot(data = diamonds, mapping = aes(x = cut, y = price)) +
+ggplot(data = diamonds, mapping = aes(x = cut, y = price)) +      # same as for s7.5.1 book text [above] and A4
   geom_violin() +
   coord_flip()
 ```
@@ -329,17 +330,15 @@ ggplot(data = diamonds, mapping = aes(x = price)) +
   geom_histogram() +
   facet_grid(cut~.)
 ```
-
-The `geom_violin` and faceted `geom_histogram` have similar strengths & weaknesses.
-It's easy to visually distinguish differences in the overall shape of distributions (skewness,
-central values, variance, etc). However, it isn't easy to compare their vertical values
+The `geom_violin` and faceted `geom_histogram` have similar strengths & weaknesses :
+It's easy to visually distinguish differences in the overall shape of distributions (skewness, central values, variance, etc). However, it isn't easy to compare their vertical values
 
 `geom_freqpoly()` ...coloured :
 ```{r}
 ggplot(data = diamonds, mapping = aes(x = price, y = ..density.., colour = cut)) +
   geom_freqpoly()
 ```
-`geom_freqpoly` is better for look-up: given a price, it's easy to tell which cut has highest density.
+`geom_freqpoly` is better for look-up: Given a price, it's easy to tell which cut has highest density.
 However, overlapping lines make it difficult to see how overall distributions compare
 
 (They all depend on tuning parameters to determine the smoothness of the distribution)
@@ -352,12 +351,8 @@ between a continuous and categorical variable. The `ggbeeswarm` package provides
 similar to `geom_jitter()`. List them and briefly describe what each one does
 
 ```{r}
-install.packages("ggbeeswarm") # Not available in Anaconda Navigator, to install
+install.packages("ggbeeswarm")        # Not available in Anaconda Navigator, to install
 library(ggbeeswarm)
-```
-
-```{r}
-?ggbeeswarm
 ```
 
 A6.
@@ -368,9 +363,7 @@ would ordinarily overlap so that they fall next to each other instead
 `ggbeeswarm` provides two different methods to create beeswarm-style plots using `ggplot2`. It does this
 by adding two new ggplot geom objects:
   
-* `geom_quasirandom`: produces plots that resemble something between jitter and violin. There are several
- different methods that determine exactly how the random location of the points is generated.
- (<default>, method="tukey", ="tukeyDense", ="frowney", ="smiley", ="pseudorandom")
+* `geom_quasirandom`: produces plots that resemble something between jitter and violin. There are several different methods that determine exactly how the random location of the points is generated. (<default>, method="tukey", ="tukeyDense", ="frowney", ="smiley", ="pseudorandom")
 
 * `geom_beeswarm`: creates a shape similar to a violin plot, but by offsetting the points
 
