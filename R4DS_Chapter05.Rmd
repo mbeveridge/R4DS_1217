@@ -560,7 +560,9 @@ Refer back to the lists of useful mutate and filtering functions.
 Describe how each operation changes when you combine it with grouping
 
 A1.
-[Not sure which lists (but possibly s5.5.1 and probably s5.6.4) ...eg. `min_rank()`, `rank()`, `n()`, `sum()`]
+[Not sure which lists (but maybe s5.5.1 [creation functions] and s5.6.4 [summary functions]) ...eg. `min_rank()`, `rank()`, `n()`, `sum()`]
+[A5 [below] uses `lag()` in a `mutate()`; A6.1 uses `median()` in a `mutate()`; A6.2 uses `min()` in a `mutate()`; A7 uses `n_distinct()` in a `filter()` (and in a `summarise()`)]
+
 The function operates within each group rather than over the entire data frame.
 eg. `mean()` will calculate the mean within each group
 
@@ -572,8 +574,8 @@ A2.
 ```{r}
 flights %>%                                                  # 336,776 x 19
   group_by(tailnum) %>%                                      # 336,776 x 19
-  summarise(arr_delay = mean(arr_delay, na.rm = TRUE)) %>%   # 4044 x 2 ...`tailnum` and the redefined `arr_delay
-  filter(min_rank(desc(arr_delay)) == 1)                     # 1 x 2    ....taking just the first-ranked out of 4044
+  summarise(arr_delay = mean(arr_delay, na.rm = TRUE)) %>%   # 4044 x 2 ...`tailnum` and the redefined `arr_delay`
+  filter(min_rank(desc(arr_delay)) == 1)                     # 1 x 2    ...taking just the first-ranked out of 4044
 ```
 `tailnum` = N844MH has the highest average `arr_delay` ...320 minutes. (There are other ways we could define 'worst')
 
@@ -602,9 +604,9 @@ Q4.2 For each flight, compute the proportion of the total delay for its destinat
 A4.1
 ```{r}
 flights %>%
-  filter(!is.na(arr_delay), arr_delay > 0) %>%  # 1st condition not really needed. Exclude -ve delays
+  filter(!is.na(arr_delay), arr_delay > 0) %>%        # 1st condition not really needed. Exclude -ve delays
   group_by(dest) %>%
-# mutate(total_delay = sum(arr_delay)) %>%
+# mutate(total_delay = sum(arr_delay)) %>%            # This row not needed. Can do it in `summarise`
   summarise(total_delay = sum(arr_delay)) %>%
   select(dest, total_delay)
 ```
@@ -638,24 +640,24 @@ And for part 2, I did the following, which I think gets us the answer. It’s li
 Create a table of total delays by 'destination' :_
 ```{r}
 total_delay <- flights %>%
-  filter(arr_delay >= 0) %>%                                   # MDAB added
+  filter(arr_delay >= 0) %>%                                     # MDAB added
   group_by(dest) %>%
-  dplyr::summarise(total_delay = sum(arr_delay, na.rm= TRUE))  # define `total_delay`
+  dplyr::summarise(total_delay = sum(arr_delay, na.rm= TRUE))    # define `total_delay`
 ```
 
 _Create a table of total delays by 'FLIGHT' for each destination. [MDAB: flight means 'Flight number', not an individual trip. Could be to multiple destinations] :_
 ```{r}
 flight_delays <- flights %>%
-  filter(arr_delay >= 0) %>%                                   # MDAB added
+  filter(arr_delay >= 0) %>%                                     # MDAB added
   group_by(flight, dest) %>%
-  dplyr::summarise(delay_per = sum(arr_delay, na.rm = TRUE))   # define `delay_per`
+  dplyr::summarise(delay_per = sum(arr_delay, na.rm = TRUE))     # define `delay_per`
 ```
 
 _Join the two tables (on `dest`) and create a 'proportion delay' column :_
 ```{r}
 flight_delays <- flight_delays %>%
   left_join(total_delay,by = "dest") %>%
-  mutate(prop_delay = delay_per / total_delay) %>%             # define `prop_delay
+  mutate(prop_delay = delay_per / total_delay) %>%               # define `prop_delay
   arrange(dest, flight)             # MDAB added, to sort by `dest` first, to see that each `dest` total adds to 1.0
 ```
 
