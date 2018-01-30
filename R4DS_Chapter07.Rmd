@@ -20,47 +20,49 @@ Think about a diamond and how you might decide which dimension is the length, wi
 A1.
 ```{r}
 ggplot(data = diamonds) + 
-  geom_histogram(mapping = aes(x = x), binwidth = 0.5)
+  geom_histogram(mapping = aes(x = x), binwidth = 0.5)         # `x`
 
 ggplot(data = diamonds) + 
   geom_histogram(mapping = aes(x = y), binwidth = 0.5) +
-  coord_cartesian(xlim = c(0, 10))
+  coord_cartesian(xlim = c(0, 10))                             # `y`
 
 ggplot(data = diamonds) + 
   geom_histogram(mapping = aes(x = z), binwidth = 0.5) +
-  coord_cartesian(xlim = c(0, 10))
+  coord_cartesian(xlim = c(0, 10))                             # `z`
 ```
 The distributions are right-skewed, with double peaks. `y` & `z` have a few outliers. `z` is smallest
 average, so I assume is 'depth'. Can't see difference between `x` & `y`, so which is length & width ?
 
 ```{r}
-?diamonds
+?diamonds             # ie. Reading about the dataset tells us what we can't guess : "which is length & width"
 ```
 "Prices of 50,000 round cut diamonds"
 "`x` length in mm (0–10.74), `y` width in mm (0–58.9), `z` depth in mm (0–31.8)"
 
+-----------
 
 Q2.
-Explore the distribution of price. Do you discover anything unusual or surprising?
-(Hint: Carefully think about the binwidth and make sure you try a wide range of values)
+Explore the distribution of `price`. Do you discover anything unusual or surprising?
+(Hint: Carefully think about the `binwidth` and make sure you try a wide range of values)
 
 A2.
 ```{r}
 ggplot (data = diamonds, mapping = aes(x = price)) +
-  geom_histogram()
+  geom_histogram()                                          # No arguments used. `binwidth`=625? ---> 30 bins
 
 ggplot (data = diamonds, mapping = aes(x = price)) +
-  geom_histogram(binwidth = 100)
+  geom_histogram(binwidth = 100)                            # Look at more bins, for 'unusual'. `binwidth`=100
 
 ggplot (filter(diamonds, price < 2000), mapping = aes(x = price)) +
-  geom_histogram(binwidth = 10)
+  geom_histogram(binwidth = 10)                             # Look at even more bins (near the peak and 'zero')
 ```
 
 * "price in US dollars (\$326–\$18,823)"
 * Sharp climb to peak ~$700, then exponential decay, with 'bump' (~$1700 and) at ~$4300
 * Zero diamonds in price band  ~$1460-1540
 
-  
+-----------
+
 Q3.
 How many diamonds are 0.99 carat? How many are 1 carat?
 What do you think is the cause of the difference?
@@ -70,54 +72,49 @@ A3.
 diamonds %>%
   filter(carat >= 0.9, carat <= 1.1) %>%
   count(carat) %>%
-  head(20)
+  head(20)                                          # values in a table. (This row not needed - there are only 20)
 
 ggplot(data = diamonds, mapping = aes(x = carat)) +
   geom_histogram(binwidth = .01) +
-  coord_cartesian(xlim = c(0.9, 1.1))
+  coord_cartesian(xlim = c(0.9, 1.1))               # visualisation (also showing 'what happens next' after 0.99)
 ```
 
 * 23 diamonds are 0.99 carat. 1558 diamonds are 1 carat
-* Diamonds at 1 carat (just 0.01 more, and smallest $increase possible) are disproportionately more
- attractive than 0.99 in 'marketing/label/psychological' terms to the gifter & recipient (demand),
- so more are available to purchase (supply)
+* Diamonds at 1 carat (just 0.01 more, and smallest $increase possible) are disproportionately more attractive than 0.99 in 'marketing/label/psychological' terms to the gifter & recipient (demand), so more are available to purchase (supply)
 
+-----------
 
 Q4.
+
 Compare and contrast `coord_cartesian()` vs `xlim()` or `ylim()` when zooming in on a histogram.
 What happens if you leave `binwidth` unset?
 What happens if you try and zoom so only half a bar shows?
 
 A4.
-The question relates to using them inside `coord_cartesian()` v's using them in `ggplot()`...
+The question relates to using them inside `coord_cartesian()` v's using them directly in `ggplot()`...
 
-* s7.3.3 : `coord_cartesian()` has `xlim` & `ylim` arguments for when you need to zoom into the x-axis.
- `ggplot()` has `xlim()` and `ylim()` functions that work slightly differently: they throw away the
- data outside the limits
+* s7.3.3 book text : `coord_cartesian()` has `xlim` & `ylim` arguments "for when you need to zoom into the x-axis.
+ `ggplot()` also has `xlim()` and `ylim()` functions that work slightly differently: they throw away the
+ data outside the limits"
 
+Comparing a visualisation of each [1of2] :
 ```{r}
 ggplot(data = diamonds, mapping = aes(x = carat)) +
   geom_histogram() +
-  coord_cartesian(xlim = c(0.5, 1.5), ylim = c(1000, 2000))
+  coord_cartesian(xlim = c(0.5, 1.5), ylim = c(1000, 2000))  # Zooming-in using `coord_cartesian()`
 ```
 
-* `coord_cartesian()` simply zooms in on the area specified by the limits. In this example (with binwidth
- unset), 7 of the default 'bins = 30' are visible (as fat 'half' bars)
+* [above] : `coord_cartesian()` simply zooms in on the area specified by the limits. In this example (with `binwidth` unset), 7 of the default 'bins = 30' are visible (as fat 'half' bars). So, "leave `binwidth` unset" results in the original `binwidth` (for the whole dataset) being used; and "zoom so only half a bar shows" is possible
 
-```{r}
-?ylim
-```
-
+Comparing a visualisation of each [2of2] :
 ```{r}
 ggplot(data = diamonds, mapping = aes(x = carat)) +
   geom_histogram() +
   xlim(0.5, 1.5)
-  ylim(1000, 2000)
+  ylim(1000, 2000)                                           # Zooming-in to same place, without `coord_cartesian()`
 ```
 
-* However, the `xlim()` and `ylim()` functions first drop any values outside the limits (the ylim doesn’t
- matter in this case?), then calculates the histogram. So 30 narrow bars are visible at 'full' height
- (but some of the previous counts will now be missing)
+* [above] : However, the `xlim()` and `ylim()` functions first drop any values outside the limits (the `ylim` doesn’t matter in this case?), then calculates the histogram. So 30 narrow bars are visible at 'full' height (but some of the previous counts will now be missing). So, "leave `binwidth` unset" results in smaller `binwidth` being used (as all 30 'default' bins are used); and "zoom so only half a bar shows" is not possible (as y-axis shows the full bar)
 
 
 -----------
