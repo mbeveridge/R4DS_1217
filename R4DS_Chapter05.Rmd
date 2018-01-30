@@ -149,7 +149,7 @@ select(flights, ends_with("_time"), ends_with("_delay")) # though this also give
 select(flights, ends_with("time"), ends_with("delay"), -(starts_with("sched")), -(starts_with("air")))
 select(flights, contains("dep_"), contains("arr_")) # though this also gives `sched_dep_time` and `sched_arr_time`
 select(flights, contains("dep"), contains("arr_"), -(contains("sched")))
-select(flights, matches("^(dep|arr)_(time|delay)$")) # Regex [https://jrnold.github.io/e4qf/data-transformation.html]
+select(flights, matches("^(dep|arr)_(time|delay)$")) # Regex [https://jrnold.github.io/r4ds-exercise-solutions/data-transformation.html#arrange]
 ```
 
 -----------
