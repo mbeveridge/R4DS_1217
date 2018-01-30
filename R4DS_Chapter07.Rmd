@@ -135,6 +135,8 @@ ggplot(data = nycflights13::flights, mapping = aes(x = dep_delay)) +
 "Warning message: Removed 8255 rows containing non-finite values (`stat_bin`)."
 ie. `NA`/'missing' values can't be placed in a particular bin, as their numeric values are unknown. They are removed
 
+"Like R, ggplot2 subscribes to the philosophy that missing values should never silently go missing. It’s not obvious where you should plot missing values, so ggplot2 doesn’t include them in the plot, but it does warn that they’ve been removed" -- s7.4 book text
+
 ```{r}
 ggplot(data = nycflights13::flights, mapping = aes(x = dep_delay)) +
   geom_bar()                                                              # bar chart of the same data
@@ -144,9 +146,9 @@ Same warning as before. But we'd used a continuous variable again (though not bi
 
 ```{r}
 nycflights13::flights %>%
-  mutate(carrier = ifelse(carrier == "AA", NA, carrier)) %>%              # replacing "AA" with `NA`
+  mutate(carrier = ifelse(carrier == "AA", NA, carrier)) %>%        # replacing "AA" with `NA`. [re. s7.4 book text]
   ggplot(mapping = aes(x = carrier)) +
-  geom_bar()                                                              # bar chart of a categorical variable
+  geom_bar()                                                        # bar chart of a categorical variable, instead
 ```
 We artificially made one carrier `NA`. (Easier than finding a categorical variable with `NA`s already)
 No warning message about missing values, this time, (even though we'd created one : category at far-right on chart)
@@ -167,9 +169,8 @@ A2. It removes `NA` values, before calculating the `mean` and `sum`
 Q1.
 Use what you’ve learned to improve the visualisation of the departure times of cancelled vs. non-cancelled flights
 
-
 A1.
-From s7.4 book text :
+This question relates to a visualisation [below] in s7.4 book text :
 ```{r}
 nycflights13::flights %>% 
   mutate(
@@ -181,6 +182,7 @@ nycflights13::flights %>%
   ggplot(mapping = aes(sched_dep_time)) + 
   geom_freqpoly(mapping = aes(colour = cancelled), binwidth = 1/4)
 ```
+...In s7.4, this was followed by : "However this plot isn’t great because there are many more non-cancelled flights than cancelled flights. In the next section [s7.5] we’ll explore some techniques for improving this comparison"...
 
 "density, which is the count standardised so that the area under each frequency polygon is one" :
 ```{r}
@@ -208,6 +210,7 @@ nycflights13::flights %>%
   geom_boxplot()
 ```
 
+-----------
 
 Q2.
 What variable in the `diamonds` dataset is most important for predicting the price of a diamond?
@@ -237,6 +240,7 @@ ggplot(data = diamonds, mapping = aes(x = cut, y = carat)) +
 * We said that `carat` is most important for predicting `price`, so large lower quality diamonds are more
  expensive than small higher quality. And the same might be true on average (?)
 
+-----------
 
 Q3.
 Install the `ggstance` package, and create a horizontal boxplot.
@@ -267,6 +271,7 @@ ggplot(data = mpg) +
 Output is the same, but the order of x & y is different (and 'right' now). With `coord_flip()`, it
 was the order as if for vertical boxplots
 
+-----------
 
 Q4.
 One problem with boxplots is that they were developed in an era of much smaller datasets and tend
@@ -304,6 +309,7 @@ http://vita.had.co.nz/papers/letter-value-plot.pdf ...<See: P5, 10-12>
 
 -- https://jrnold.github.io/e4qf/exploratory-data-analysis.html#a-categorical-and-continuous-variable
 
+-----------
 
 Q5.
 Compare and contrast `geom_violin()` with a facetted `geom_histogram()`, or a coloured `geom_freqpoly()`.
@@ -338,6 +344,7 @@ However, overlapping lines make it difficult to see how overall distributions co
 
 (They all depend on tuning parameters to determine the smoothness of the distribution)
 
+-----------
 
 Q6.
 If you have a small dataset, it’s sometimes useful to use `geom_jitter()` to see the relationship
