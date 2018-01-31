@@ -504,16 +504,15 @@ How does the price distribution of very large diamonds compare to small diamonds
 Is it as you expect, or does it surprise you?
 
 A3.
-From looking at the plots in A2 [above] : small carat values (mostly) sit in specific price bins, but
-v large carats (>3 say) are 'equally' likely to sit in several. For 'v large', other characteristics
+From looking at the plots in A2 [above] : small `carat` values (mostly) sit in specific `price` bins, but
+v large `carat`s (>3 say) are 'equally' likely to sit in several. For 'v large', other characteristics
 might determine which bin (eg. `cut`, `clarity`, `colour`); but it's also true that the sample size is small,
 the market possibly volatile (scarcity), and a $2000 variation proportionally less significant
 
 -----------
 
 Q4.
-Combine two of the techniques you’ve learned to visualise the combined distribution
-of `cut`, `carat`, and `price`
+Combine two of the techniques you’ve learned to visualise the combined distribution of `cut`, `carat`, and `price`
 
 A4.
 There’s lots of options to try -- https://jrnold.github.io/e4qf/exploratory-data-analysis.html#two-continuous-variables
@@ -522,32 +521,29 @@ There’s lots of options to try -- https://jrnold.github.io/e4qf/exploratory-da
 ggplot(diamonds, aes(x = cut_number(carat, 10), y = price, color = cut)) +
   geom_boxplot()
 ```
-Relates to A3 [above]. It shows 'cut' affecting price, and most clearly in the 'largest carat bin'
-...but that includes most diamonds above ~1.5, if we use 'cut_number' (=10 bins)
-...and it mostly just shows that cut=Fair is a step below the other cuts
+Relates to A3 [above]. It shows `cut` affecting price, and most clearly in the 'largest carat bin'
+...but that includes most diamonds above ~1.5, if we use `cut_number=10` bins
+...and it mostly just shows that `cut=Fair` is a step below the other `cut`s
 
 ```{r}
 ggplot(diamonds, aes(x = cut_width(carat, 1, boundary = 0), y = price, color = cut)) +
   geom_boxplot(varwidth = FALSE)
 ```
-Using `cut_width` (=$2000 bins), there is NOT a clear correlation between `cut` and `price`
+Using `cut_width=$2000` bins, there is NOT a clear correlation between `cut` and `price`
 
 -----------
 
 Q5.
-Two dimensional plots reveal outliers that are not visible in one dimensional plots.
-For example, some points in the plot below have an unusual combination of `x` and `y` values, which
-makes the points outliers even though their `x` and `y` values appear normal when examined separately.
+Two-dimensional plots reveal outliers that are not visible in one-dimensional plots. For example, some points in the plot below have an unusual combination of `x` and `y` values, which makes the points outliers even though their `x` and `y` values appear normal when examined separately.
 
 ```{r}
 ggplot(data = diamonds) +
   geom_point(mapping = aes(x = x, y = y)) +
   coord_cartesian(xlim = c(4, 11), ylim = c(4, 11))
 ```
+
 Why is a scatterplot a better display than a binned plot for this case?
 
 A5.
-Most data points are along a tight line (which is clear). We are interested in the outliers, and
-whether they reveal more insight/ pattern/ error. By aggregating/binning the (few) outliers, we'd lose
-detail of how much they disagree with the main data, and whether they have clusters
+Most data points are along a tight line (which is clear). We are interested in the outliers, and whether they reveal more insight/ pattern/ error. By aggregating/binning the (few) outliers, we'd lose detail of how much they disagree with the main data, and whether they have clusters
 
