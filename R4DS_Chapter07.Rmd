@@ -219,7 +219,7 @@ Why does the combination of those two relationships lead to lower quality diamon
 
 A2.
 ```{r}
-? diamonds                         # variables are : price, carat, cut, color, clarity, x, y, z, depth, table
+? diamonds           # variables are : `price`, `carat`, `cut`, `color`, `clarity`, `x`, `y`, `z`, `depth`, `table`
 ```
 
 Relationship to `price` :
@@ -246,7 +246,7 @@ re. "It supports the counterintuitive finding that better quality diamonds are c
 -----------
 
 Q3.
-Install the `ggstance` package, and create a horizontal boxplot.
+Install the **ggstance** package, and create a horizontal boxplot.
 How does this compare to using `coord_flip()`?
 
 A3.
@@ -276,7 +276,7 @@ Output is the same, but the order of `x` & `y` is different (and 'correct' now).
 Q4.
 One problem with boxplots is that they were developed in an era of much smaller datasets and tend
 to display a prohibitively large number of “outlying values”. One approach to remedy this problem
-is the letter value plot. Install the `lvplot` package, and try using `geom_lv()` to display the
+is the letter value plot. Install the **lvplot** package, and try using `geom_lv()` to display the
 distribution of `price` vs `cut`. What do you learn? How do you interpret the plots?
 
 A4.
@@ -347,7 +347,7 @@ However, overlapping lines make it difficult to see how overall distributions co
 
 Q6.
 If you have a small dataset, it’s sometimes useful to use `geom_jitter()` to see the relationship
-between a continuous and categorical variable. The `ggbeeswarm` package provides a number of methods
+between a continuous and categorical variable. The **ggbeeswarm** package provides a number of methods
 similar to `geom_jitter()`. List them and briefly describe what each one does
 
 ```{r}
@@ -356,16 +356,16 @@ library(ggbeeswarm)
 ```
 
 A6.
-https://github.com/eclarke/ggbeeswarm
-Beeswarm plots (aka column scatter plots or violin scatter plots) are a way of plotting points that
-would ordinarily overlap so that they fall next to each other instead
+https://github.com/eclarke/ggbeeswarm :
+"Beeswarm plots (aka column scatter plots or violin scatter plots) are a way of plotting points that
+would ordinarily overlap so that they fall next to each other instead. In addition to reducing overplotting, it helps visualize the density of the data at each point (similar to a violin plot), while still showing each data point individually.
 
 `ggbeeswarm` provides two different methods to create beeswarm-style plots using `ggplot2`. It does this
-by adding two new ggplot geom objects:
+by adding two new ggplot geom objects" :
   
-* `geom_quasirandom`: produces plots that resemble something between jitter and violin. There are several different methods that determine exactly how the random location of the points is generated. (<default>, method="tukey", ="tukeyDense", ="frowney", ="smiley", ="pseudorandom")
+* [`geom_quasirandom`]: produces plots that resemble something between jitter and violin. There are several different methods that determine exactly how the random location of the points is generated. (<default>, `method="tukey"`, `="tukeyDense"`, `="frowney"`, `="smiley"`, `="pseudorandom"`)
 
-* `geom_beeswarm`: creates a shape similar to a violin plot, but by offsetting the points
+* [`geom_beeswarm`]: creates a shape similar to a violin plot, but by offsetting the points
 
 
 -----------
@@ -374,35 +374,35 @@ by adding two new ggplot geom objects:
 ### 7.5.2.1 Exercises
 
 Q1.
-How could you rescale the count dataset above to more clearly show the distribution of cut within colour, or colour within cut?
+How could you rescale the `count` dataset above to more clearly show the distribution of cut within colour, or colour within cut?
 
-s7.5.2
+A1.
+This question relates to the visualisation [below] in s7.5.2 book text :
 ```{r}
 diamonds %>% 
-  count(color, cut) %>%  
+  count(color, cut) %>%                          # this part would create a 3-column table : (`color`, `cut`, `n`)
   ggplot(mapping = aes(x = color, y = cut)) +
   geom_tile(mapping = aes(fill = n))
 ```
 
-A1.
-"To clearly show the distribution of cut within color, calculate a new variable 'prop' which is the
-proportion of each cut within a color. This is done using a grouped mutate"
+"To clearly show the distribution of cut within color, calculate a new variable `prop` which is the
+proportion of each cut within a color. This is done using a grouped mutate" -- https://jrnold.github.io/r4ds-exercise-solutions/exploratory-data-analysis.html#two-categorical-variables
 
-* distribution of cut within colour
+[Rescale #1of2] : distribution of cut within colour :
 ```{r}
 diamonds %>% 
-  count(color, cut) %>%
-  group_by(color) %>%                           # Note: group_by() ...sum() of each group is 1
-  mutate(prop = n / sum(n)) %>%                 # Note: calculate proportion ...n/sum(n)
-  ggplot(mapping = aes(x = color, y = cut)) +
-  geom_tile(mapping = aes(fill = prop))         # Note: fill = prop ...instead of count
+  count(color, cut) %>%                         # same as for s7.5.2 book text [above]
+  group_by(color) %>%                           # `group_by()` ...`prop`. Each column totals to 1
+  mutate(prop = n / sum(n)) %>%                 # define proportion ...`n/sum(n)`
+  ggplot(mapping = aes(x = color, y = cut)) +   # same as for 27.5.2 book text [above]
+  geom_tile(mapping = aes(fill = prop))         # `fill = prop` ...instead of `count`
 ```
 
-* distribution of colour within cut
+[Rescale #2of2] : distribution of colour within cut. (Only the `group_by()` argument changes) :
 ```{r}
 diamonds %>% 
   count(color, cut) %>%
-  group_by(cut) %>%                           # Note: group_by() ...cut. Each row totals to 1
+  group_by(cut) %>%                             # `group_by()` ...`prop`. Each row totals to 1
   mutate(prop = n / sum(n)) %>%
   ggplot(mapping = aes(x = color, y = cut)) +
   geom_tile(mapping = aes(fill = prop))
@@ -411,7 +411,7 @@ diamonds %>%
 -----------
 
 Q2.
-Use `geom_tile()` together with `dplyr` to explore how average flight delays vary by destination
+Use `geom_tile()` together with **dplyr** to explore how average flight delays vary by destination
 and month of year. What makes the plot difficult to read? How could you improve it?
 
 A2.
@@ -429,7 +429,7 @@ Several things could be done to improve it :
 1. sort destinations by a meaningful quantity (distance, number of flights, average delay)
 2. remove missing values (airports which don’t have at least one flight each month from NYC)
 3. better color scheme (viridis)
-https://jrnold.github.io/e4qf/exploratory-data-analysis.html#two-categorical-variables
+-- https://jrnold.github.io/e4qf/exploratory-data-analysis.html#two-categorical-variables
 
 -----------
 
@@ -438,9 +438,9 @@ Why is it slightly better to use `aes(x = color, y = cut)` rather than `aes(x = 
 in the example above?
 
 A3.
-Labels for 'color' are single letters (D, E, F, etc), so no overlapping if they're on x-axis
-(though in this case, there are few enough categories that there is no overlapping anyway).
-Another possibility is that it shows the plot colours in the same order as in legend ...(`group_by(color)`)
+
+* Labels for `color` are single letters (D, E, F, etc), so no overlapping if they're on x-axis (though in this case, there are few enough categories that there is no overlapping anyway).
+* Another possibility is that it shows the plot colours in the same order as in legend ...(`group_by(color)`)
 
 
 -----------
