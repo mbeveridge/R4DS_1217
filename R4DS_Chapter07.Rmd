@@ -429,7 +429,7 @@ Several things could be done to improve it :
 2. remove missing values (ie. destinations without at least one flight each month) to increase y-axis space
 3. better colour scheme (eg. viridis), to use a wider colour range
 4. smaller font size and/or longer axis
--- based on https://jrnold.github.io/e4qf/exploratory-data-analysis.html#two-categorical-variables
+-- based on https://jrnold.github.io/r4ds-exercise-solutions/exploratory-data-analysis.html#two-categorical-variables
 
 -----------
 
@@ -454,46 +454,50 @@ What do you need to consider when using `cut_width()` vs `cut_number()`?
 How does that impact a visualisation of the 2d distribution of `carat` and `price`?
 
 A1.
-`cut_width(x, width)` divides `x` into bins of width `width`.
-(...Can make boxplot width proportional to the number of points with `varwidth = TRUE`.)
-`cut_number()` displays approximately the same number of points in each bin
+`cut_width(x, width)` divides `x` into bins of width `width`. (Can make boxplot width proportional to the number of points with `varwidth = TRUE`) -- s7.5.3 book text
+`cut_number()` displays approximately the same number of points in each bin -- s7.5.3 book text
 
-* Using `cut_width`, the number in each bin may be unequal. 'carat' is right skewed so there are few diamonds in those bins <colours>
+* Using `cut_width`, the number in each bin may be unequal. Here, `carat` is right-skewed, so there are few diamonds in those bins (ie. colours) :
 ```{r}
-ggplot(data = diamonds, mapping = aes(x = price, colour = cut_width(carat, 0.3))) + geom_freqpoly()
+ggplot(data = diamonds, mapping = aes(x = price, colour = cut_width(carat, 0.3))) +
+  geom_freqpoly()
 ```
 
-* Plotting the density instead of counts will make the distributions comparable <same area>, although the bins with few observations will still be hard to interpret
+* Plotting `density`, instead of `count`, makes the distributions comparable (same area). (But bins with few observations are still hard to interpret) :
 ```{r}
-ggplot(data = diamonds, mapping = aes(x = price, y = ..density.., colour = cut_width(carat, 0.3))) + geom_freqpoly()
+ggplot(data = diamonds, mapping = aes(x = price, y = ..density.., colour = cut_width(carat, 0.3))) +
+  geom_freqpoly()
 ```
 
-* <Using `cut_number` is easy to interpret in this case>
+* However, using `cut_number` (instead of `cut_width`) makes the visualisation easy to interpret in this case :
 ```{r}
-ggplot(data = diamonds, mapping = aes(x = price, colour = cut_number(carat, 10))) + geom_freqpoly()
+ggplot(data = diamonds, mapping = aes(x = price, colour = cut_number(carat, 10))) +
+  geom_freqpoly()
 ```
 
-(And shape would remains the same if '..density..' was used)
-https://jrnold.github.io/e4qf/exploratory-data-analysis.html#two-continuous-variables
+(And shape would remain the same if `..density..` was used instead of `count`)
+-- based on https://jrnold.github.io/r4ds-exercise-solutions/exploratory-data-analysis.html#two-continuous-variables
 
+-----------
 
-Q2. Visualise the distribution of carat, partitioned by price
+Q2. Visualise the distribution of `carat`, partitioned by `price`
 
 A2.
-eg. `cut_number` : 10 bins with the same number of observations
+eg. `cut_number` : 10 bins with the same number of observations :
 ```{r}
 ggplot(diamonds, aes(x = cut_number(price, 10), y = carat)) +
   geom_boxplot() +
   coord_flip()
 ```
 
-eg. `cut_width` : bins of $2,000; box width related to number of observations. (`boundary = 0` ensures first bin is $0–$2,000)
+eg. `cut_width` : bins of $2,000; box width related to number of observations. (`boundary = 0` ensures first bin is $0–$2,000) :
 ```{r}
 ggplot(diamonds, aes(x = cut_width(price, 2000, boundary = 0), y = carat)) +
   geom_boxplot(varwidth = TRUE) +
   coord_flip()
 ```
 
+-----------
 
 Q3.
 How does the price distribution of very large diamonds compare to small diamonds.
@@ -502,13 +506,14 @@ Is it as you expect, or does it surprise you?
 A3.
 From looking at the plots in A2 [above] : small carat values (mostly) sit in specific price bins, but
 v large carats (>3 say) are 'equally' likely to sit in several. For 'v large', other characteristics
-might determine which bin (eg. cut, clarity, colour); but it's also true that the sample size is small,
+might determine which bin (eg. `cut`, `clarity`, `colour`); but it's also true that the sample size is small,
 the market possibly volatile (scarcity), and a $2000 variation proportionally less significant
 
+-----------
 
 Q4.
 Combine two of the techniques you’ve learned to visualise the combined distribution
-of `cut`, `carat`, and `price`.
+of `cut`, `carat`, and `price`
 
 A4.
 There’s lots of options to try -- https://jrnold.github.io/e4qf/exploratory-data-analysis.html#two-continuous-variables
@@ -525,13 +530,14 @@ Relates to A3 [above]. It shows 'cut' affecting price, and most clearly in the '
 ggplot(diamonds, aes(x = cut_width(carat, 1, boundary = 0), y = price, color = cut)) +
   geom_boxplot(varwidth = FALSE)
 ```
-Using `cut_width` (=$2000 bins), there is NOT a clear correlation between 'cut' and price
+Using `cut_width` (=$2000 bins), there is NOT a clear correlation between `cut` and `price`
 
+-----------
 
 Q5.
 Two dimensional plots reveal outliers that are not visible in one dimensional plots.
-For example, some points in the plot below have an unusual combination of x and y values, which
-makes the points outliers even though their x and y values appear normal when examined separately.
+For example, some points in the plot below have an unusual combination of `x` and `y` values, which
+makes the points outliers even though their `x` and `y` values appear normal when examined separately.
 
 ```{r}
 ggplot(data = diamonds) +
@@ -544,3 +550,4 @@ A5.
 Most data points are along a tight line (which is clear). We are interested in the outliers, and
 whether they reveal more insight/ pattern/ error. By aggregating/binning the (few) outliers, we'd lose
 detail of how much they disagree with the main data, and whether they have clusters
+
