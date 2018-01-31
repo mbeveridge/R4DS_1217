@@ -411,36 +411,36 @@ diamonds %>%
 -----------
 
 Q2.
-Use `geom_tile()` together with **dplyr** to explore how average flight delays vary by destination
-and month of year. What makes the plot difficult to read? How could you improve it?
+Use `geom_tile()` together with **dplyr** to explore how average flight delays vary by destination and month of year. What makes the plot difficult to read? How could you improve it?
 
 A2.
 ```{r}
 library(nycflights13)
 
 nycflights13::flights %>%
-  group_by(month, dest) %>%      # Note: without this, got respective'object not found' errors from aes()
+  group_by(month, dest) %>%                                # without both, get respective 'object not found' errors
   summarise(dep_delay = mean(dep_delay, na.rm = TRUE)) %>%
-  ggplot(mapping = aes(x = factor(month), y = dest, fill = dep_delay)) +  # Note: factor(month) for integers on axis
+  ggplot(mapping = aes(x = factor(month), y = dest, fill = dep_delay)) + # `factor(month)` displays integers on axis
   geom_tile()
 ```
 
 Several things could be done to improve it :
-1. sort destinations by a meaningful quantity (distance, number of flights, average delay)
-2. remove missing values (airports which don’t have at least one flight each month from NYC)
-3. better color scheme (viridis)
--- https://jrnold.github.io/e4qf/exploratory-data-analysis.html#two-categorical-variables
+1. sort `dest`, by a meaningful quantity (eg. distance, number of flights, average delay), to understand patterns
+2. remove missing values (ie. destinations without at least one flight each month) to increase y-axis space
+3. better colour scheme (eg. viridis), to use a wider colour range
+4. smaller font size and/or longer axis
+-- based on https://jrnold.github.io/e4qf/exploratory-data-analysis.html#two-categorical-variables
 
 -----------
 
 Q3.
 Why is it slightly better to use `aes(x = color, y = cut)` rather than `aes(x = cut, y = color)`
-in the example above?
+in the example above [in s7.5.2 book text]?
 
 A3.
 
 * Labels for `color` are single letters (D, E, F, etc), so no overlapping if they're on x-axis (though in this case, there are few enough categories that there is no overlapping anyway).
-* Another possibility is that it shows the plot colours in the same order as in legend ...(`group_by(color)`)
+* Another possibility is that (in this case) it shows the plot colours in a similar order to the legend (darker at bottom), which might make it easier to understand/remember
 
 
 -----------
