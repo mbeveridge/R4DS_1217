@@ -374,8 +374,7 @@ by adding two new ggplot geom objects:
 ### 7.5.2.1 Exercises
 
 Q1.
-How could you rescale the count dataset above to more clearly show the distribution of cut
-within colour, or colour within cut?
+How could you rescale the count dataset above to more clearly show the distribution of cut within colour, or colour within cut?
 
 s7.5.2
 ```{r}
@@ -409,6 +408,7 @@ diamonds %>%
   geom_tile(mapping = aes(fill = prop))
 ```
 
+-----------
 
 Q2.
 Use `geom_tile()` together with `dplyr` to explore how average flight delays vary by destination
@@ -431,6 +431,7 @@ Several things could be done to improve it :
 3. better color scheme (viridis)
 https://jrnold.github.io/e4qf/exploratory-data-analysis.html#two-categorical-variables
 
+-----------
 
 Q3.
 Why is it slightly better to use `aes(x = color, y = cut)` rather than `aes(x = cut, y = color)`
@@ -442,6 +443,7 @@ Labels for 'color' are single letters (D, E, F, etc), so no overlapping if they'
 Another possibility is that it shows the plot colours in the same order as in legend ...(`group_by(color)`)
 
 
+-----------
 
 ## 7. "Exploratory Data Analysis" [Chapter 5 hardcopy]
 ### 7.5.3.1 Exercises
