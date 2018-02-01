@@ -483,14 +483,15 @@ ggplot(data = diamonds, mapping = aes(x = price, colour = cut_number(carat, 10))
 Q2. Visualise the distribution of `carat`, partitioned by `price`
 
 A2.
-eg. `cut_number` : 10 bins with the same number of observations :
+[This is instead of `price` partitioned by `carat`, that was in A1]
+Using `cut_number` : 10 bins with the same number of observations in each :
 ```{r}
 ggplot(diamonds, aes(x = cut_number(price, 10), y = carat)) +
   geom_boxplot() +
   coord_flip()
 ```
 
-eg. `cut_width` : bins of $2,000; box width related to number of observations. (`boundary = 0` ensures first bin is $0–$2,000) :
+Using `cut_width` : bins of \$2,000; `varwidth = TRUE` makes box width related to number of observations; (`boundary = 0` ensures first bin is \$0–$2,000) :
 ```{r}
 ggplot(diamonds, aes(x = cut_width(price, 2000, boundary = 0), y = carat)) +
   geom_boxplot(varwidth = TRUE) +
@@ -504,10 +505,10 @@ How does the price distribution of very large diamonds compare to small diamonds
 Is it as you expect, or does it surprise you?
 
 A3.
-From looking at the plots in A2 [above] : small `carat` values (mostly) sit in specific `price` bins, but
+From looking at the two plots in A2 [above] : small `carat` values (mostly) sit in specific `price` bins, but
 v large `carat`s (>3 say) are 'equally' likely to sit in several. For 'v large', other characteristics
-might determine which bin (eg. `cut`, `clarity`, `colour`); but it's also true that the sample size is small,
-the market possibly volatile (scarcity), and a $2000 variation proportionally less significant
+might determine which bin (eg. `cut`, `clarity`, `colour`); but it's also true that their sample size is small,
+their market possibly volatile (scarcity), and a $2000 variation proportionally less significant for them
 
 -----------
 
@@ -515,21 +516,26 @@ Q4.
 Combine two of the techniques you’ve learned to visualise the combined distribution of `cut`, `carat`, and `price`
 
 A4.
-There’s lots of options to try -- https://jrnold.github.io/e4qf/exploratory-data-analysis.html#two-continuous-variables
+There’s lots of options to try -- cf. https://jrnold.github.io/r4ds-exercise-solutions/exploratory-data-analysis.html#two-continuous-variables
 
+Similar to the `cut_number` plot in s7.5.3, but also using `colour` to show each `cut` separately
 ```{r}
-ggplot(diamonds, aes(x = cut_number(carat, 10), y = price, color = cut)) +
+ggplot(diamonds, aes(x = cut_number(carat, 10), y = price, colour = cut)) +
   geom_boxplot()
 ```
-Relates to A3 [above]. It shows `cut` affecting price, and most clearly in the 'largest carat bin'
-...but that includes most diamonds above ~1.5, if we use `cut_number=10` bins
-...and it mostly just shows that `cut=Fair` is a step below the other `cut`s
+[Remember that in A3 [above] we said "For 'v large', other characteristics might determine which bin (eg. `cut`, `clarity`, `colour`)"]. This plot shows that for the 'larger' carats (towards the right-side of the plot) :
 
+* `cut` affects `price`, and most clearly in the 'largest carat bin'
+* 'largest carat bin' contains all the diamonds above ~1.5, which isn't a helpful aggregation (re. 'v large')
+* regarding `cut`, we can 'usually' say `cut=Fair` is a 'step' in price lower (but otherwise things vary!)
+
+
+Using `cut_width(carat)` to look for effect of `cut` on `price` for 'v large' (not all aggregated into one '>1.51 carat' bin) :
 ```{r}
 ggplot(diamonds, aes(x = cut_width(carat, 1, boundary = 0), y = price, color = cut)) +
   geom_boxplot(varwidth = FALSE)
 ```
-Using `cut_width=$2000` bins, there is NOT a clear correlation between `cut` and `price`
+(PS. Using `cut_width=$2000` bins, there was NOT a clear correlation between `cut` and `price` ...cf. the second of the A2 plots)
 
 -----------
 
@@ -545,5 +551,5 @@ ggplot(data = diamonds) +
 Why is a scatterplot a better display than a binned plot for this case?
 
 A5.
-Most data points are along a tight line (which is clear). We are interested in the outliers, and whether they reveal more insight/ pattern/ error. By aggregating/binning the (few) outliers, we'd lose detail of how much they disagree with the main data, and whether they have clusters
+Most data points are along a tight line (which is clear). We are interested in the outliers, and whether they reveal more insight/ pattern/ error. If (instead) we aggregated/binned the (few) outliers, we'd lose detail of how much they disagree with the main data, and whether they have clusters
 
