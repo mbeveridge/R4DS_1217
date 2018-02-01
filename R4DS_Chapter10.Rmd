@@ -87,30 +87,30 @@ annoying <- tibble(
 A4.
 "It’s possible for a tibble to have column names that are not valid R variable names, aka 'non-syntactic' names. For example, they might not start with a letter, or they might contain unusual characters like a space. To refer to these variables, you need to surround them with backticks, `" -- s10.2 R4DS book
 
-A4.1
+A4.1 [Why do those without backticks work? And why doesn't the 2nd one work?] :
 ```{r}
 annoying$`1`           # OK
-annoying[[`1`]]        # not ok ...??
-annoying$"1"           # OK ...?
-annoying[["1"]]        # OK ...?
+annoying[[`1`]]        # not ok ...WHY?? ...<Error in `[[.tbl_df`(annoying, `1`) : object '1' not found>
+annoying$"1"           # OK ...Why?
+annoying[["1"]]        # OK ...Why?
 ```
 
 A4.2
 ```{r}
-ggplot(annoying, aes(`1`,`2`)) + geom_point()
+ggplot(annoying, aes(`2`,`1`)) + geom_point()      # Conventional order is `y` vs `x`. So assume `aes(x=`2`, y=`1`)`
 ```
 
 A4.3
 "To use these in a pipe, you’ll need to use the special placeholder ." -- s10.3.2 R4DS book
 ```{r}
-(annoying %>% mutate(`3` = `2`/`1`)) # The above comment does NOT seem to apply here - I'm not subsetting
+(annoying %>% mutate(`3` = `2`/`1`))    # Above comment does NOT apply here - not subsetting (so no leading ` or $)
 ```
 
-A4.4
+A4.4 [Renaming the columns to `one`, `two` and `three`] :
 ```{r}
 (annoying %>%
-    mutate(`3` = `2`/`1`) %>%
-    rename(one = `1`, two = `2`, three = `3`))
+    mutate(`3` = `2`/`1`) %>%                     # Upto here is same as for A4.3
+    rename(one = `1`, two = `2`, three = `3`))    # Met `rename()` in s5.4 of R4DS book ..."a variant of `select()`"
 ```
 
 -----------
@@ -121,10 +121,10 @@ A5.
 ```{r}
 ?tibble::enframe()
 ```
+"`enframe()` converts named atomic vectors or lists to two-column data frames" (with names and values) -- Help
 
-"`enframe()` converts named atomic vectors or lists to two-column data frames" (with names and values).
 "You might use it if you have data stored in a named vector and you want to add it to a data frame and preserve both the name attribute and the actual value" -- http://cfss.uchicago.edu/r4ds_solutions.html
-
+eg.
 ```{r}
 enframe(c(a = 1, b = 2, c = 3))
 ```
@@ -134,19 +134,24 @@ enframe(c(a = 1, b = 2, c = 3))
 Q6. What option controls how many additional column names are printed at the footer of a tibble?
 
 A6.
+[Note: This answer is relevant if an R script was run. But from an RMarkdown blob, just scroll across for other columns - there is no footer]
+
+
 "you can explicitly `print()` the data frame and control the number of rows (`n`) and the width of the display. `width = Inf` will display all columns" -- s10.3.1 R4DS book
 So, the number of columns displayed will affect how many (others) are printed at the footer
-
+eg.
 ```{r}
 nycflights13::flights %>% print(n = 10, width = 80)    # `width` in characters (not qty of columns)
 ```
 
-`n_extra` : columns to print abbreviated information for, if the width is too small for the entire tibble.
-If NULL, the default, it will print information about at most `tibble.max_extra_cols` extra columns
+
+`n_extra` : columns to print abbreviated information for, if the width is too small for the entire tibble. If NULL, the default, it will print information about at most `tibble.max_extra_cols` extra columns
+eg.
 ```{r}
 getOption("tibble.max_extra_cols")                     # Tells current value of `tibble.max_extra_cols`
 options(tibble.max_extra_cols = 100)                   # Set to 100
 ```
+
 
 "You can also control the default print behaviour by setting options: ...
 Use `options(tibble.width = Inf)` to always print all columns, regardless of the width of the screen" -- s10.3.1 R4DS book
