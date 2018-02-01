@@ -22,9 +22,7 @@ print(mtcars)
 print(as_tibble(mtcars))
 ```
 
-"Tibbles have a refined print method that shows only the first 10 rows, and all the columns that fit
-on screen. This makes it much easier to work with large data. In addition to its name, each column
-reports its type, a nice feature borrowed from `str()`" -- s10.3.1 book text
+"Tibbles have a refined print method that shows only the first 10 rows, and all the columns that fit on screen. This makes it much easier to work with large data. In addition to its name, each column reports its type, a nice feature borrowed from `str()`" -- s10.3.1 R4DS book
 
 -----------
 
@@ -42,22 +40,22 @@ df[, c("abc", "xyz")]                    # Q2.3
 A2.
 ```{r}
 dftibb <- as_tibble(data.frame(abc = 1, xyz = "a"))
-dftibb$x                                 # Q2.1
-dftibb[, "xyz"]                          # Q2.2
-dftibb[, c("abc", "xyz")]                # Q2.3
+dftibb$x                                 # A2.1
+dftibb[, "xyz"]                          # A2.2
+dftibb[, c("abc", "xyz")]                # A2.3
 ```
 
-"Compared to a `data.frame`, tibbles are more strict: they never do partial matching, and they will
-generate a warning if the column you are trying to access does not exist" -- s10.3.2 book text
+A2.1
+"Compared to a `data.frame`, tibbles are more strict: they never do partial matching, and they will generate a warning if the column you are trying to access does not exist" -- s10.3.2 R4DS book
 
-So for Q2.1, the tibble says "Unknown or uninitialised column: 'x'", but the `data.frame` finds 'xyz'.
-This saves keystrokes, but might return (the value of) a 'wrong'/unintended variable
+So the tibble says "Unknown or uninitialised column: 'x'". But the `data.frame` finds `xyz`.
+Frustration: This saves keystrokes, but might return (the value of) a 'wrong'/unintended variable
 
-"With base R data frames, [ sometimes returns a data frame, and sometimes returns a vector <if 1 col>.
-With tibbles, [ always returns another tibble" -- s10.4 book text
+A2.2 & A2.3
+"With base R data frames, `[` sometimes returns a data frame, and sometimes returns a vector <if 1 col>. With tibbles, `[` always returns another tibble" -- s10.4 R4DS book
 
-So for Q2.2 & # Q2.3 the tibble returns a tibble. The `data.frame` returns a vector & `data.frame`
-Output able to be either vector or `data.frame` means code acting on it has to determine which (else error)
+So the tibble returns a tibble (1x1 & 1x2). The `data.frame` returns a vector (because 1 col) & `data.frame` (1x2).
+Frustration: Output able to be either vector or `data.frame` means code acting on it has to determine which (else error)
 
 -----------
 
@@ -67,7 +65,7 @@ If you have the name of a variable stored in an object, e.g. `var <- "mpg"`, how
 A3.
 You can use the double bracket, like `df[[var]]`.
 You can't use the dollar sign, because `df$var` would look for a column named `var`
--- https://jrnold.github.io/e4qf/tibbles.html#exercises-12
+-- https://jrnold.github.io/r4ds-exercise-solutions/tibbles.html#exercises-13
 
 -----------
 
@@ -87,9 +85,7 @@ annoying <- tibble(
 ```
 
 A4.
-It’s possible for a tibble to have column names that are not valid R variable names, aka 'non-syntactic'
-names. For example, they might not start with a letter, or they might contain unusual characters like
-a space. To refer to these variables, you need to surround them with backticks, ` -- s10.2 book text
+"It’s possible for a tibble to have column names that are not valid R variable names, aka 'non-syntactic' names. For example, they might not start with a letter, or they might contain unusual characters like a space. To refer to these variables, you need to surround them with backticks, `" -- s10.2 R4DS book
 
 A4.1
 ```{r}
@@ -105,7 +101,7 @@ ggplot(annoying, aes(`1`,`2`)) + geom_point()
 ```
 
 A4.3
-"To use these in a pipe, you’ll need to use the special placeholder ." -- s10.3.2
+"To use these in a pipe, you’ll need to use the special placeholder ." -- s10.3.2 R4DS book
 ```{r}
 (annoying %>% mutate(`3` = `2`/`1`)) # The above comment does NOT seem to apply here - I'm not subsetting
 ```
@@ -138,7 +134,7 @@ enframe(c(a = 1, b = 2, c = 3))
 Q6. What option controls how many additional column names are printed at the footer of a tibble?
 
 A6.
-"you can explicitly `print()` the data frame and control the number of rows (`n`) and the width of the display. `width = Inf` will display all columns" -- s10.3.1 book text
+"you can explicitly `print()` the data frame and control the number of rows (`n`) and the width of the display. `width = Inf` will display all columns" -- s10.3.1 R4DS book
 So, the number of columns displayed will affect how many (others) are printed at the footer
 
 ```{r}
@@ -153,6 +149,6 @@ options(tibble.max_extra_cols = 100)                   # Set to 100
 ```
 
 "You can also control the default print behaviour by setting options: ...
-Use `options(tibble.width = Inf)` to always print all columns, regardless of the width of the screen" -- s10.3.1 book text
+Use `options(tibble.width = Inf)` to always print all columns, regardless of the width of the screen" -- s10.3.1 R4DS book
 
 
