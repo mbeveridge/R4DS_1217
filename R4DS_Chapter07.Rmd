@@ -528,6 +528,7 @@ ggplot(diamonds, aes(x = cut_number(carat, 10), y = price, colour = cut)) +
 * `cut` affects `price`, and most clearly in the 'largest carat bin'
 * 'largest carat bin' contains all the diamonds above ~1.5, which isn't a helpful aggregation (re. 'v large')
 * regarding `cut`, we can 'usually' say `cut=Fair` is a 'step' in price lower (but otherwise things vary!)
+* [PS. s7.6 book text shows a boxplot after using **modelr**, from which "you can see what you expect in the relationship between cut and price: relative to their size, better quality diamonds are more expensive"]
 
 
 Using `cut_width(carat)` to look for effect of `cut` on `price` for 'v large' (not all aggregated into one '>1.51 carat' bin) :
@@ -535,7 +536,7 @@ Using `cut_width(carat)` to look for effect of `cut` on `price` for 'v large' (n
 ggplot(diamonds, aes(x = cut_width(carat, 1, boundary = 0), y = price, color = cut)) +
   geom_boxplot(varwidth = FALSE)
 ```
-(PS. Using `cut_width=$2000` bins, there was NOT a clear correlation between `cut` and `price` ...cf. the second of the A2 plots)
+[PS. Using `cut_width=$2000` bins, there was NOT a clear correlation between `cut` and `price` ...cf. the second of the A2 plots]
 
 -----------
 
