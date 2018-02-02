@@ -224,12 +224,12 @@ What do the `extra` and `fill` arguments do in `separate()`?
 Experiment with the various options for the following two toy datasets.
 ```{r}
 tibble(x = c("a,b,c", "d,e,f,g", "h,i,j")) %>% 
-  separate(x, c("one", "two", "three")) # ---> "Warning message: Too many values at 1 locations: 2". 3x3 tibble
+  separate(x, c("one", "two", "three"))          # "Warning message: Too many values at 1 locations: 2". 3x3 tibble
 ```
 
 ```{r}
 tibble(x = c("a,b,c", "d,e", "f,g,i")) %>% 
-  separate(x, c("one", "two", "three")) # ---> "Warning message: Too few values at 1 locations: 2". 3x3 tibble
+  separate(x, c("one", "two", "three"))          # "Warning message: Too few values at 1 locations: 2". 3x3 tibble
 ```
 
 A1.
@@ -239,35 +239,40 @@ A1.
 ```
 
 `extra` : controls what happens when there are too many pieces. Three valid options:
-*        `warn` (the default): emit a warning and drop extra values.
-*        `drop`: drop any extra values without a warning.
-*        `merge`: only splits at most 'length(into)' times
+
+* `warn` (the default): emit a warning and drop extra values.
+* `drop`: drop any extra values without a warning.
+* `merge`: only splits at most 'length(into)' times
 
 ```{r}
 tibble(x = c("a,b,c", "d,e,f,g", "h,i,j")) %>% 
   separate(x, c("one", "two", "three"), extra = "merge") # ---> extra values not split, so “f,g” is in col "three" row 2
 ```
 
+
 `fill` :  controls what happens when there are not enough pieces. Three valid options:
-*         `warn` (the default): emit a warning and fill from the right.
-*         `right`: fill with missing values on the right.
-*         `left`: fill with missing values on the left
+
+* `warn` (the default): emit a warning and fill from the right.
+* `right`: fill with missing values on the right.
+* `left`: fill with missing values on the left
 
 ```{r}
 tibble(x = c("a,b,c", "d,e", "f,g,i")) %>% 
   separate(x, c("one", "two", "three"), fill = "left") # ---> col “one” has the <NA>, instead of col "three" (row 2)
 ```
 
+-----------
 
-Q2. Both `unite()` and `separate()` have a remove argument. What does it do? Why would you set it to `FALSE`?
+Q2. Both `unite()` and `separate()` have a `remove` argument. What does it do? Why would you set it to `FALSE`?
 
 A2.
 ```{r}
-?unite # "If TRUE, remove input columns from output data frame"
-?separate # "If TRUE, remove input column from output data frame"
+?unite        # "If TRUE, remove input columns from output data frame"
+?separate     # "If TRUE, remove input column from output data frame"
 ```
-You would set it to `FALSE` if you want to *also* keep the old column(s)
+You would set it to `FALSE` if you want to **also** keep the old column(s)
 
+-----------
 
 Q3.
 Compare and contrast `separate()` and `extract()`.
@@ -278,17 +283,17 @@ A3.
 ?extract
 ```
 "Given a regular expression with capturing groups, `extract()` turns each group into a new column.
-If the groups don't match, or the input is NA, the output will be NA"
--- Help
+If the groups don't match, or the input is `NA`, the output will be `NA`" -- Help
 
-`extract()` uses a regular expression to find *groups* and split into columns.
+`extract()` uses a regular expression to find **groups** and split into columns.
 `separate()` : relation is one:many (cols), multiple ways to split the string. Each of 3 might be most useful tool for it.
-`unite()` : relation is many:one (cols). Once cols are specified, there is only one way, (only choice is the 'sep')
+`unite()` : relation is many:one (cols). Once cols are specified, there is only one way, (only choice is the `sep`)
 -- based on https://jrnold.github.io/e4qf/tidy-data.html#exercises-15
 
-NOTE : Still not sure about how extract() works, nor how it does/not differ from separate()
+NOTE : Still not sure about how `extract()` works, nor how it does/not differ from `separate()`
 
 
+-----------
 
 ## 12. "Tidy data" [Chapter 9 hardcopy]
 ### 12.5.1 Exercises
@@ -300,9 +305,10 @@ Q1. Compare and contrast the `fill` arguments to `spread()` and `complete()`
 ```
 
 A1.
-`spread()` :  `fill` sets the value. ("missing values [both explicit & implicit] will be replaced with this value")
+`spread()` : `fill` sets the value. ("missing values [both explicit & implicit] will be replaced with this value")
 `complete()` : `fill` sets a value from a named list. ("for each variable supplies a single value") [implicit & explicit missing values]
 
+-----------
 
 Q2. What does the `direction` argument to `fill()` do?
 ```{r}
@@ -314,6 +320,7 @@ A2.
 ...ie. Replace with the most recent non-missing value ("down") or the next non-missing value ("up")
 
 
+-----------
 
 ## 12. "Tidy data" [Chapter 9 hardcopy]
 ### 12.6.1 Exercises
