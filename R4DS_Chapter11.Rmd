@@ -1,8 +1,8 @@
 ---
 title: "Chapter11"
 output:
-  github_document: default
   html_notebook: default
+  github_document: default
 ---
 
 ```{r}
@@ -14,6 +14,7 @@ library(tidyverse)
 ### 11.2.2 Exercises
 
 Q1. What function would you use to read a file where fields were separated with “|”?
+
 A1. `read_delim()` "reads in files with any delimiter" -- s11.2 R4DS book
 ```{r}
 ?read_delim
@@ -23,19 +24,19 @@ read_delim(file, delim = "|")
 -----------
 
 Q2. Apart from `file`, `skip`, and `comment`, what other arguments do `read_csv()` and `read_tsv()` have in common?
+
+A2.
 ```{r}
 ?read_csv
 ?read_tsv
 ```
-
-A2.
 `col_names = TRUE`, `col_types = NULL`, `locale = default_locale()`, `na = c("", "NA")`, `quoted_na = TRUE`,
 `quote = "\""`, `trim_ws = TRUE`, `n_max = Inf`, `guess_max = min(1000, n_max)`, `progress = show_progress()`
 
 https://jrnold.github.io/r4ds-exercise-solutions/data-import.html#exercises-14 :
 
 * `col_names` and `col_types` are used to specify the column names and how to parse the columns.
-* `locale` is important for determining things like the enecoding and whether “.” or “,” is used as a decimal mark.
+* `locale` is important for determining things like the enecoding and whether `.` or `,` is used as a decimal mark.
 * `na` and `quoted_na` control which strings are treated as missing values when parsing vectors.
 * <`quote` is ?>
 * `trim_ws` trims whitespace before and after cells before parsing.
@@ -52,8 +53,7 @@ Q3. What are the most important arguments to `read_fwf()`?
 
 
 A3.
-`read_fwf()` reads fixed width files.
-Most important argument is `col_positions`, which tells the function where data columns begin and end
+`read_fwf()` reads fixed width files. Most important argument is `col_positions`, which tells the function where data columns begin and end
 
 Related (s11.2 R4DS book) :
 "You can specify fields either by their widths with `fwf_widths()` or their position with `fwf_positions()`"
@@ -92,22 +92,22 @@ read_csv("a;b\n1;3")             # Q5.5
 
 A5.
 A5.1
-Row1 has two positions, rows2&3 have three positions. Created 2x2 tibble (with no 3 or 6).
-"Only two columns are specified in the header “a” and “b”, but the rows have three columns, so the last column in dropped" -- https://jrnold.github.io/r4ds-exercise-solutions/data-import.html#exercises-14
+Row1 has two positions, rows2&3 have three positions. Created 2x2 tibble (with no `3` or `6`).
+"Only two columns are specified in the header `a` and `b`, but the rows have three columns, so the last column is dropped" -- https://jrnold.github.io/r4ds-exercise-solutions/data-import.html#exercises-14
 
 A5.2
-Row1 has three positions, row2 two positions, row3 four positions. Created 2x3 tibble (NA, no 4).
-"The numbers of columns in the data do not match the number of columns in the header (three). In row one, there are only two values, so column c is set to missing. In row two, there is an extra value, and that value is dropped" -- https://jrnold.github.io/r4ds-exercise-solutions/data-import.html#exercises-14
+Row1 has three positions, row2 two positions, row3 four positions. Created 2x3 tibble (`NA`, no `4`).
+"The numbers of columns in the data do not match the number of columns in the header (three). In row one, there are only two values, so column `c` is set to missing. In row two, there is an extra value, and that value is dropped" -- https://jrnold.github.io/r4ds-exercise-solutions/data-import.html#exercises-14
 
 A5.3
-Row1 has two positions, row2 has \"1. Created 1x2 tibble (with 1 in first position, NA in second)
+Row1 has two positions, row2 has \"1. Created 1x2 tibble (with `1` in first position, `NA` in second)
 
 A5.4
 Looks like it will complete ok. But odd to put a number and letter in same column. Created 2x2 tibble.
-"Both `a` and `b` are treated as character vectors since they contain non-numeric strings""
+"Both `a` and `b` are treated as character vectors since they contain non-numeric strings"
 
 A5.5
-Uses ; [`read_csv2` uses ; as a delimiter instead of ,]. Created 1x1 tibble
+Uses `;` [`read_csv2` uses `;` as a delimiter instead of `,`]. Created 1x1 tibble
 
 
 -----------
@@ -116,17 +116,17 @@ Uses ; [`read_csv2` uses ; as a delimiter instead of ,]. Created 1x1 tibble
 ### 11.3.5 Exercises
 
 Q1. What are the most important arguments to `locale()`?
+
+A1.
 ```{r}
 ?locale
 ```
-
-A1.
 "When parsing numbers, the most important option is the character you use for the decimal mark. You can override the default value of . by creating a new locale and setting the decimal_mark argument" -- s11.3.1 R4DS book
 
-The locale broadly controls the following:
+The `locale` broadly controls the following:
 
 * date and time formats: [`date_names`, `date_format`, and `time_format`]
-* time_zone: [`tz`]
+* time zone: [`tz`]
 * numbers: [`decimal_mark`, `grouping_mark`]
 * encoding: [`encoding`]
 -- https://jrnold.github.io/r4ds-exercise-solutions/data-import.html#exercises-15
@@ -180,13 +180,9 @@ Unless a format argument is specified "`parse_date()` uses the `date_format` spe
 -----------
 
 Q4.
-If you live outside the US, create a new locale object that encapsulates the settings for the types of file you read most commonly.
+If you live outside the US, create a new `locale` object that encapsulates the settings for the types of file you read most commonly.
 
 A4.
-```{r}
-?locale
-```
-
 ```{r}
 locale(date_names = "en", date_format = "%d/%m/%y", time_format = "%AT",
        decimal_mark = ".", grouping_mark = ",", tz = "UTC",
