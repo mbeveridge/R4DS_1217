@@ -20,12 +20,15 @@ A1.
 ?table1
 ```
 
-s12.2 Tidy data : "Each dataset shows the same values of four variables country, year, population, and cases"
-* `table1`:     TIDY: Each variable has its own column. Each observation has its own row. By 'country', by 'year'
-* `table2`: NOT TIDY: 2 rows per observation : 'cases' & 'population' are rows in 'type' column, instead of their own cols
-* `table3`: NOT TIDY: 'cases' & 'population' are combined in 'rate' column (ie. Each value doesn't have its own cell)
-* `table4`: NOT TIDY: 2 observations per row : '1999' & '2000' cols, instead of 'year'. 2 tables for 'cases' & 'population'
+s12.2 Tidy data :
+"Each dataset shows the same values of four variables `country`, `year`, `population`, and `cases`" :
 
+* `table1`:     TIDY: Each variable has its own column. Each observation has its own row. By `country`, by `year`
+* `table2`: NOT TIDY: 2 rows per observation : `cases` & `population` are rows in `type` column, instead of their own cols
+* `table3`: NOT TIDY: `cases` & `population` are combined in `rate` column (ie. Each value doesn't have its own cell)
+* `table4`: NOT TIDY: 2 observations per row : `1999` & `2000` cols, instead of `year`. 2 tables for `cases` & `population`
+
+-----------
 
 Q2.
 Compute the rate for table2, and table4a + table4b. You will need to perform four operations:
@@ -42,14 +45,14 @@ s5.4 Select columns with `select()` : "`select()` allows you to rapidly zoom in 
 s10.3.2 Subsetting : "If you want to pull out a single variable, you need some new tools, `$` and `[[`"
 s10.4 Interacting with older code : "We don’t use `[` much in this book because `dplyr::filter()` and `dplyr::select()` allow you to solve the same problems with clearer code"
 
-TABLE2 failed attempt - thinking it would be easy
+TABLE2 failed attempt - thinking it would be easy :
 ```{r}
 cases <- table2 %>% filter(type == "cases")
 population <- table2 %>% filter(type == "population")
 rate <- cases / population # FAIL : "Error in FUN(left, right) : non-numeric argument to binary operator"
 ```
 
-TABLE2 building a tibble up from pieces. Assumes initial 4 rows for each country, all sorted
+TABLE2 building a tibble up from pieces. Assumes initial 4 rows for each country, all sorted :
 ```{r}
 cases <- filter(table2, type == "cases")$count
 population <- filter(table2, type == "population")$count
@@ -63,7 +66,7 @@ table2_new <- tibble(country = country,
 table2_new
 ```
 
-TABLE4 building a tibble up from pieces. Assumes `table4a` & `table4b` are the same length, and sorted in the same order
+TABLE4 building a tibble up from pieces. Assumes `table4a` & `table4b` are the same length, and sorted in the same order :
 ```{r}
 table4_new <- tibble(country = table4a$country,
        `1999` = table4a$`1999` / table4b$`1999` * 10000,
@@ -71,17 +74,18 @@ table4_new <- tibble(country = table4a$country,
 table4_new
 ```
 
-As seen in s12.2, the easiest to work with is `table1`. (It is TIDY.) Doesn't need filtering and adds to existing tibble
+As seen in s12.2, the easiest to work with is `table1`. (It is TIDY.) Doesn't need filtering and adds to existing tibble :
 ```{r}
 table1 %>% 
   mutate(rate = cases / population * 10000)
 ```
 
+-----------
 
 Q3. Recreate the plot showing change in cases over time using `table2` instead of `table1`. What do you need to do first?
 
 A3.
-Replacing 'table1' with 'table2_new'. (No other changes made)
+Replacing `table1` with `table2_new`. (No other changes made)
 ```{r}
 # Compute cases per year
 table2_new %>% 
@@ -91,10 +95,10 @@ table2_new %>%
   geom_line(aes(group = country), colour = "grey50") + 
   geom_point(aes(colour = country))
 ```
-This gave the same results as with table1 (which is same data, so ok). But seems too easy, (and the first 2 lines
+This gave the same results as with `table1` (which is same data, so ok). But seems too easy, (and the first 2 lines
 aren't even needed), so probably not what Q meant
 
-Starting with table2 (instead of table2_new). Need to filter the "cases" rows, and use "count" column on y-axis
+Starting with `table2` (instead of `table2_new`). Need to filter the `cases` rows, and use `count` column on y-axis
 ```{r}
 table2 %>% 
   filter(type == "cases") %>%
@@ -104,8 +108,7 @@ table2 %>%
 ```
 
 
-
-
+-----------
 
 ## 12. "Tidy data" [Chapter 9 hardcopy]
 ### 12.3.3 Exercises
@@ -148,6 +151,7 @@ stocks %>%
 ..."Use `convert = TRUE` to produce variables of mixed type".
 In example above `year` ends up converted to `<int>` (it started as `<dbl>`, and would have become `<chr>`)
 
+-----------
 
 Q2.
 Why does this code fail?
@@ -163,6 +167,7 @@ them in backticks" -- s12.3.1
 "The tidyverse functions will interpret 1999 and 2000 without quotes as looking for the 1999th and 2000th column
 of the data frame" -- https://jrnold.github.io/e4qf/tidy-data.html#exercises-15
 
+-----------
 
 Q3.
 Why does spreading this tibble fail? How could you add a new column to fix the problem?
@@ -188,6 +193,7 @@ Spreading fails because rows 1 & 3 both have “age” for “Phillip Woods”
 To fix could add a new column, where rows 1 & 3 have different values for a new categorical variable (eg. person who
 collected the data?), to distinguish them. In this example the spread tibble will have `NA` for `height`
 
+-----------
 
 Q4.
 Tidy the simple tibble below. Do you need to spread or gather it? What are the variables?
@@ -207,6 +213,7 @@ preg %>%
 ```
 
 
+-----------
 
 ## 12. "Tidy data" [Chapter 9 hardcopy]
 ### 12.4.3 Exercises
