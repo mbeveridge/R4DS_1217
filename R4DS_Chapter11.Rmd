@@ -163,17 +163,15 @@ I didn’t discuss the `date_format` and `time_format` options to `locale()`. Wh
 Construct an example that shows when they might be useful.
 
 A3.
-```{r}
-?locale
-```
-"Default date and time formats"
+`date_format` and `time_format` are the "default date and time formats" -- Help
 
-Unless a format argument is specified "`parse_date()` uses the `date_format` specified by the `locale()`"
-"`parse_time()` uses the `time_format` specified by the `locale()`"
-"In most cases, you will need to supply a format"
--- http://readr.tidyverse.org/articles/readr.html
+http://readr.tidyverse.org/articles/readr.html :
 
-"Locales also provide default date and time formats. The time format isn’t currently used for anything, but the date format is used when guessing column types" -- https://cran.r-project.org/web/packages/readr/vignettes/locales.html
+* Unless a format argument is specified "`parse_date()` uses the `date_format` specified by the `locale()`" and "`parse_time()` uses the `time_format` specified by the `locale()`"
+* "In most cases, you will need to supply a format"
+
+https://cran.r-project.org/web/packages/readr/vignettes/locales.html :
+"Locales also provide default date and time formats. The time format isn’t currently used for anything, but the date format is used when guessing column types"
 
 -----------
 
