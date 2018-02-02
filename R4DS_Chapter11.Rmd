@@ -168,7 +168,7 @@ A3.
 http://readr.tidyverse.org/articles/readr.html :
 
 * Unless a format argument is specified "`parse_date()` uses the `date_format` specified by the `locale()`" and "`parse_time()` uses the `time_format` specified by the `locale()`"
-* "In most cases, you will need to supply a format"
+* "In most cases, you will need to supply a format". [eg. See Q7, below]
 
 https://cran.r-project.org/web/packages/readr/vignettes/locales.html :
 "Locales also provide default date and time formats. The time format isn’t currently used for anything, but the date format is used when guessing column types"
@@ -217,11 +217,11 @@ t2 <- "11:15:10.12 PM"                          # Q7.7
 A7.
 Using codes from section "11.3.4 Dates, date-times, and times" of R4DS book :
 ```{r}
-parse_date(d1, "%B %d, %Y")                     # A7.1
-parse_date(d2, "%Y-%b-%d")                      # A7.2
+parse_date(d1, "%B %d, %Y")                     # A7.1 : (full name, “January”) (2 digits), (4 digits)
+parse_date(d2, "%Y-%b-%d")                      # A7.2 : (4 digits)-(abbreviated name, like “Jan”)-(2 digits)
 parse_date(d3, "%d-%b-%Y")                      # A7.3
 parse_date(d4, "%B %d (%Y)")                    # A7.4
-parse_date(d5, "%m/%d/%y")                      # A7.5
-parse_time(t1, "%H%M")                          # A7.6
-parse_time(t2, "%I:%M:%OS %p")                  # A7.7
+parse_date(d5, "%m/%d/%y")                      # A7.5 : (2 digits)/(2 digits)/(2 digits)
+parse_time(t1, "%H%M")                          # A7.6 : (0-23 hour)(minutes)
+parse_time(t2, "%I:%M:%OS %p")                  # A7.7 : (0-12):(minutes):(real seconds) (AM/PM indicator)
 ```
