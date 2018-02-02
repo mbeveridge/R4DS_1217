@@ -117,17 +117,17 @@ Q1. What are the most important arguments to `locale()`?
 
 A1.
 ```{r}
-?locale
+?locale        # "A locale object tries to capture all the defaults that can vary between countries" -- Help
 ```
-"When parsing numbers, the most important option is the character you use for the decimal mark. You can override the default value of . by creating a new locale and setting the decimal_mark argument" -- s11.3.1 R4DS book
+"When parsing numbers, the most important option is the character you use for the decimal mark. You can override the default value of `.` by creating a new locale and setting the `decimal_mark` argument" -- s11.3.1 R4DS book
 
-The `locale` broadly controls the following:
+https://jrnold.github.io/r4ds-exercise-solutions/data-import.html#parsing-a-vector :
+"The `locale` broadly controls the following:
 
 * date and time formats: [`date_names`, `date_format`, and `time_format`]
 * time zone: [`tz`]
 * numbers: [`decimal_mark`, `grouping_mark`]
-* encoding: [`encoding`]
--- https://jrnold.github.io/r4ds-exercise-solutions/data-import.html#exercises-15
+* encoding: [`encoding`] "
 
 -----------
 
