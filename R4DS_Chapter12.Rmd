@@ -328,11 +328,12 @@ A2.
 Q1.
 In this case study I set `na.rm = TRUE` just to make it easier to check that we had the correct values.
 Is this reasonable? Think about how missing values are represented in this dataset. Are there implicit missing values?
-What’s the difference between an NA and zero?
+What’s the difference between an `NA` and zero?
 
 A1.
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+-----------
 
 Q2.
 What happens if you neglect the `mutate()` step? (`mutate(key = stringr::str_replace(key, "newrel", "new_rel"))`)
@@ -340,6 +341,7 @@ What happens if you neglect the `mutate()` step? (`mutate(key = stringr::str_rep
 A2.
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+-----------
 
 Q3.
 I claimed that `iso2` and `iso3` were redundant with `country`. Confirm this claim
@@ -347,9 +349,11 @@ I claimed that `iso2` and `iso3` were redundant with `country`. Confirm this cla
 A3.
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+-----------
 
 Q4.
 For each country, year, and sex compute the total number of cases of TB. Make an informative visualisation of the data
 
 A4.
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
