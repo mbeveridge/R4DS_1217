@@ -20,64 +20,70 @@ A1.
 ?table1
 ```
 
-s12.2 Tidy data :
-"Each dataset shows the same values of four variables `country`, `year`, `population`, and `cases`" :
+s12.2 "Tidy data" :
+"Each dataset shows the same values of four variables `country`, `year`, `population`, and `cases`, but each dataset organises the values in a different way" :
 
-* `table1`:     TIDY: Each variable has its own column. Each observation has its own row. By `country`, by `year`
-* `table2`: NOT TIDY: 2 rows per observation : `cases` & `population` are rows in `type` column, instead of their own cols
-* `table3`: NOT TIDY: `cases` & `population` are combined in `rate` column (ie. Each value doesn't have its own cell)
-* `table4`: NOT TIDY: 2 observations per row : `1999` & `2000` cols, instead of `year`. 2 tables for `cases` & `population`
+* `table1`:     TIDY: Each variable has its own column. Each observation has its own row. (By `country`, by `year`)
+* `table2`: NOT TIDY: 2 rows per observation : `cases` & `population` are rows in `type` column, instead of being their own cols
+* `table3`: NOT TIDY: `cases` & `population` are combined in `rate` column, instead of having their own cols, (so each value doesn't have its own cell, either)
+* `table4`: NOT TIDY: 2 observations per row : `1999` & `2000` are cols, instead of being in a `year` column. (There are actually 2 tables, for `cases` & `population` ...`table4a` & `table4b`)
 
 -----------
 
 Q2.
-Compute the rate for table2, and table4a + table4b. You will need to perform four operations:
+Compute the `rate` for `table2`, and `table4a` + `table4b`. You will need to perform four operations:
+
 1. Extract the number of TB cases per country per year
 2. Extract the matching population per country per year
 3. Divide cases by population, and multiply by 10000
 4. Store back in the appropriate place
-
 Which representation is easiest to work with? Which is hardest? Why?
 
 A2.
-s5.2 Filter rows with `filter()` : "`filter()` allows you to subset observations based on their values"
-s5.4 Select columns with `select()` : "`select()` allows you to rapidly zoom in on a useful subset"
-s10.3.2 Subsetting : "If you want to pull out a single variable, you need some new tools, `$` and `[[`"
-s10.4 Interacting with older code : "We don’t use `[` much in this book because `dplyr::filter()` and `dplyr::select()` allow you to solve the same problems with clearer code"
+Some notes, from previous chapters, about where we met the `filter()` and `$` used below (for TABLE2 and TABLE4) :
+
+* [s5.2 Filter rows with `filter()`] : "`filter()` allows you to subset observations based on their values"
+* [s5.4 Select columns with `select()`] : "`select()` allows you to rapidly zoom in on a useful subset"
+* [s10.3.2 Subsetting] : "If you want to pull out a single variable, you need some new tools, `$` and `[[`"
+* [s10.4 Interacting with older code] : "We don’t use `[` much in this book because `dplyr::filter()` and `dplyr::select()` allow you to solve the same problems with clearer code"
+
 
 TABLE2 failed attempt - thinking it would be easy :
 ```{r}
-cases <- table2 %>% filter(type == "cases")
-population <- table2 %>% filter(type == "population")
-rate <- cases / population # FAIL : "Error in FUN(left, right) : non-numeric argument to binary operator"
+cases <- table2 %>% filter(type == "cases")                  # 1.
+population <- table2 %>% filter(type == "population")        # 2.
+rate <- cases / population                                   # 3.
+# FAIL : "Error in FUN(left, right) : non-numeric argument to binary operator"
 ```
 
 TABLE2 building a tibble up from pieces. Assumes initial 4 rows for each country, all sorted :
 ```{r}
-cases <- filter(table2, type == "cases")$count
-population <- filter(table2, type == "population")$count
+cases <- filter(table2, type == "cases")$count               # 1.
+population <- filter(table2, type == "population")$count     # 2.
 country <- filter(table2, type == "cases")$country
 year <- filter(table2, type == "cases")$year
 table2_new <- tibble(country = country,
                         year = year,
                        cases = cases,
                   population = population,
-                        rate = cases / population * 10000)
+                        rate = cases / population * 10000)   # 3., 4.
 table2_new
 ```
+
 
 TABLE4 building a tibble up from pieces. Assumes `table4a` & `table4b` are the same length, and sorted in the same order :
 ```{r}
 table4_new <- tibble(country = table4a$country,
-       `1999` = table4a$`1999` / table4b$`1999` * 10000,
-       `2000` = table4a$`2000` / table4b$`2000` * 10000)
+       `1999` = table4a$`1999` / table4b$`1999` * 10000,     # 3.
+       `2000` = table4a$`2000` / table4b$`2000` * 10000)     # 3., 4.
 table4_new
 ```
+
 
 As seen in s12.2, the easiest to work with is `table1`. (It is TIDY.) Doesn't need filtering and adds to existing tibble :
 ```{r}
 table1 %>% 
-  mutate(rate = cases / population * 10000)
+  mutate(rate = cases / population * 10000)                  # 3.,4.
 ```
 
 -----------
@@ -85,7 +91,8 @@ table1 %>%
 Q3. Recreate the plot showing change in cases over time using `table2` instead of `table1`. What do you need to do first?
 
 A3.
-Replacing `table1` with `table2_new`. (No other changes made)
+[Question is referring to the example at the end of s12.2, that used `table1`]
+Replacing `table1` with `table2_new`. (No other changes made) :
 ```{r}
 # Compute cases per year
 table2_new %>% 
@@ -95,16 +102,15 @@ table2_new %>%
   geom_line(aes(group = country), colour = "grey50") + 
   geom_point(aes(colour = country))
 ```
-This gave the same results as with `table1` (which is same data, so ok). But seems too easy, (and the first 2 lines
-aren't even needed), so probably not what Q meant
+This gave the same results as with `table1` (which is same data, so ok). But it seems too easy, (and the first 2 lines aren't even needed), so probably not what the Q meant
 
-Starting with `table2` (instead of `table2_new`). Need to filter the `cases` rows, and use `count` column on y-axis
+Trying again, starting with `table2` (not `table2_new`). Need to filter the `cases` rows, and use `count` column on the y-axis :
 ```{r}
 table2 %>% 
   filter(type == "cases") %>%
   ggplot(aes(year, count)) + 
-  geom_line(aes(group = country), colour = "grey50") + 
-  geom_point(aes(colour = country))
+  geom_line(aes(group = country), colour = "grey50") +          # same as before
+  geom_point(aes(colour = country))                             # same as before
 ```
 
 
