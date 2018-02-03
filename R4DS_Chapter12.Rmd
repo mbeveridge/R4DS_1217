@@ -33,9 +33,9 @@ s12.2 "Tidy data" :
 Q2.
 Compute the `rate` for `table2`, and `table4a` + `table4b`. You will need to perform four operations:
 
-1. Extract the number of TB cases per country per year
-2. Extract the matching population per country per year
-3. Divide cases by population, and multiply by 10000
+1. Extract the number of TB cases per country per year       # cases
+2. Extract the matching population per country per year      # population
+3. Divide cases by population, and multiply by 10000         # rate
 4. Store back in the appropriate place
 Which representation is easiest to work with? Which is hardest? Why?
 
@@ -58,29 +58,29 @@ rate <- cases / population                                   # 3.
 
 TABLE2 building a tibble up from pieces. Assumes initial 4 rows for each country, all sorted :
 ```{r}
-cases <- filter(table2, type == "cases")$count               # 1.
-population <- filter(table2, type == "population")$count     # 2.
-country <- filter(table2, type == "cases")$country
-year <- filter(table2, type == "cases")$year
+cases <- filter(table2, type == "cases")$count               # 1. ...This time, take only the relevant column
+population <- filter(table2, type == "population")$count     # 2. ...This time, take only the relevant column
+country <- filter(table2, type == "cases")$country           #    ...`filter()` by one `type`, either one
+year <- filter(table2, type == "cases")$year                 #    ...`filter()` by one `type`, either one
 table2_new <- tibble(country = country,
                         year = year,
                        cases = cases,
                   population = population,
-                        rate = cases / population * 10000)   # 3., 4.
+                        rate = cases / population * 10000)   # 3., 4. ...`rate` to answer the Q, rest for future use
 table2_new
 ```
 
 
 TABLE4 building a tibble up from pieces. Assumes `table4a` & `table4b` are the same length, and sorted in the same order :
 ```{r}
-table4_new <- tibble(country = table4a$country,
+table4_new <- tibble(country = table4a$country,              #    ...`country` from one table, either one
        `1999` = table4a$`1999` / table4b$`1999` * 10000,     # 3.
-       `2000` = table4a$`2000` / table4b$`2000` * 10000)     # 3., 4.
+       `2000` = table4a$`2000` / table4b$`2000` * 10000)     # 3., 4. ...`rate` answers the Q. But no tidy dataset
 table4_new
 ```
 
 
-As seen in s12.2, the easiest to work with is `table1`. (It is TIDY.) Doesn't need filtering and adds to existing tibble :
+`table1` is the easiest representation to work with (as seen in s12.2). (It is TIDY.) Doesn't need filtering and `rate` just adds another column to existing tibble :
 ```{r}
 table1 %>% 
   mutate(rate = cases / population * 10000)                  # 3.,4.
@@ -91,8 +91,8 @@ table1 %>%
 Q3. Recreate the plot showing change in cases over time using `table2` instead of `table1`. What do you need to do first?
 
 A3.
-[Question is referring to the example at the end of s12.2, that used `table1`]
-Replacing `table1` with `table2_new`. (No other changes made) :
+[Question is referring to an example at the end of s12.2, that used `table1`]
+Replacing `table1` with `table2_new` in the code. (No other changes made) :
 ```{r}
 # Compute cases per year
 table2_new %>% 
@@ -102,9 +102,9 @@ table2_new %>%
   geom_line(aes(group = country), colour = "grey50") + 
   geom_point(aes(colour = country))
 ```
-This gave the same results as with `table1` (which is same data, so ok). But it seems too easy, (and the first 2 lines aren't even needed), so probably not what the Q meant
+This gave the same results as with `table1` (which is same data, so ok). But it seems too easy, (and the first 2 lines aren't even needed for the plot), so probably not what the Q meant
 
-Trying again, starting with `table2` (not `table2_new`). Need to filter the `cases` rows, and use `count` column on the y-axis :
+Trying again, starting with `table2` (not `table2_new`). So can't simply use `aes(year, cases)`. Need to filter to use just the `cases` rows, and use `count` column on the y-axis :
 ```{r}
 table2 %>% 
   filter(type == "cases") %>%
