@@ -131,22 +131,23 @@ stocks <- tibble(
 stocks %>% 
   spread(year, return) %>% 
   gather("year", "return", `2015`:`2016`)
+# key = "year", value = "cases" ...and columns to gather are at the end (v's at start, in s12.3 teaching)
 ```
 (Hint: look at the variable types and think about column _names_.)
 
 Both `spread()` and `gather()` have a `convert` argument. What does it do?
 
 A1.
-In the example, the `stocks` tibble is created with 3 columns : `year`, `half`, `return`. Doing `spread()` and then `gather()` one may expect to return to the same tibble ...but `year` began as type `<dbl>` and is now of type `<chr>`
-...(And columns are now ordered `half`, `year`, `return`)
+The `stocks` tibble is created with 3 columns : `year`, `half`, `return`. Doing `spread()` [displays `half`, `2015`, `2016` columns] and then `gather()` [displays `half`, `year`, `return`] one may expect to return ('symmetrical') to the original tibble ...but `year` began as type `<dbl>` and is now of type `<chr>` ...(And column order differs)
 
-`gather()` will convert numeric variable names to strings ...(And cols not involved in the spread/gather 'move left')
+'Why?' : `gather()` will convert numeric variable names to strings ...(And columns not involved in the spread/gather 'move left')
 
 ```{r}
 ?spread
 ?gather
 ```
 
+Repeating, but this time with a `convert` argument :
 ```{r}
 stocks %>% 
   spread(year, return) %>%
@@ -155,28 +156,27 @@ stocks %>%
 `convert=TRUE` will change a variable's class from `<chr>` to numeric/integer/logical, if it was that before the `gather()`.
 (Doesn't work for factor or date.) 'Help' reads similarly for `spread()`, but I think its use is more nuanced/complicated
 ..."Use `convert = TRUE` to produce variables of mixed type".
-In example above `year` ends up converted to `<int>` (it started as `<dbl>`, and would have become `<chr>`)
+In example above `year` ends up converted to `<int>`. (It started as `<dbl>`, and would have become `<chr>`)
 
 -----------
 
 Q2.
-Why does this code fail?
+Why does this code fail? :
 ```{r}
 table4a %>% 
   gather(1999, 2000, key = "year", value = "cases")
 ```
 
 A2.
-"Error in combine_vars(vars, ind_list) : Position must be between 0 and n" -- error message
-"Note that “1999” and “2000” are non-syntactic names (because they don’t start with a letter) so we have to surround
-them in backticks" -- s12.3.1 R4DS book
-"The tidyverse functions will interpret `1999` and `2000` without quotes as looking for the 1999th and 2000th column
-of the data frame" -- https://jrnold.github.io/r4ds-exercise-solutions/tidy-data.html#spreading-and-gathering
+"Error in `inds_combine(.vars, ind_list)` : Position must be between 0 and n" -- error message
+
+* "Note that “1999” and “2000” are non-syntactic names (because they don’t start with a letter) so we have to surround them in backticks" -- s12.3.1 R4DS book
+* "The tidyverse functions will interpret `1999` and `2000` without quotes as looking for the 1999th and 2000th column of the data frame" -- https://jrnold.github.io/r4ds-exercise-solutions/tidy-data.html#spreading-and-gathering
 
 -----------
 
 Q3.
-Why does spreading this tibble fail? How could you add a new column to fix the problem?
+Why does spreading this tibble fail? How could you add a new column to fix the problem? :
 ```{r}
 people <- tribble(
   ~name,             ~key,    ~value,
@@ -195,8 +195,9 @@ people
 spread(people, key = key, value = value)
 ```
 "Error: Duplicate identifiers for rows (1, 3)" -- error message
-Spreading fails because rows 1 & 3 both have “age” for “Phillip Woods”
-To fix could add a new column, where rows 1 & 3 have different values for a new categorical variable (eg. person who collected the data?), to distinguish them. In this example the spread tibble will have `NA` for `height`
+
+* Spreading fails because rows 1 & 3 both have “age” for “Phillip Woods”
+* To fix could add a new column, where rows 1 & 3 have different values for a new categorical variable (eg. person who collected the data?), to distinguish them. In this example the spread tibble will have `NA` for `height`
 
 -----------
 
