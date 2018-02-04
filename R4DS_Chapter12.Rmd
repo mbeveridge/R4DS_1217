@@ -333,8 +333,8 @@ A2.
 ### 12.6.1 Exercises
 
 Q1.
-In this case study I set `na.rm = TRUE` just to make it easier to check that we had the correct values.
-Is this reasonable? Think about how missing values are represented in this dataset. Are there implicit missing values?
+In this case study I set `na.rm = TRUE` just to make it easier to check that we had the correct values. Is this reasonable?
+Think about how missing values are represented in this dataset. Are there implicit missing values?
 What’s the difference between an `NA` and zero?
 
 A1.
@@ -359,7 +359,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 -----------
 
 Q4.
-For each country, year, and sex compute the total number of cases of TB. Make an informative visualisation of the data
+For each `country`, `year`, and `sex` compute the total number of cases of TB. Make an informative visualisation of the data
 
 A4.
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
