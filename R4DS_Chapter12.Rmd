@@ -196,13 +196,14 @@ spread(people, key = key, value = value)
 ```
 "Error: Duplicate identifiers for rows (1, 3)" -- error message
 
-* Spreading fails because rows 1 & 3 both have “age” for “Phillip Woods”
-* To fix could add a new column, where rows 1 & 3 have different values for a new categorical variable (eg. person who collected the data?), to distinguish them. In this example the spread tibble will have `NA` for `height`
+* `Spread` fails because rows 1 & 3 both have “age” for “Phillip Woods”
+* To fix this, could add a new column, where rows 1 & 3 have different values for a new categorical variable (eg. person who collected the data?), to distinguish them
+* In this example (after fixing), the spread tibble will have `NA` for `height` in one row
 
 -----------
 
 Q4.
-Tidy the simple tibble below. Do you need to spread or gather it? What are the variables?
+Tidy the simple tibble below. Do you need to spread or gather it? What are the variables? :
 ```{r}
 preg <- tribble(
   ~pregnant, ~male, ~female,
@@ -212,10 +213,11 @@ preg <- tribble(
 ```
 
 A4.
-The variables are (`pregnant` and) `sex` and `count`. Need to gather it. `key = "sex"` and `value = "count"`
+The variables are (`pregnant` and) `sex` and `count`. Need to `gather` it. (`key = "sex"` and `value = "count"`) :
 ```{r}
 preg %>%
-  gather(male, female, key = "sex", value = "count") # I assume 'count' is 'baby_qty', but safer to leave as 'count'
+  gather(male, female, key = "sex", value = "count")
+# I assume `count` is `baby_qty`, but safer to leave as `count`
 ```
 
 
