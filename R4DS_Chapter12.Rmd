@@ -311,12 +311,13 @@ Q1. Compare and contrast the `fill` arguments to `spread()` and `complete()`
 ```
 
 A1.
-`spread()` : `fill` sets the value. ("missing values [both explicit & implicit] will be replaced with this value")
-`complete()` : `fill` sets a value from a named list. ("for each variable supplies a single value") [implicit & explicit missing values]
+
+* `spread()` : `fill` sets the value. ("missing values [both explicit & implicit] will be replaced with this value")
+* `complete()` : `fill` sets a value from a named list. ("for each variable supplies a single value") [implicit & explicit missing values]
 
 -----------
 
-Q2. What does the `direction` argument to `fill()` do?
+Q2. What does the `direction` argument to `fill()` do? :
 ```{r}
 ?fill
 ```
