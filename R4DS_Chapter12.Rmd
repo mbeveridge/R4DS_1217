@@ -275,8 +275,8 @@ Q2. Both `unite()` and `separate()` have a `remove` argument. What does it do? W
 
 A2.
 ```{r}
-?unite        # "If TRUE, remove input columns from output data frame"
-?separate     # "If TRUE, remove input column from output data frame"
+?unite        # "If TRUE, remove input columns from output data frame" -- Help
+?separate     # "If TRUE, remove input column  from output data frame" -- Help
 ```
 You would set it to `FALSE` if you want to **also** keep the old column(s)
 
