@@ -66,8 +66,8 @@ table2_new <- tibble(country = country,
                         year = year,
                        cases = cases,
                   population = population,
-                        rate = cases / population * 10000)   # 3., 4. ...`rate` to answer the Q, rest for future use
-table2_new
+                        rate = cases / population * 10000)   # 3., 4. ...`rate` to answer the Q; rest for future use
+table2_new                                                   # [s12.3.2 R4DS book will show tidy via `spread()`]
 ```
 
 
@@ -76,7 +76,7 @@ TABLE4 building a tibble up from pieces. Assumes `table4a` & `table4b` are the s
 table4_new <- tibble(country = table4a$country,              #    ...`country` from one table, either one
        `1999` = table4a$`1999` / table4b$`1999` * 10000,     # 3.
        `2000` = table4a$`2000` / table4b$`2000` * 10000)     # 3., 4. ...`rate` answers the Q. But no tidy dataset
-table4_new
+table4_new                                                   # [s12.3.1 R4DS book will show tidy via `gather()`]
 ```
 
 
