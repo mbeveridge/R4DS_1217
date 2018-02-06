@@ -314,7 +314,7 @@ A1.
 * `spread()` : `fill` sets **the** value. ("missing values [both explicit & implicit] will be replaced with this value" -- Help)
 * `complete()` : `fill` sets a value from a named list. ("for each variable supplies a single value to use instead of `NA` for missing combinations" -- Help) [implicit & explicit missing values]
 
-[PS. A value can be missing in one of two possible ways: Explicitly (ie. flagged with NA) or Implicitly (ie. simply not present in the data)]
+[PS. A value can be missing in one of two possible ways: Explicitly (ie. flagged with `NA`) or Implicitly (ie. simply not present in the data)]
 
 -----------
 
@@ -326,7 +326,7 @@ A2.
 ```
 
 "Direction in which to fill missing values. Currently either 'down' (the default) or 'up'" -- Help
-...ie. Replace with the most recent non-missing value ("down") or the next non-missing value ("up")
+...ie. Replace missing values with the most recent non-missing value ("down") or the next non-missing value ("up")
 
 
 -----------
