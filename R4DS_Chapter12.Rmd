@@ -292,12 +292,10 @@ A3.
 
 ['Capturing group' : "Parentheses group the regex between them. They capture the text matched by the regex inside them"]
 
-* `extract()` uses a regular expression to find groups and split one column into many (multiple ways possible).
-* `separate()` : uses `sep` to split one column into many (multiple ways possible). Default value is a regular expression that matches any sequence of non-alphanumeric values. Else, you can pass a specific character (to be interpreted as a regular expression), or a vector of integers (interpreted as positions to split at)
+* `separate()` : uses `sep` to split one column into many (multiple ways possible). (Default is that any non-alphanumeric character is a **separator**.) Else you can pass a vector of integers (interpreted as **positions** to split at), or pass a specific single character (a '**separator**', interpreted as a regular expression to split at).
+* `extract()` uses a regular expression to find **groups** and split one column into them/many (multiple ways possible).
 
 If we're trying to `unite()` many specified columns into one, there is only one outcome and 'no variations' necessary/possible, (except choice of `sep`) -- based on https://jrnold.github.io/r4ds-exercise-solutions/tidy-data.html#separating-and-uniting
-
-NOTE : Not sure when you'd choose `extract()` instead of `separate()`
 
 
 -----------
