@@ -304,24 +304,27 @@ If we're trying to `unite()` many specified columns into one, there is only one 
 ### 12.5.1 Exercises
 
 Q1. Compare and contrast the `fill` arguments to `spread()` and `complete()`
+
+A1.
 ```{r}
 ?spread
 ?complete
 ```
 
-A1.
+* `spread()` : `fill` sets **the** value. ("missing values [both explicit & implicit] will be replaced with this value" -- Help)
+* `complete()` : `fill` sets a value from a named list. ("for each variable supplies a single value to use instead of `NA` for missing combinations" -- Help) [implicit & explicit missing values]
 
-* `spread()` : `fill` sets the value. ("missing values [both explicit & implicit] will be replaced with this value")
-* `complete()` : `fill` sets a value from a named list. ("for each variable supplies a single value") [implicit & explicit missing values]
+[PS. A value can be missing in one of two possible ways: Explicitly (ie. flagged with NA) or Implicitly (ie. simply not present in the data)]
 
 -----------
 
 Q2. What does the `direction` argument to `fill()` do? :
+
+A2.
 ```{r}
 ?fill
 ```
 
-A2.
 "Direction in which to fill missing values. Currently either 'down' (the default) or 'up'" -- Help
 ...ie. Replace with the most recent non-missing value ("down") or the next non-missing value ("up")
 
