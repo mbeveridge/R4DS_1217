@@ -233,9 +233,7 @@ Experiment with the various options for the following two toy datasets :
 ```{r}
 tibble(x = c("a,b,c", "d,e,f,g", "h,i,j")) %>% 
   separate(x, c("one", "two", "three"))          # "Warning message: Too many values at 1 locations: 2". 3x3 tibble
-```
 
-```{r}
 tibble(x = c("a,b,c", "d,e", "f,g,i")) %>% 
   separate(x, c("one", "two", "three"))          # "Warning message: Too few values at 1 locations: 2". 3x3 tibble
 ```
