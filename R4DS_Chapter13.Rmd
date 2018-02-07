@@ -178,7 +178,7 @@ A3.3 [reminder : "relationship between the `Batting`, `Pitching`, and `Fielding`
 13.4.6 Exercises
 
 Q1.
-Compute the average delay by destination, then join on the airports data frame so you can show the spatial distribution of delays. Here’s an easy way to draw a map of the United States:
+Compute the average delay by destination, then join on the `airports` data frame so you can show the spatial distribution of delays. Here’s an easy way to draw a map of the United States:
 ```{r}
 airports %>%
   semi_join(flights, c("faa" = "dest")) %>%
@@ -214,7 +214,7 @@ ggplot(aes(lon, lat, colour = avg_delay)) +
 -----------
 
 Q2.
-Add the location of the origin and destination (i.e. the `lat` and `lon`) to flights
+Add the location of the origin _and_ destination (i.e. the `lat` and `lon`) to `flights`
 
 A2.
 Answer combines 2 pieces of example code at the end of s13.4.5. Looks as if it worked, but is it the right way?
