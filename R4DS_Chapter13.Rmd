@@ -112,7 +112,7 @@ Batting %>%
   count(playerID, yearID, stint) %>%
   filter(n > 1)                    # 13876 rows if trying `playerID` as the key. 7157 with `(playerID, yearID)`
 ```
-The key is `(playerID, yearID, stint)`
+The combined primary key is `(playerID, yearID, stint)`
 
 A2.2 -     # Package wasn't in the Anaconda distribution
 A2.3 -     # Package wasn't in the Anaconda distribution
@@ -127,14 +127,15 @@ There is no primary key here. From [https://jrnold.github.io/r4ds-exercise-solut
 -----------
 
 Q3.
-Draw a diagram illustrating the connections between the `Batting`, `Master`, and `Salaries` tables in the **Lahman** package.
-Draw another diagram that shows the relationship between `Master`, `Managers`, `AwardsManagers`.
-How would you characterise the relationship between the `Batting`, `Pitching`, and `Fielding` tables?
+Q3.1 Draw a diagram illustrating the connections between the `Batting`, `Master`, and `Salaries` tables in the **Lahman** package.
+Q3.2 Draw another diagram that shows the relationship between `Master`, `Managers`, `AwardsManagers`.
+Q3.3 How would you characterise the relationship between the `Batting`, `Pitching`, and `Fielding` tables?
 
 A3.
+A3.1
 ```{r}
 Batting                                 # Primary key is `(playerID, yearID, stint)` ...[from A2.1]
-Master                                  # Primary key is PlayerID
+Master                                  # Primary key is `playerID`
 Salaries
 
 Salaries %>%
@@ -142,7 +143,33 @@ Salaries %>%
   filter (n > 1)
 ```
 
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+Master$playerID matches with Batting$playerID ...(1:Many)
+Master$playerID matches with Salaries$playerID ...(1:Many)
+
+A3.2 [reminder : "relationship between `Master`, `Managers`, `AwardsManagers`"] :
+```{r}
+?Lahman
+
+Master                                  # Primary key is `playerID` ...[from A3.1]
+Managers                                # Primary key is `(yearID, teamID, inseason)`
+AwardsManagers                          # Primary key is `(playerID, yearID, awardID)`
+
+
+Managers %>%
+  count(yearID, teamID, inseason) %>%
+  filter(n >1)
+# `inseason` : "Managerial order. Zero if the individual managed the team the entire year. Otherwise denotes where the manager appeared in the managerial order (1 for first manager, 2 for second, etc.)" -- Help. ...`inseason` is needed in the primary key, because a `playerID` might have managed the same team more than once in a year (eg. 1st & 3rd), but `playerID` is then NOT needed
+
+AwardsManagers %>%
+  count(playerID, yearID, awardID) %>%
+  filter (n > 1)
+```
+
+Master$playerID matches with Managers$playerID ...(1:Many)
+Master$playerID matches with AwardsManagers$playerID ...(1:Many)
+
+A3.3 [reminder : "relationship between the `Batting`, `Pitching`, and `Fielding` tables?"] :
+"[These] tables all have a primary key consisting of the `playerID`, `yearID`, and `stint` variables. They all have a 1-1 relationship to each other" -- https://jrnold.github.io/r4ds-exercise-solutions/relational-data.html#keys
 
 
 ----------
