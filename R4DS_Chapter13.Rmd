@@ -74,7 +74,7 @@ Q1.
 Add a surrogate key to `flights`
 
 A1.
-"If a table lacks a primary key, it’s sometimes useful to add one with mutate() and row_number(). ... This is called a surrogate key" -- s13.3 R4DS book
+"If a table lacks a primary key, it’s sometimes useful to add one with `mutate()` and `row_number()`. ... This is called a surrogate key" -- s13.3 R4DS book
 
 ```{r}
 flights %>%
@@ -95,19 +95,39 @@ Q2.5 `ggplot2::diamonds`
 (You might need to install some packages and read some documentation.)
 
 A2.
+In Anaconda, installed the package : **r-lahman**
+
 ```{r}
 library(Lahman)
-library(babynames)
-library(nasaweather)
-library(fueleconomy)
+# library(babynames)               # No. Package wasn't in the Anaconda distribution
+# library(nasaweather)             # No. Package wasn't in the Anaconda distribution
+# library(fueleconomy)             # No. Package wasn't in the Anaconda distribution
 ```
 
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+A2.1
+```{r}
+Lahman::Batting
+
+Batting %>%
+  count(playerID, yearID, stint) %>%
+  filter(n > 1)                    # 13876 rows if trying `playerID` as the key. 7157 with `(playerID, yearID)`
+```
+The key is `(playerID, yearID, stint)`
+
+A2.2 -     # Package wasn't in the Anaconda distribution
+A2.3 -     # Package wasn't in the Anaconda distribution
+A2.4 -     # Package wasn't in the Anaconda distribution
+
+A2.5
+```{r}
+ggplot2::diamonds
+```
+There is no primary key here. From [https://jrnold.github.io/r4ds-exercise-solutions/relational-data.html#keys] we learn that "Using all variables in the data frame, the number of distinct rows is less than the total number of rows, meaning no combination of variables uniquely identifies the observations". (ie. Some rows are exactly the same as other rows.) We could create a surrogate key with `row_number()`, as in Q1
 
 -----------
 
 Q3.
-Draw a diagram illustrating the connections between the `Batting`, `Master`, and `Salaries` tables in the `Lahman` package.
+Draw a diagram illustrating the connections between the `Batting`, `Master`, and `Salaries` tables in the **Lahman** package.
 Draw another diagram that shows the relationship between `Master`, `Managers`, `AwardsManagers`.
 How would you characterise the relationship between the `Batting`, `Pitching`, and `Fielding` tables?
 
