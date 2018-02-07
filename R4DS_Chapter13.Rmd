@@ -48,7 +48,7 @@ If it contained weather records for all airports in the USA, what additional rel
 
 A3.
 Similarly to Q1, `origin` (in `weather`) could match with `origin` or `dest` (in `flights`) ...`dest` would be the additional part. 
-But to know weather for a flight, would also need to match to a specific `year`, `month`, `day`, `hour` (and the ease of that may vary depending on frequency/accuracy of readings)
+But to know weather for a flight, would also need to match a specific `year`, `month`, `day`, `hour` (and the ease of that may vary depending on frequency/accuracy of readings)
 
 -----------
 
@@ -132,6 +132,16 @@ Draw another diagram that shows the relationship between `Master`, `Managers`, `
 How would you characterise the relationship between the `Batting`, `Pitching`, and `Fielding` tables?
 
 A3.
+```{r}
+Batting                                 # Primary key is `(playerID, yearID, stint)` ...[from A2.1]
+Master                                  # Primary key is PlayerID
+Salaries
+
+Salaries %>%
+  count(yearID, teamID, playerID) %>%   # Primary key is `(yearID, teamID, playerID)`
+  filter (n > 1)
+```
+
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 
