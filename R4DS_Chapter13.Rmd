@@ -19,16 +19,16 @@ Imagine you wanted to draw (approximately) the route each plane flies from its o
 What variables would you need? What tables would you need to combine?
 
 A1.
+origin airport ---> destination airport. (This is just the endpoints, but assume it's what 'approximate route' meant)
 ```{r}
 flights      # look at table to see the variables
 ```
-origin airport ---> destination airport. (This is just the endpoints, but assume it's what 'approximate route' meant)
 
 `origin`, `dest` ...[`flights` table]
 `lat`, `lon` ...[`airports` table]
 
-[Combine `flights` table (`origin`) with `airports` table (`faa`) to get lat&lon of origin airport]
-[Combine `flights` table (`dest`) with `airports` table (`faa`) to get lat&lon of destination airport]
+Combine `flights` table (`origin`) with `airports` table (`faa`) to get lat&lon of origin airport
+Combine `flights` table (`dest`) with `airports` table (`faa`) to get lat&lon of destination airport
 
 -----------
 
@@ -37,7 +37,7 @@ I forgot to draw the relationship between `weather` and `airports`.
 What is the relationship and how should it appear in the diagram?
 
 A2.
-Similarly to Q1, `origin` (in `weather`) could combine with `faa` (in `airports`)
+Similarly to Q1, `origin` (in `weather`) could match with `faa` (in `airports`)
 (As Q3 says, `weather` only contains data for the NYC airports, not for the destinations)
 
 -----------
@@ -47,16 +47,16 @@ Q3.
 If it contained weather records for all airports in the USA, what additional relation would it define with `flights`?
 
 A3.
-Similarly to Q1, `origin` (in `weather`) could combine with `origin` or `dest` (in `flights`) ...`dest` is additional.
-Could also (maybe, depending on frequency/accuracy of readings) match the `year`, `month`, `day`, `hour` in each.
-Does that answer the question?
+Similarly to Q1, `origin` (in `weather`) could match with `origin` or `dest` (in `flights`) ...`dest` would be the additional part. 
+But to know weather for a flight, would also need to match to a specific `year`, `month`, `day`, `hour` (and the ease of that may vary depending on frequency/accuracy of readings)
 
 -----------
 
 Q4.
 We know that some days of the year are “special”, and fewer people than usual fly on them.
-How might you represent that data as a data frame? What would be the primary keys of that table?
-How would it connect to the existing tables?
+
+* How might you represent that data as a data frame? What would be the primary keys of that table?
+* How would it connect to the existing tables?
 
 A4.
 Inference is that these 'special' days would be in a new dataframe/ table. They might be on different dates each year.
@@ -95,6 +95,13 @@ Q2.5 `ggplot2::diamonds`
 (You might need to install some packages and read some documentation.)
 
 A2.
+```{r}
+library(Lahman)
+library(babynames)
+library(nasaweather)
+library(fueleconomy)
+```
+
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 -----------
