@@ -1,0 +1,12 @@
+"0","flights %>%"
+"0","  filter(!is.na(arr_delay), arr_delay > 0) %>%  # 133,004 x 19"
+"0","  group_by(dest, flight) %>% # 133,004 x 19. Groups: dest, flight [8,505]"
+"0","  mutate(total_delay = sum(arr_delay),"
+"0","         prop_delay = arr_delay / total_delay) %>% # 133,004 x 21. Groups: dest, flight [8,505]"
+"0","# First I want total_delay for each flight within each dest. But how will I access total delay per dest, for proportion calc?"
+"0","  summarise(total_delay = sum(arr_delay),"
+"0","            prop_delay = arr_delay / total_delay) %>% # error : Column `prop_delay` must be length 1 (a summary value), not 52"
+"0","  select(dest, total_delay, flight, prop_delay)"
+"2","Error in summarise_impl(.data, dots) : 
+  Column `prop_delay` must be length 1 (a summary value), not 52
+"

@@ -1,0 +1,6 @@
+"0","flights %>%                                       # 336,776 x 19"
+"0","  group_by(dest) %>%                              # 336,776 x 19"
+"0","  filter(n_distinct(carrier)>=2) %>%              # 325,397 x 19"
+"0","  count(carrier) %>%                              # 285 x 3 ...dest, carrier, n. THIS did the job of a summarise() ?"
+"0","  group_by(carrier) %>%                           # 285 x 3 ...dest, carrier, n"
+"0","  count(sort = TRUE)                              # 16 x 2 ...carrier, nn"

@@ -1,0 +1,1 @@
+"0","arrange(flights, min_rank(desc(arr_delay))) # Didn't use filter() here, but 10 results displayed by default"

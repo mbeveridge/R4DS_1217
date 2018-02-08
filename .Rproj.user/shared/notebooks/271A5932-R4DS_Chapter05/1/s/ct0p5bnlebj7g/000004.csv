@@ -1,0 +1,4 @@
+"0","flight_delays <- flight_delays %>%"
+"0","  left_join(total_delay,by = ""dest"") %>%"
+"0","  mutate(prop_delay = delay_per / total_delay) %>%"
+"0","  arrange(dest, flight)             # MDAB added, to sort by 'dest' first, to see that each dest total adds to 1.0"

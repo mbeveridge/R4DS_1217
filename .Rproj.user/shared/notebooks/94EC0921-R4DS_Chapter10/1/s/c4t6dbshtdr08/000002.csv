@@ -1,0 +1,11 @@
+"0","```r
+dftibb <- as_tibble(data.frame(abc = 1, xyz = \"a\"))
+dftibb$x                                 # Q2.1
+```"
+"1","Unknown or uninitialised column: 'x'.
+"
+"1","NULL
+"
+"0","```r
+dftibb[, \"xyz\"]                          # Q2.2
+```"

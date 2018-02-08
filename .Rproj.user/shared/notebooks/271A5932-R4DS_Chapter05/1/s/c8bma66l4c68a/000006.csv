@@ -1,0 +1,4 @@
+"0","flights %>%"
+"0","  group_by(flight) %>%"
+"0","  summarise(late_10min = sum(arr_delay == 10, na.rm = TRUE) / n()) %>%"
+"0","  filter(late_10min == 1)"

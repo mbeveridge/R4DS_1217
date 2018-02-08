@@ -1,0 +1,2 @@
+"0","Q4_string <- ""x,y\n1,'a,b'""              # ""`\n` is a convenient shortcut for adding a new line"" -- s11.2 R4DS book"
+"0","read_delim(file = Q4_string, delim = "","", quote = ""'"")"

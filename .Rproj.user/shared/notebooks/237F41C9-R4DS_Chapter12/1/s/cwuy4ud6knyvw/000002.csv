@@ -1,0 +1,4 @@
+"0","table4a %>% "
+"0","  gather(1999, 2000, key = ""year"", value = ""cases"")"
+"2","Error in inds_combine(.vars, ind_list) : Position must be between 0 and n
+"

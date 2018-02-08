@@ -1,0 +1,4 @@
+"0","# Visualise changes over time"
+"0","  ggplot(table2_new, aes(year, cases)) + "
+"0","  geom_line(aes(group = country), colour = ""grey50"") + "
+"0","  geom_point(aes(colour = country))"

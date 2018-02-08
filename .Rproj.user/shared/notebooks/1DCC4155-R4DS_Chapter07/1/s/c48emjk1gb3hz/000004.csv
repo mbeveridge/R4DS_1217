@@ -1,0 +1,4 @@
+"0","```r
+ggplot (data = diamonds, mapping = aes(x = price)) +
+  geom_histogram(binwidth = 100)
+```"

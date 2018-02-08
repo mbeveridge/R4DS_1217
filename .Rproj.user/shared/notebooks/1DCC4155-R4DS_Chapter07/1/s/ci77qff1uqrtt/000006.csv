@@ -1,0 +1,3 @@
+"0","ggplot(data = diamonds, mapping = aes(x = carat)) +"
+"0","  geom_histogram() +"
+"0","  xlim(0.5, 1.5)"

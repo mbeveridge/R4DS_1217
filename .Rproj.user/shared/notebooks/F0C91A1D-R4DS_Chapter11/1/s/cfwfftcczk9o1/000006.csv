@@ -1,0 +1,4 @@
+"0","read_csv(""a,b\n\""1"")             # Q5.3"
+"2","2 parsing failures.
+row # A tibble: 2 x 5 col     row   col                     expected    actual         file expected   <int> <chr>                        <chr>     <chr>        <chr> actual 1     1     a closing quote at end of file           literal data file 2     1  <NA>                    2 columns 1 columns literal data
+"

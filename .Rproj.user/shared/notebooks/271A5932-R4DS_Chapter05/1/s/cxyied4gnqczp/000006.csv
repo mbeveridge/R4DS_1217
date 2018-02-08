@@ -1,0 +1,1 @@
+"0","transmute(flights, air_time, air_time_new = ((arr_time %/% 100) * 60 + arr_time %% 100) - ((dep_time %/% 100) * 60 + dep_time %% 100)) # `air_time_new` is calculated (after conversion), and `air_time` exists from original dataset"

@@ -1,0 +1,8 @@
+"0","flights %>%"
+"0","  filter(!is.na(air_time)) %>%"
+"0","  group_by(dest) %>%"
+"0","  mutate(med_time = median(air_time),                           # define `med_time`"
+"0","         fast = (air_time - med_time) / med_time) %>%           # define `fast`"
+"0","  arrange(fast) %>%"
+"0","  select(dest, origin, year, month, day, carrier, flight, air_time, med_time, fast) %>%"
+"0","  head(20)"

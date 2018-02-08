@@ -1,0 +1,3 @@
+"0","ggplot(data = mpg) +"
+"0","  geom_boxplot(mapping = aes(x = reorder(class, hwy, FUN = median), y = hwy)) +"
+"0","  coord_flip()"

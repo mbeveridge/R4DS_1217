@@ -1,0 +1,5 @@
+"0","flights %>%"
+"0","  group_by(tailnum) %>%"
+"0","  mutate(row_num = row_number()) %>%"
+"0","  filter(arr_delay > 60) %>%"
+"0","  summarize(first_hour_delay = first(row_num) - 1)"

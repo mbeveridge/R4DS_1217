@@ -1,0 +1,2 @@
+"0","ggplot(data = mpg, mapping = (aes(x = 1, fill = class))) + # Need x. x=1 gave a single stack, centred on '1'. x=factor(1) would get rid of extra scaling marks"
+"0","  geom_bar(position = ""stack"")"

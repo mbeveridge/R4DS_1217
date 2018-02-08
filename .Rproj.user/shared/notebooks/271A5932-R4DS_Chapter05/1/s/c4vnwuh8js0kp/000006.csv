@@ -1,0 +1,5 @@
+"0","flights %>%"
+"0","  group_by(flight) %>%"
+"0","  summarise(on_time = sum(arr_delay == 0, na.rm = TRUE) / n(),"
+"0","            late_120min = sum(arr_delay >= 120, na.rm = TRUE) / n()) %>%"
+"0","  filter(on_time == .99, late_120min == .01)"

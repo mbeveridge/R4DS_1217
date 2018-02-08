@@ -1,0 +1,3 @@
+"0","ggplot(data = diamonds, mapping = aes(x = carat, y = price)) +    # Plotted each variable v's price. This is carat "
+"0","  geom_point() +"
+"0","  geom_smooth()"

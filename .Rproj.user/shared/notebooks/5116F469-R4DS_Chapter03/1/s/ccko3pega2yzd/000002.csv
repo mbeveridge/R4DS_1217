@@ -1,0 +1,8 @@
+"0","mpg1 <- mpg %>% "
+"0","  mutate(unique = rownames(mpg)) %>%"
+"0","  gather(""road_type"" ,""MPG"", c(""cty"", ""hwy""))"
+"0","ggplot(data = mpg1,mapping = aes(x = road_type, y = MPG, color=drv ,group=unique)) +"
+"0","  geom_point() +"
+"0","  facet_wrap(~manufacturer, nrow=3)+"
+"0","  geom_line(alpha=0.5) +"
+"0","  theme_linedraw(base_size = 14)"

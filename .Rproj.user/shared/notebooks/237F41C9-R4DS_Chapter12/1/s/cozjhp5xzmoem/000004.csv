@@ -1,0 +1,4 @@
+"0","table4_new <- tibble(country = table4a$country,"
+"0","       `1999` = table4a$`1999` / table4b$`1999` * 10000,     # 3."
+"0","       `2000` = table4a$`2000` / table4b$`2000` * 10000)     # 3., 4."
+"0","table4_new"

@@ -1,0 +1,28 @@
+"0","```r
+install.packages(\"lvplot\") # Not available in Anaconda Navigator, to install
+```"
+"1","trying URL 'https://mirrors.ebi.ac.uk/CRAN/src/contrib/lvplot_0.2.0.tar.gz'
+Content type 'application/x-gzip' length 3776496 bytes (3.6 MB)
+==================================================
+downloaded 3.6 MB
+
+* installing *source* package ‘lvplot’ ...
+** package ‘lvplot’ successfully unpacked and MD5 sums checked
+** R
+** data
+*** moving datasets to lazyload DB
+** preparing package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded
+* DONE (lvplot)
+
+The downloaded source packages are in
+	‘/private/var/folders/h8/c4r71mmn4vjc2wk2j3gjblhc0000gn/T/RtmpFmmRKD/downloaded_packages’
+Updating HTML index of packages in '.Library'
+Making 'packages.html' ... done
+"
+"0","```r
+library(lvplot)
+```"

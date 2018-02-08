@@ -1,0 +1,63 @@
+"0","```r
+install.packages(\"ggbeeswarm\") # Not available in Anaconda Navigator, to install
+```"
+"1","also installing the dependencies ‘beeswarm’, ‘vipor’
+
+trying URL 'https://mirrors.ebi.ac.uk/CRAN/src/contrib/beeswarm_0.2.3.tar.gz'
+Content type 'application/x-gzip' length 19850 bytes (19 KB)
+==================================================
+downloaded 19 KB
+
+trying URL 'https://mirrors.ebi.ac.uk/CRAN/src/contrib/vipor_0.4.5.tar.gz'
+Content type 'application/x-gzip' length 4699815 bytes (4.5 MB)
+==================================================
+downloaded 4.5 MB
+
+trying URL 'https://mirrors.ebi.ac.uk/CRAN/src/contrib/ggbeeswarm_0.6.0.tar.gz'
+Content type 'application/x-gzip' length 1494271 bytes (1.4 MB)
+==================================================
+downloaded 1.4 MB
+
+* installing *source* package ‘beeswarm’ ...
+** package ‘beeswarm’ successfully unpacked and MD5 sums checked
+** R
+** data
+** preparing package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded
+* DONE (beeswarm)
+* installing *source* package ‘vipor’ ...
+** package ‘vipor’ successfully unpacked and MD5 sums checked
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** preparing package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** installing vignettes
+** testing if installed package can be loaded
+* DONE (vipor)
+* installing *source* package ‘ggbeeswarm’ ...
+** package ‘ggbeeswarm’ successfully unpacked and MD5 sums checked
+** R
+** inst
+** preparing package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** installing vignettes
+** testing if installed package can be loaded
+* DONE (ggbeeswarm)
+
+The downloaded source packages are in
+	‘/private/var/folders/h8/c4r71mmn4vjc2wk2j3gjblhc0000gn/T/RtmpFmmRKD/downloaded_packages’
+Updating HTML index of packages in '.Library'
+Making 'packages.html' ... done
+"
+"0","```r
+library(ggbeeswarm)
+```"

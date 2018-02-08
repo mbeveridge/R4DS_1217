@@ -1,0 +1,3 @@
+"0","date_long <- paste(cancelled$year, cancelled$month, cancelled$day) # trying to get 365 days as complete dates"
+"0","ggplot(data = cancelled, mapping = aes(x = date_long, y = count)) +"
+"0","  geom_point() # still 2 days with count=400ish : 8Feb and 9Feb. Why are these *midway* along x-axis?"

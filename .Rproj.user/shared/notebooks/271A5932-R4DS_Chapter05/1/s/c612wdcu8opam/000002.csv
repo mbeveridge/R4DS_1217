@@ -1,0 +1,4 @@
+"0","total_delay <- flights %>%"
+"0","  filter(arr_delay >= 0) %>%                                   # MDAB added"
+"0","  group_by(dest) %>%"
+"0","  dplyr::summarise(total_delay = sum(arr_delay, na.rm= TRUE))"

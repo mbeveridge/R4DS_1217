@@ -1,0 +1,3 @@
+"0","locale(decimal_mark = ""."", grouping_mark = ""."")"
+"2","Error: `decimal_mark` and `grouping_mark` must be different
+"

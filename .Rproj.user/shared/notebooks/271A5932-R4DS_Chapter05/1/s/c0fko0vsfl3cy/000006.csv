@@ -1,0 +1,3 @@
+"0","not_cancelled %>%"
+"0","  group_by(tailnum) %>%"
+"0","  summarise(sum(distance))"

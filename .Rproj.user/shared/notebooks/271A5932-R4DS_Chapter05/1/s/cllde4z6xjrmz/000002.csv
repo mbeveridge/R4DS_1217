@@ -1,0 +1,4 @@
+"0","cancelled <- flights %>%"
+"0","  filter(is.na(dep_delay)) %>%    # From A3: ""definition of cancelled flights is now `(is.na(dep_delay)`"""
+"0","  group_by(year, month, day) %>%"
+"0","  summarise(count = n())"

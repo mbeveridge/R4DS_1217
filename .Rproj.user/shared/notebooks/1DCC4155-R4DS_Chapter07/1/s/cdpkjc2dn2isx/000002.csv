@@ -1,0 +1,8 @@
+"0","```r
+install.packages(\"ggstance\") # Not available in Anaconda Navigator, to install
+```"
+"1","Error in install.packages : Updating loaded packages
+"
+"0","```r
+library(ggstance)
+```"

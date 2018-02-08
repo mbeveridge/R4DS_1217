@@ -1,0 +1,1 @@
+"0","nycflights13::flights %>% print(n = 10, width = 80)    # `width` in characters (not qty of columns)"

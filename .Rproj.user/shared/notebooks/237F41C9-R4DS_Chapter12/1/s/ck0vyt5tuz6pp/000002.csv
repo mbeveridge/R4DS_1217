@@ -1,0 +1,5 @@
+"0","cases <- table2 %>% filter(type == ""cases"")                  # 1."
+"0","population <- table2 %>% filter(type == ""population"")        # 2."
+"0","rate <- cases / population                                   # 3."
+"2","Error in FUN(left, right) : non-numeric argument to binary operator
+"

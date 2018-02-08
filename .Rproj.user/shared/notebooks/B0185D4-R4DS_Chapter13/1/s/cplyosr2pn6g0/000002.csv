@@ -1,0 +1,15 @@
+"0","airports %>%"
+"0","  semi_join(flights, c(""faa"" = ""dest"")) %>%"
+"0","  ggplot(aes(lon, lat)) +"
+"0","  borders(""state"") +"
+"0","  geom_point() +"
+"0","  coord_quickmap()"
+"2","
+Attaching package: ‘maps’
+
+"
+"2","The following object is masked from ‘package:purrr’:
+
+    map
+
+"

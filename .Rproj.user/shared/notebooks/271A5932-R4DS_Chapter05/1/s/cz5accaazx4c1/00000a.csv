@@ -1,0 +1,2 @@
+"0","ggplot(data = cancelled, mapping = aes(x = day, y = count)) +"
+"0","  geom_point() # 31 days along x-axis (with one point per month). 2 days had a point with count=400ish : 8th & 9th"

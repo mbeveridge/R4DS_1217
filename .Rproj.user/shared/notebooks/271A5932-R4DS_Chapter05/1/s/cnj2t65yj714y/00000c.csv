@@ -1,0 +1,2 @@
+"0","flights %>%"
+"0","  filter(flight == 3505) # as an example, to see why it is treated differently by mean() v's sum()/n()"

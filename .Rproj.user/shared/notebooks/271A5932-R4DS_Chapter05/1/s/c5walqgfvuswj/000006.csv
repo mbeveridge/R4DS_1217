@@ -1,0 +1,2 @@
+"0","ggplot(data = cancelled, mapping = aes(x = date, y = count)) +"
+"0","  geom_point()"
