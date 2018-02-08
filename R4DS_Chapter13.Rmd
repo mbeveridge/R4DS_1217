@@ -204,14 +204,15 @@ average_delay
 
 This next part is based on the code in Q1, but also colours each airport (by `avg_delay`) :
 ```{r}
-ggplot(average_delay, aes(lon, lat, colour = avg_delay)) +
-  borders("state") +
-  geom_point() +
-  coord_quickmap()
+average_delay %>%
+  ggplot(aes(lon, lat, colour = avg_delay)) +
+    borders("state") +
+    geom_point() +
+    coord_quickmap()
 ```
 
 "The left join should be your default join: use it unless you have a strong reason to prefer one of the others" -- s13.4.3 R4DS book
-"Warning message: Removed 4 rows containing missing values (geom_point)". So did I end up with the same plot I'd have got with `inner_join` (rather than `left_join`)?
+From the `ggplot()` 'blob' : "Warning message: Removed 4 rows containing missing values (geom_point)". So did I end up with the same plot I'd have got with `inner_join` (rather than `left_join`)?
 
 -----------
 
@@ -223,8 +224,8 @@ Answer combines 2 pieces of example code at the end of s13.4.5. Looks as if it w
 ...(ie. one after the other in the 'and then' pipe, rather than some sort of parallel? ...if that is even possible)
 ```{r}
 flights %>%
-  left_join(airports, by = c(origin = "faa")) %>%  # Looks like the join used in A1
-  left_join(airports, by = c(dest = "faa")) %>%    # `airports` table doesn't distinguish between origin&destination
+  left_join(airports, by = c("origin" = "faa")) %>%  # Looks like the join used in A1
+  left_join(airports, by = c("dest" = "faa")) %>%    # `airports` table doesn't know origin v's destination
 View()
 ```
 
@@ -237,7 +238,44 @@ Q3.
 Is there a relationship between the age of a plane and its delays?
 
 A3.
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+```{r}
+planes
+
+plane_age <- planes %>%
+  mutate(age = 2013 - year) %>%                            # rename, else `year.x`/`year.y` confusion when joined
+  select(tailnum, age)                                     # for simplicity, keep only the planes' ages and the key
+
+flights %>%
+  left_join(plane_age, c("tailnum" = "tailnum")) %>%       # If using "x" = "y" format, remember to enclose by `c()`
+  ggplot(aes(x = age, y = arr_delay)) +                    # scatter plot to look for relationship
+  geom_point()                                             # BUT it wasn't helpful : columns of many points
+
+flights %>%
+  left_join(plane_age, c("tailnum" = "tailnum")) %>%
+  group_by(age) %>%
+  summarise(delay = mean(arr_delay)) %>%                   # Most `age`s : `NA` in `arr_delay` --> mean `NA`...
+  ggplot(aes(x = age, y = delay)) +
+  geom_point()                                             # ...so only 4 points displayed (which wasn't helpful)
+
+flights %>%
+  left_join(plane_age, c("tailnum" = "tailnum")) %>%
+  group_by(age) %>%
+  filter(!is.na(arr_delay)) %>%                            # Filtered out `NA`s, in order to get non-`NA` `mean()`s
+  summarise(delay = mean(arr_delay)) %>%
+  ggplot(aes(x = age, y = delay)) +
+  geom_point() +                                           # 'By eye', the points suggest a slightly -ve correlation
+  geom_abline()                                            # Line says +ve correlation, but biased towards 'young'?
+
+flights %>%
+  left_join(plane_age, c("tailnum" = "tailnum")) %>%
+  group_by(age) %>%
+  filter(!is.na(dep_delay)) %>%
+  summarise(delay = mean(dep_delay)) %>%                   # Trying `dep_delay` instead...
+  ggplot(aes(x = age, y = delay)) +
+  geom_point() +
+  geom_abline()                                            # Similar. A correlation using `mean` is invalid anyway?
+```
+
 
 -----------
 
