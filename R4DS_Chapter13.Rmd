@@ -192,12 +192,12 @@ airports %>%
 You might want to use the size or colour of the points to display the average delay for each airport
 
 A1.
-(Why doesn't it work if I use `avg-delay` instead of `avg_delay`?)
+[Didn't work when I named the variable `avg-delay` instead of `avg_delay`. '-' isn't a valid character. It could be considered as a minus sign between variables named `avg` and `delay` ...though probably `avg` is restricted]
 ```{r}
 flights %>%
-  group_by(dest) %>% # group_by() in order to then take the group average
-  summarise(avg_delay = mean(arr_delay, na.rm = TRUE)) %>% # Choose to exclude NA's from the average
-  left_join(airports, by = c(dest = "faa")) %>% # Join using flight destination, not flight origin
+  group_by(dest) %>%                                          # `group_by()` in order to then take the group average
+  summarise(avg_delay = mean(arr_delay, na.rm = TRUE)) %>%    # Choose to exclude `NA`s from the average
+  left_join(airports, by = c(dest = "faa"))                   # Join using flight destination, not flight origin
 ```
 
 This next part is same as in the question, but colours each airport (by `avg_delay`) :
