@@ -189,27 +189,29 @@ airports %>%
 ```
 
 (Don’t worry if you don’t understand what `semi_join()` does — you’ll learn about it next.)
-You might want to use the size or colour of the points to display the average delay for each airport
+You might want to use the `size` or `color` of the points to display the average delay for each airport
 
 A1.
-[Didn't work when I named the variable `avg-delay` instead of `avg_delay`. '-' isn't a valid character. It could be considered as a minus sign between variables named `avg` and `delay` ...though probably `avg` is restricted]
+[Didn't work when I named the variable `avg-delay` instead of `avg_delay` ...because '-' isn't a valid character in a variable, in case it got confused with a minus sign between variables named `avg` and `delay`] :
 ```{r}
-flights %>%
+average_delay <- flights %>%                                  # allocated to variable, to use in `ggplot()` 'blob'
   group_by(dest) %>%                                          # `group_by()` in order to then take the group average
   summarise(avg_delay = mean(arr_delay, na.rm = TRUE)) %>%    # Choose to exclude `NA`s from the average
-  left_join(airports, by = c(dest = "faa"))                   # Join using flight destination, not flight origin
+  left_join(airports, by = c("dest" = "faa"))                 # Join using flight destination, not flight origin
+
+average_delay
 ```
 
-This next part is same as in the question, but colours each airport (by `avg_delay`) :
+This next part is based on the code in Q1, but also colours each airport (by `avg_delay`) :
 ```{r}
-ggplot(aes(lon, lat, colour = avg_delay)) +
+ggplot(average_delay, aes(lon, lat, colour = avg_delay)) +
   borders("state") +
   geom_point() +
   coord_quickmap()
 ```
 
 "The left join should be your default join: use it unless you have a strong reason to prefer one of the others" -- s13.4.3 R4DS book
-"Warning message: Removed 4 rows containing missing values (geom_point)". So did it plot as if I'd chosen `inner_join`?
+"Warning message: Removed 4 rows containing missing values (geom_point)". So did I end up with the same plot I'd have got with `inner_join` (rather than `left_join`)?
 
 -----------
 
