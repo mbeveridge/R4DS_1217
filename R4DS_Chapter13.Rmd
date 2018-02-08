@@ -221,12 +221,12 @@ Answer combines 2 pieces of example code at the end of s13.4.5. Looks as if it w
 ...(ie. one after the other in the 'and then' pipe, rather than some sort of parallel? ...if that is even possible)
 ```{r}
 flights %>%
-  left_join(airports, by = c(origin = "faa")) %>% # Looks like the join used in A1
-  left_join(airports, by = c(dest = "faa")) %>% # 'airports' table doesn't distinguish between origin & destination
+  left_join(airports, by = c(origin = "faa")) %>%  # Looks like the join used in A1
+  left_join(airports, by = c(dest = "faa")) %>%    # `airports` table doesn't distinguish between origin&destination
 View()
 ```
 
-There are name duplications from the 2 joins, but each has a suffix (assume .x is origin and .y is dest)
+There are name duplications from the 2 joins, but each has a suffix (assume .x is `origin` and .y is `dest`)
 ...re. "disambiguated in the output with a suffix" (s13.4.5 R4DS book, where 2 tables each had same name for different variable)
 
 -----------
