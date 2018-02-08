@@ -1,4 +1,0 @@
-"0","flights %>%"
-"0","  left_join(airports, by = c(origin = ""faa"")) %>%  # Looks like the join used in A1"
-"0","  left_join(airports, by = c(dest = ""faa"")) %>%    # `airports` table doesn't distinguish between origin&destination"
-"0","View()"

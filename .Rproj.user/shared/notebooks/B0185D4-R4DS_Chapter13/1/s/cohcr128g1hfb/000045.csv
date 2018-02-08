@@ -1,8 +1,0 @@
-"0","flights %>%"
-"0","  left_join(plane_age, c(""tailnum"" = ""tailnum"")) %>%"
-"0","  group_by(age) %>%"
-"0","  filter(!is.na(dep_delay)) %>%"
-"0","  summarise(delay = mean(dep_delay)) %>%                   # Trying `dep_delay` instead..."
-"0","  ggplot(aes(x = age, y = delay)) +"
-"0","  geom_point() +"
-"0","  geom_abline()                                            # Similar outcome. A correlation using `mean` is invalid?"
