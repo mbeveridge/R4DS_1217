@@ -253,7 +253,7 @@ flights %>%                                                # ATTEMPT 1
 
 flights %>%                                                # ATTEMPT 2
   left_join(plane_age, c("tailnum" = "tailnum")) %>%
-  group_by(age) %>%
+  group_by(age) %>%                                        # aggregate, to 'see past' the columns of points
   summarise(delay = mean(arr_delay)) %>%                   # Most `age`s : `NA` in `arr_delay` --> mean `NA`...
   ggplot(aes(x = age, y = delay)) +
   geom_point()                                             # ...so only 4 points displayed (which wasn't helpful)
@@ -282,7 +282,41 @@ flights %>%                                                # ATTEMPT 4
 
 Q4. What weather conditions make it more likely to see a delay?
 A4.
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+```{r}
+weather
+?weather
+
+flights %>%                                                                 # ATTEMPT 1
+  left_join(weather, by = c("year", "month", "day", "hour", "origin")) %>%  # cf. s13.4.5 R4DS book
+  ggplot(aes(x = precip, y = arr_delay)) +                                  # scatter plot
+  geom_point()                                                              # BUT it wasn't helpful
+
+flights %>%                                                                 # ATTEMPT 2
+  left_join(weather, by = c("year", "month", "day", "hour", "origin")) %>%
+  group_by(precip) %>%                                                      # aggregate
+  filter(!is.na(arr_delay)) %>%                                             # filter
+  summarise(delay = mean(arr_delay)) %>%
+  ggplot(aes(x = precip, y = delay)) +
+  geom_point() +
+  geom_smooth()
+
+flights %>%                                                                 # ATTEMPT 3
+  left_join(weather, by = c("year", "month", "day", "hour", "origin")) %>%
+  group_by(precip) %>%
+  summarise(delay = mean(dep_delay, na.rm = TRUE)) %>%                      # `dep_delay` instead of `arr_delay`
+  ggplot(aes(x = precip, y = delay)) +
+  geom_point() +
+  geom_smooth()                                                             # Similar to plot in ATTEMPT 2
+
+flights %>%                                                                 # ATTEMPT 3b [look at other variables]
+  left_join(weather, by = c("year", "month", "day", "hour", "origin")) %>%
+  group_by(dewp) %>%                                                        # `dewp` or `wind_speed` or `visib` etc
+  summarise(delay = mean(dep_delay, na.rm = TRUE)) %>%
+  ggplot(aes(x = dewp, y = delay)) +                                        # `dewp` or `wind_speed` or `visib` etc
+  geom_point() +
+  geom_smooth()
+```
+
 
 -----------
 
@@ -291,7 +325,21 @@ What happened on June 13 2013?
 Display the spatial pattern of delays, and then use Google to cross-reference with the weather
 
 A5.
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+```{r}
+flights %>%
+  filter(year == 2013, month == 6, day == 13) %>%                    # this row inserted into code from A1
+  group_by(dest) %>%
+  summarise(avg_delay = mean(arr_delay, na.rm = TRUE)) %>%
+  left_join(airports, by = c("dest" = "faa")) %>%
+  ggplot(aes(lon, lat, colour = avg_delay)) +
+    borders("state") +
+    geom_point() +
+    coord_quickmap()
+```
+
+"There was a large series of storms (derechos) in the southeastern US (see June 12-13, 2013 derecho series)"
+[https://en.wikipedia.org/wiki/June_12%E2%80%9313,_2013_derecho_series]
+-- https://jrnold.github.io/r4ds-exercise-solutions/relational-data.html#mutating-joins
 
 
 ----------
