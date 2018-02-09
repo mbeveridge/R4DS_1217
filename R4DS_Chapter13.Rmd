@@ -368,7 +368,7 @@ Filter `flights` to only show flights with planes that have flown at least 100 f
 A2.
 ```{r}
 flights %>%
-  filter()
+  filter(tailnum >= 100)
 ```
 
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -381,7 +381,9 @@ Combine `fueleconomy::vehicles` and `fueleconomy::common` to find only the recor
 A3.
 ```{r}
 # As mentioned in 13.3.1 Exercises A2, "Package wasn't in the Anaconda distribution", so I haven't installed it
-`fueleconomy::vehicles` %>%
+fueleconomy::vehicles %>%
+  
+fueleconomy::common
   
 ```
 
@@ -396,6 +398,9 @@ Cross-reference it with the weather data. Can you see any patterns?
 A4.
 ```{r}
 flights %>%
+  
+  
+weather
   
 ```
 
@@ -423,6 +428,11 @@ You might expect that there’s an implicit relationship between plane and airli
 
 A6.
 ```{r}
+flights %>%
+
+tailnum
+carrier
+  
 
 ```
 
