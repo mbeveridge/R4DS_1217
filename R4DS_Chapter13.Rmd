@@ -224,8 +224,8 @@ Answer combines 2 pieces of example code at the end of s13.4.5. Looks as if it w
 ...(ie. one after the other in the 'and then' pipe, rather than some sort of parallel? ...if that is even possible)
 ```{r}
 flights %>%
-  left_join(airports, by = c("origin" = "faa")) %>%  # Looks like the join used in A1
-  left_join(airports, by = c("dest" = "faa")) %>%    # `airports` table doesn't know origin v's destination
+  left_join(airports, by = c("origin" = "faa")) %>%     # Looks like the join used in A1
+  left_join(airports, by = c("dest" = "faa")) %>%       # `airports` table doesn't know origin v's destination
 View()
 ```
 
@@ -245,19 +245,20 @@ plane_age <- planes %>%
   mutate(age = 2013 - year) %>%                            # rename, else `year.x`/`year.y` confusion when joined
   select(tailnum, age)                                     # for simplicity, keep only the planes' ages and the key
 
-flights %>%
+
+flights %>%                                                # ATTEMPT 1
   left_join(plane_age, c("tailnum" = "tailnum")) %>%       # If using "x" = "y" format, remember to enclose by `c()`
   ggplot(aes(x = age, y = arr_delay)) +                    # scatter plot to look for relationship
   geom_point()                                             # BUT it wasn't helpful : columns of many points
 
-flights %>%
+flights %>%                                                # ATTEMPT 2
   left_join(plane_age, c("tailnum" = "tailnum")) %>%
   group_by(age) %>%
   summarise(delay = mean(arr_delay)) %>%                   # Most `age`s : `NA` in `arr_delay` --> mean `NA`...
   ggplot(aes(x = age, y = delay)) +
   geom_point()                                             # ...so only 4 points displayed (which wasn't helpful)
 
-flights %>%
+flights %>%                                                # ATTEMPT 3
   left_join(plane_age, c("tailnum" = "tailnum")) %>%
   group_by(age) %>%
   filter(!is.na(arr_delay)) %>%                            # Filtered out `NA`s, in order to get non-`NA` `mean()`s
@@ -266,7 +267,7 @@ flights %>%
   geom_point() +                                           # 'By eye', the points suggest a slightly -ve correlation
   geom_abline()                                            # Line says +ve correlation, but biased towards 'young'?
 
-flights %>%
+flights %>%                                                # ATTEMPT 4
   left_join(plane_age, c("tailnum" = "tailnum")) %>%
   group_by(age) %>%
   filter(!is.na(dep_delay)) %>%
