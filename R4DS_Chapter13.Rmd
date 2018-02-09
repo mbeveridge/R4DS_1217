@@ -264,8 +264,8 @@ flights %>%                                                # ATTEMPT 3
   filter(!is.na(arr_delay)) %>%                            # Filtered out `NA`s, in order to get non-`NA` `mean()`s
   summarise(delay = mean(arr_delay)) %>%
   ggplot(aes(x = age, y = delay)) +
-  geom_point() +                                           # 'By eye', the points suggest a slightly -ve correlation
-  geom_abline()                                            # Line says +ve correlation, but biased towards 'young'?
+  geom_point() +                                           # 'By eye' : slightly -ve correlation after a few years
+  geom_smooth()                                            # Similar. A correlation using `mean` is invalid anyway?
 
 flights %>%                                                # ATTEMPT 4
   left_join(plane_age, c("tailnum" = "tailnum")) %>%
@@ -274,7 +274,7 @@ flights %>%                                                # ATTEMPT 4
   summarise(delay = mean(dep_delay)) %>%                   # Trying `dep_delay` instead...
   ggplot(aes(x = age, y = delay)) +
   geom_point() +
-  geom_abline()                                            # Similar. A correlation using `mean` is invalid anyway?
+  geom_smooth()                                            # Similar to `arr_delay` plot in ATTEMPT 3
 ```
 
 
