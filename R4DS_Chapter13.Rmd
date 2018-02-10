@@ -408,15 +408,20 @@ Q3.
 Combine `fueleconomy::vehicles` and `fueleconomy::common` to find only the records for the most common models
 
 A3.
+As mentioned in 13.3.1 Exercises A2, "Package wasn't in the Anaconda distribution", so I haven't installed it. But I'd expect the answer to be of the form :
 ```{r}
-# As mentioned in 13.3.1 Exercises A2, "Package wasn't in the Anaconda distribution", so I haven't installed it
 fueleconomy::vehicles %>%
-  
-fueleconomy::common
-  
+  semi_join(fueleconomy::common, by = c("x1" = "x2", "y1" = "y2"))
 ```
 
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+According to [https://jrnold.github.io/r4ds-exercise-solutions/relational-data.html#filtering-joins] :
+```{r}
+glimpse(fueleconomy::common)     # "The table `fueleconomy::common` identifies vehicles by make and model"
+glimpse(fueleconomy::vehicles)   # includes the same make and model variables, so we would join on them...
+
+fueleconomy::vehicles %>%
+  semi_join(fueleconomy::common, by = c("make", "model"))
+```
 
 -----------
 
