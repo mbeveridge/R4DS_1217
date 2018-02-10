@@ -438,17 +438,30 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 -----------
 
 Q5.
-What does `anti_join(flights, airports, by = c("dest" = "faa"))` tell you?
-What does `anti_join(airports, flights, by = c("faa" = "dest"))` tell you?
+
+* What does `anti_join(flights, airports, by = c("dest" = "faa"))` tell you?
+* What does `anti_join(airports, flights, by = c("faa" = "dest"))` tell you?
 
 A5.
-```{r}
-anti_join(flights, airports, by = c("dest" = "faa"))
+"anti_join(x, y) drops all observations in x that have a match in y" ... "Anti-joins are useful for diagnosing join mismatches. For example, when connecting flights and planes, you might be interested to know that there are many flights that don’t have a match in planes" -- s13.5 R4DS book
 
-anti_join(airports, flights, by = c("faa" = "dest"))
+```{r}
+anti_join(flights, airports, by = c("dest" = "faa"))     # 7602 x 19
+
+anti_join(airports, flights, by = c("faa" = "dest"))     # 1357 x 8
+
+flights %>%                                              # [Check whether any flights are missing a `dest`]
+  group_by(dest) %>%
+  summarise (count = n()) %>%
+  arrange(desc(count)) %>%
+  filter(is.na(dest) == TRUE)                            # 0 rows --> No, don't need to mention `NA` in explanation
 ```
 
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+* `anti_join(flights, airports, by = c("dest" = "faa"))` will drop all flights whose `dest` airport is in the `airports` table. Any that remain are flights with a destination elsewhere. 
+
+ie. "flights that go to an airport that is not in FAA list of destinations, likely foreign airports" -- https://jrnold.github.io/r4ds-exercise-solutions/relational-data.html#filtering-joins
+
+* `anti_join(airports, flights, by = c("faa" = "dest"))` tells us the airports in the `airports` table that no flights went to ("from New York in 2013").
 
 -----------
 
