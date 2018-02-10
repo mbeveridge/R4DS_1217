@@ -349,16 +349,37 @@ flights %>%
 
 Q1.
 What does it mean for a flight to have a missing `tailnum`?
-What do the tail numbers that don’t have a matching record in planes have in common?
+What do the tail numbers that don’t have a matching record in `planes` have in common?
 (Hint: one variable explains ~90% of the problems.)
 
 A1.
 ```{r}
+flights %>%                                     # 336776 rows
+  filter(is.na(tailnum) == TRUE) %>%            # 2512 rows where `tailnum` is `NA`
+  count(tailnum, carrier, sort = TRUE)          # 7 carriers (9E:1044, UA:686, US:663, AA:84, WN:30, F9:3, MQ:2)
+
+planes
+
 flights %>%
-  
+  anti_join(planes, by = "tailnum") %>%         # 52606 rows where a `tailnum` in `flights` isn't in `planes`
+  count(tailnum, sort = TRUE)                   # 2512 rows (only) where it's because the `tailnum` is `NA`
+
+flights %>%
+  anti_join(planes, by = "tailnum") %>%
+  count(carrier, tailnum, sort = TRUE)          # Top3 have tailnum=NA [9E:1044,UA:686,US:663]. Then many carrier=MQ
+
+flights %>%
+  anti_join(planes, by = "tailnum") %>%         # 52606 rows where a `tailnum` in `flights` isn't in `planes`
+  group_by(carrier) %>%
+  summarise(count = n()) %>%
+  arrange(desc(count))                          # 10 carriers [MQ:25397,AA:22558,UA:1693,9E:1044,B6:830,US:699,etc]
 ```
 
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+From the `?flights` Help, `tailnum` is "Plane tail number". So, it represents a specific plane. If one flight has a missing `tailnum`, it may be an entry error, but if all the flights by a specific carrier have a missing `tailnum` then it is probably a policy by the carrier not to provide them (??). Such a carrier is 9E. (There are other carriers where most flights have a missing `tailnum`, but some(?) not missing are still not included in the `planes` table ...eg. UA, US)
+
+In most cases, "the tail numbers that don’t have a matching record in `planes`" are not missing a `tailnumber` in `flights`. (50094 of 52606 rows.) However, 91% of them (47955/52606) do belong to the carriers MQ & AA
+
+Is this the answer and the '90%' hint ??
 
 -----------
 
