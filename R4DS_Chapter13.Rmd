@@ -354,7 +354,7 @@ What do the tail numbers that don’t have a matching record in `planes` have in
 
 A1.
 ```{r}
-flights %>%                                     # 336776 rows
+flights %>%                                     # [These 3 lines of code aren't what we're practicing in 13.5.1]
   filter(is.na(tailnum) == TRUE) %>%            # 2512 rows where `tailnum` is `NA`
   count(tailnum, carrier, sort = TRUE)          # 7 carriers (9E:1044, UA:686, US:663, AA:84, WN:30, F9:3, MQ:2)
 
@@ -387,12 +387,20 @@ Q2.
 Filter `flights` to only show flights with planes that have flown at least 100 flights
 
 A2.
+"`semi_join(x, y)` keeps all observations in `x` that have a match in `y`" ... "Semi-joins are useful for matching filtered summary tables back to the original rows" -- s13.5 R4DS book
+
+[Simply filtering a table is not what we're practicing in 13.5.1] : Create a filtered table. Then `semi_join` `flights` to that filtered table, to keep only the observations that would have made it up :
 ```{r}
+flights_ge100 <- flights %>%
+  group_by(tailnum) %>%
+  summarise(count = n()) %>%
+  filter(count >= 100) %>%
+  arrange(desc(count))                      # 1218 x2: 'planes that have flown at least 100 flights'
+
 flights %>%
-  filter(tailnum >= 100)
+  semi_join(flights_ge100, by = "tailnum")  # 230902 x19: "flights with planes that have flown at least 100 flights"
 ```
 
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 -----------
 
