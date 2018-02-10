@@ -360,15 +360,15 @@ flights %>%                                     # 336776 rows
 
 planes
 
-flights %>%
-  anti_join(planes, by = "tailnum") %>%         # 52606 rows where a `tailnum` in `flights` isn't in `planes`
-  count(tailnum, sort = TRUE)                   # 2512 rows (only) where it's because the `tailnum` is `NA`
+flights %>%                                     # [These 3 lines of code are from s13.5 R4DS book]
+  anti_join(planes, by = "tailnum") %>%         # (52606 rows where a `tailnum` in `flights` isn't in `planes`)
+  count(tailnum, sort = TRUE)                   # Top is 'tailnum=NA' with 'n=2512'
 
-flights %>%
+flights %>%                                     # [Look at the `carrier` variable, by including the column]
   anti_join(planes, by = "tailnum") %>%
   count(carrier, tailnum, sort = TRUE)          # Top3 have tailnum=NA [9E:1044,UA:686,US:663]. Then many carrier=MQ
 
-flights %>%
+flights %>%                                     # [From 'other direction': do some carriers never have `tailnum`?]
   anti_join(planes, by = "tailnum") %>%         # 52606 rows where a `tailnum` in `flights` isn't in `planes`
   group_by(carrier) %>%
   summarise(count = n()) %>%
