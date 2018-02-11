@@ -427,18 +427,28 @@ fueleconomy::vehicles %>%
 
 Q4.
 Find the 48 hours (over the course of the whole year) that have the worst delays.
-Cross-reference it with the weather data. Can you see any patterns?
+Cross-reference it with the `weather` data. Can you see any patterns?
 
 A4.
+What to use as the definition of 'delays'? [cf. 5.6.7 Exercises Q1.5 : "Which is more important: arrival delay or departure delay?"] We could use `arr_delay` or `dep_delay` or their sum (or their mean would give same ranking). We only have `weather` data for `origin` (not `dest` as well), so should we only look at `dep_delay`, (having in mind the cross-reference & pattern search we'll then do)?
+
+Here, (apparently) 'the 48 hours' means a concurrent period of 2 calendar days :
 ```{r}
-flights %>%
-  
-  
-weather
-  
+delay_48 <- flights %>%
+  group_by(year, month, day) %>%
+  summarise(total_24 = sum(dep_delay, na.rm = TRUE)+ sum(arr_delay, na.rm = TRUE)) %>%
+  mutate(total_48 = total_24 + lag(total_24)) %>%                                        # This is clever
+  arrange(desc(total_48)) %>%                                                            # 365 x 5
+  head(1)                                                                                # 2013-07-23 (& 2013-07-24)
+# -- [https://jrnold.github.io/r4ds-exercise-solutions/relational-data.html#filtering-joins]
+
+weather %>%
+  semi_join(delay_48, by = c("year", "month", "day"))                                    # 72 x 15 (3 airports,24hr)
+
+# 2013-07-23: summer: warm, humid, dropping pressure ...thunderstorm? But little `precip` and moderate `wind_speed`
+# How should I get both days in the `semi-join`, (ie. 24th as well)? And what is pattern/cause of 'worst delays'?
 ```
 
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 -----------
 
