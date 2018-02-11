@@ -1,4 +1,0 @@
-"0","```r
-ggplot (filter(diamonds, price < 2000), mapping = aes(x = price)) +
-  geom_histogram(binwidth = 10)
-```"

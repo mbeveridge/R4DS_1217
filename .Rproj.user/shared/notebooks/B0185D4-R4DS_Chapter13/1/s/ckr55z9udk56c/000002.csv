@@ -1,5 +1,0 @@
-"0","average_delay %>%"
-"0","  ggplot(aes(lon, lat, colour = avg_delay)) +"
-"0","    borders(""state"") +"
-"0","    geom_point() +"
-"0","    coord_quickmap()"

@@ -1,5 +1,0 @@
-"0","table2 %>% "
-"0","  filter(type == ""cases"") %>%"
-"0","  ggplot(aes(year, count)) + "
-"0","  geom_line(aes(group = country), colour = ""grey50"") + "
-"0","  geom_point(aes(colour = country))"

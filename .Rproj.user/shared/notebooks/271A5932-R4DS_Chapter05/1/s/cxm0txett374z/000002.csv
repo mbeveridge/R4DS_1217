@@ -1,7 +1,0 @@
-"0","flights %>%"
-"0","  arrange(tailnum, year, month, day) %>%"
-"0","  group_by(tailnum) %>%"
-"0","  mutate(delay_1hr = arr_delay > 60) %>%"
-"0","  mutate(before_1stdelay = cumsum(delay_1hr)) %>%"
-"0","  filter(before_1stdelay < 1) %>%"
-"0","  count(sort = TRUE)"

@@ -1,7 +1,0 @@
-"0","flights %>%"
-"0","  filter(!is.na(air_time)) %>%                              # [same as for A6.1]"
-"0","  group_by(dest) %>%                                        # [same as for A6.1]"
-"0","  mutate(air_time_relative = air_time - min(air_time)) %>%  # define `air_time_relative` (relative to min, as ABS)"
-"0","  arrange(desc(air_time_relative)) %>%"
-"0","  select(dest, origin, year, month, day, carrier, flight, air_time, air_time_relative) %>%"
-"0","  head(20)"

@@ -1,5 +1,0 @@
-"0","preg <- tribble("
-"0","  ~pregnant, ~male, ~female,"
-"0","  ""yes"",     NA,    10,"
-"0","  ""no"",      20,    12"
-"0",")"

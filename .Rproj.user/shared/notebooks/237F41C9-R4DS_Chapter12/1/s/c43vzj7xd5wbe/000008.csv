@@ -1,3 +1,0 @@
-"0","# Compute cases per year"
-"0","table2_new %>% "
-"0","  count(year, wt = cases)"

@@ -1,4 +1,0 @@
-"0","read_csv(""a,b,c\n1,2\n1,2,3,4"")  # Q5.2"
-"2","2 parsing failures.
-row # A tibble: 2 x 5 col     row   col  expected    actual         file expected   <int> <chr>     <chr>     <chr>        <chr> actual 1     1  <NA> 3 columns 2 columns literal data file 2     2  <NA> 3 columns 4 columns literal data
-"

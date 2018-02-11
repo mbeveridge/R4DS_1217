@@ -1,1 +1,0 @@
-"0","select(flights, dep_time, sched_dep_time, dep_delay)"

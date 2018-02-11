@@ -1,4 +1,0 @@
-"0","flights %>% # 336,776 x 19"
-"0","  group_by(tailnum) %>% # 336,776 x 19"
-"0","  summarise(arr_delay = mean(arr_delay, na.rm = TRUE)) %>% # 4044 x 2"
-"0","  filter(min_rank(desc(arr_delay)) == 1) # 1 x 2"

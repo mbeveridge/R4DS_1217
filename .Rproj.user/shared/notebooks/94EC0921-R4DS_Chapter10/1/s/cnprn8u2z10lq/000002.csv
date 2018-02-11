@@ -1,4 +1,0 @@
-"0","getOption(""tibble.max_extra_cols"")                     # Tells current value of `tibble.max_extra_cols`"
-"1","NULL
-"
-"0","options(tibble.max_extra_cols = 100)                   # Set to 100"

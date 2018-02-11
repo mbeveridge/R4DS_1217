@@ -1,5 +1,0 @@
-"0","```r
-ggplot(data = diamonds) + 
-  geom_histogram(mapping = aes(x = z), binwidth = 0.5) +
-  coord_cartesian(xlim = c(0, 10))
-```"

@@ -1,3 +1,0 @@
-"0","Salaries %>%"
-"0","  count(yearID, teamID, playerID) %>%"
-"0","  filter (n > 1)"

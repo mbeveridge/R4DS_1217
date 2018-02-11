@@ -1,1 +1,0 @@
-"0","select(flights, ends_with(""time""), ends_with(""delay""), -(starts_with(""sched"")), -(starts_with(""air"")))"

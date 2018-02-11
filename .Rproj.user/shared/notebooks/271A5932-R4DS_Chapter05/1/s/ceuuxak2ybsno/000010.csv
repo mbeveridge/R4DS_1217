@@ -1,3 +1,0 @@
-"0","```r
-filter(flights, dep_time >= 0000, dep_time <= 0600) # A1.7
-```"

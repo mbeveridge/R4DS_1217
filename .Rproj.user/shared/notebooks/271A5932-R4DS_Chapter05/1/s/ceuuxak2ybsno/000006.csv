@@ -1,3 +1,0 @@
-"0","```r
-filter(flights, carrier %in% c(\"UA\", \"AA\", \"DL\")) # A1.3
-```"

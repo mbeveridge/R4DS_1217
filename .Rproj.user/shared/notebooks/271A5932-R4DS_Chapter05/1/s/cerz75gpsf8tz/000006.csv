@@ -1,5 +1,0 @@
-"0","flights %>%"
-"0","  group_by(flight) %>%"
-"0","  summarise(early_15min = sum(arr_delay <= -15, na.rm = TRUE) / n(),"
-"0","            late_15min = sum(arr_delay >= 15, na.rm = TRUE) / n()) %>%"
-"0","  filter(early_15min == 0.5, late_15min == 0.5)"

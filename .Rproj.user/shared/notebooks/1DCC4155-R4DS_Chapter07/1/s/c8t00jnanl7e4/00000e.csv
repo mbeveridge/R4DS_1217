@@ -1,2 +1,0 @@
-"0","ggplot(data = nycflights13::flights, mapping = aes(x = dep_delay)) +"
-"0","  geom_histogram()                                                        # histogram"

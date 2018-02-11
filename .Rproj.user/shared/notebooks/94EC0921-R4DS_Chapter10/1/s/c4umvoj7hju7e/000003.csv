@@ -1,3 +1,0 @@
-"0","```r
-print(as_tibble(mtcars))
-```"

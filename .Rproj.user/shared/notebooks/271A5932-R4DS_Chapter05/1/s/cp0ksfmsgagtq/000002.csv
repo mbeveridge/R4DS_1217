@@ -1,5 +1,0 @@
-"0","cancelled <- flights %>%"
-"0","filter(is.na(dep_delay)) %>%"
-"0","mutate(date = as.Date(time_hour)) %>%    # This is an extra line (v's my attempt above)"
-"0","group_by(date) %>%                       # Instead of `group_by(year, month, day)`"
-"0","summarise(count = n())"

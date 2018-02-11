@@ -1,5 +1,0 @@
-"0","?stat_summary"
-"0","?geom_pointrange"
-"0","# 'previous plot' in the book text, before 3.7.1 Exercises :"
-"0","ggplot(data = diamonds) +"
-"0","  stat_summary(mapping = aes(x = cut, y = depth), fun.ymin = min, fun.ymax = max, fun.y = median)"

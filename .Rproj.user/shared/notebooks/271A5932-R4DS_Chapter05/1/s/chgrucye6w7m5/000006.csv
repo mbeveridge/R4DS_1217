@@ -1,3 +1,0 @@
-"0","flights %>% "
-"0","  mutate(rank = min_rank(desc(dep_delay))) %>%"
-"0","  arrange(rank)"

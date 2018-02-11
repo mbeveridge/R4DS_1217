@@ -1,4 +1,0 @@
-"0","```r
-?between # This is a shortcut for x >= left & x <= right
-filter(flights, between(month, 7, 9)) # A1.4
-```"

@@ -1,2 +1,0 @@
-"0","# carrier=F9 has the highest average delay, of 22 minutes"
-"0","filter(airlines, carrier == ""F9"") # Frontier Airlines Inc"

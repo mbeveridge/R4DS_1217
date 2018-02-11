@@ -1,3 +1,0 @@
-"0","stocks %>% "
-"0","  spread(year, return) %>%"
-"0","  gather(""year"", ""return"", `2015`:`2016`, convert = TRUE)"

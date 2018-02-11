@@ -1,6 +1,0 @@
-"0","flights %>%"
-"0","  mutate(dep_date = as.Date(time_hour)) %>%"
-"0","  group_by(tailnum) %>%"
-"0","  arrange(dep_date) %>%"
-"0","  filter(!cumany(arr_delay > 60)) %>%"
-"0","  tally(sort = TRUE)"

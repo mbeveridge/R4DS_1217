@@ -1,5 +1,0 @@
-"0","average_delay <- flights %>%                                  # allocated to variable, to use in `ggplot()` 'blob'"
-"0","  group_by(dest) %>%                                          # `group_by()` in order to then take the group average"
-"0","  summarise(avg_delay = mean(arr_delay, na.rm = TRUE)) %>%    # Choose to exclude `NA`s from the average"
-"0","  left_join(airports, by = c(""dest"" = ""faa""))                 # Join using flight destination, not flight origin"
-"0","average_delay"

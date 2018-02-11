@@ -1,1 +1,0 @@
-"0","filter(flights, min_rank(desc(dep_delay)) <= 10) # Only 10 results (there were no ties), but not in order"

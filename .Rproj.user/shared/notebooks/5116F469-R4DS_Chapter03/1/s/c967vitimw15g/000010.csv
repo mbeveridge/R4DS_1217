@@ -1,3 +1,0 @@
-"0","ggplot(data = mpg, mapping = (aes(x = 1, fill = class))) + # x=factor(1) would get rid of extra scaling marks"
-"0","  geom_bar(position = ""stack"") +"
-"0","  coord_polar(theta = ""y"") # theta=""y"" gave pie segments, (instead of rings)"

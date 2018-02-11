@@ -1,7 +1,0 @@
-"0"," "
-"0","flights %>% "
-"0","  left_join(plane_age, c(""tailnum"" = ""tailnum"")) %>% "
-"0","  group_by(age) %>% "
-"0","  summarise(delay = mean(arr_delay)) %>%                   # Most `age`s : `NA` in `arr_delay` --> mean `NA`..."
-"0","  ggplot(aes(x = age, y = delay)) + "
-"0","  geom_point()                                             # ...so only 4 points displayed (which wasn't helpful)"

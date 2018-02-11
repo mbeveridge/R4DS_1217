@@ -1,1 +1,0 @@
-"0","transmute(flights, dep_time = (dep_time %/% 100) * 60 + dep_time %% 100, sched_dep_time = (sched_dep_time %/% 100) * 60 + sched_dep_time %% 100) # eg. Originally `dep_time` of 5:17am shown as 517. Now as 317 mins since midnight"

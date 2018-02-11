@@ -1,7 +1,0 @@
-"0","dftibb <- as_tibble(data.frame(abc = 1, xyz = ""a""))
-dftibb$x                                 # A2.1
-"
-"2","Unknown or uninitialised column: 'x'."
-"1","NULL
-"
-"0","dftibb[, ""xyz""]                          # A2.2"

@@ -1,2 +1,0 @@
-"0","preg %>%"
-"0","  gather(male, female, key = ""sex"", value = ""count"") # I assume 'count' is 'baby_qty', but safer to leave as 'count'"

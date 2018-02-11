@@ -1,3 +1,0 @@
-"0","not_cancelled %>%"
-"0","  group_by(dest) %>%"
-"0","  summarise(n())"

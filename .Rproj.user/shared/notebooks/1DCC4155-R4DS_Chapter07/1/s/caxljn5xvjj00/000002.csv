@@ -1,6 +1,0 @@
-"0","```r
-diamonds %>%
-  filter(carat >= 0.9, carat <= 1.1) %>%
-  count(carat) %>%
-  head(20)
-```"
