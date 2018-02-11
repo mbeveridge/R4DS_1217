@@ -465,7 +465,7 @@ anti_join(flights, airports, by = c("dest" = "faa"))     # 7602 x 19
 
 anti_join(airports, flights, by = c("faa" = "dest"))     # 1357 x 8
 
-flights %>%                                              # [Check whether any flights are missing a `dest`]
+flights %>%                                              # [To check whether any flights are missing a `dest`]
   group_by(dest) %>%
   summarise (count = n()) %>%
   arrange(desc(count)) %>%
@@ -484,13 +484,35 @@ Q6.
 You might expect that there’s an implicit relationship between plane and airline, because each plane is flown by a single airline. Confirm or reject this hypothesis using the tools you’ve learned above
 
 A6.
+"each plane is flown by a single airline" --> no `tailnum` has > 1 `carrier` :
 ```{r}
 flights %>%
+  group_by(tailnum, carrier) %>%
+  summarise(count = n()) %>%                         # 4067 x 3 ...(`tailnum`, `carrier`, `count`)
+  filter(n() > 1)                                    # 41 rows (7 had `tailnum == NA`). (4026 rows had `count == 1`)
 
-tailnum
-carrier
-  
+# Am unable to consistently grasp what `n()` is summing
+# 8 `tailnum`s have both 9E (Endeavor Air Inc) & EV (ExpressJet Airlines Inc.) as `carrier`
+# 9 `tailnum`s have both DL (Delta Air Lines Inc.) & FL (AirTran Airways Corporation) as `carrier`
+# I expected the answer to involve a `semi_join()`, but can't figure out what I could **remove** from what I have
+
+airlines
+
+flights %>%
+  group_by(tailnum, carrier) %>%
+  count() %>%                                        # 4067 x 3 ...(`tailnum`, `carrier`, `n`)
+  filter(n() > 1) %>%                                # 0 rows. (Not 41.) [PS. `filter(n > 1)` would give 3896 rows]
+  select(tailnum) %>%
+  distinct()
+  # -- [https://jrnold.github.io/r4ds-exercise-solutions/relational-data.html#filtering-joins]
 
 ```
 
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+I would expect that "each plane is flown by a single airline" at any given time. But not that a plane was never sold/ leased/ (shared)/ etc by more than one airline, over time
+
+My workings seem to reject the hypothesis (and agree with what I expected), as there were 17 planes in the dataset that were flown by more than one airline during 2013
+
+However, that seems to disagree with workings from [https://jrnold.github.io/r4ds-exercise-solutions/relational-data.html#filtering-joins], and I don't know why
+
+Also, the question implied that the answer would involve a (filtering) join, (possibly to demonstrate : "You could construct a filter yourself ... But it’s difficult to extend that approach to multiple variables" -- s13.5 R4DS book). But I can't figure out what I could **remove** from what I have, in order to try that
+
