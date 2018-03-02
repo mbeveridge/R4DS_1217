@@ -99,9 +99,9 @@ In Anaconda, installed the package : **r-lahman**
 
 ```{r}
 library(Lahman)
-# library(babynames)               # No. Package wasn't in the Anaconda distribution
-# library(nasaweather)             # No. Package wasn't in the Anaconda distribution
-# library(fueleconomy)             # No. Package wasn't in the Anaconda distribution
+# library(babynames)               # No. Package not in the Anaconda distribution
+# library(nasaweather)             # No. Package not in the Anaconda distribution
+# library(fueleconomy)             # No. Package not in the Anaconda distribution
 ```
 
 A2.1
@@ -408,7 +408,7 @@ Q3.
 Combine `fueleconomy::vehicles` and `fueleconomy::common` to find only the records for the most common models
 
 A3.
-As mentioned in 13.3.1 Exercises A2, "Package wasn't in the Anaconda distribution", so I haven't installed it. But I'd expect the answer to be of the form :
+As mentioned in 13.3.1 Exercises A2, "Package not in the Anaconda distribution", so I haven't installed it. But I'd expect the answer to be of the form :
 ```{r}
 fueleconomy::vehicles %>%
   semi_join(fueleconomy::common, by = c("x1" = "x2", "y1" = "y2"))
