@@ -259,7 +259,7 @@ ggplot(data = mpg) +
 
 
 ```{r}
-install.packages("ggstance")                 # Not available in Anaconda Navigator, to install
+# install.packages("ggstance")              # Not available in Anaconda Navigator, to install
 library(ggstance)
 ```
 
@@ -288,7 +288,7 @@ ggplot(data = diamonds, mapping = aes(x = cut, y = price)) +
 
 
 ```{r}
-install.packages("lvplot")                 # Not available in Anaconda Navigator, to install
+# install.packages("lvplot")              # Not available in Anaconda Navigator, to install
 library(lvplot)
 ```
 
@@ -351,7 +351,7 @@ between a continuous and categorical variable. The **ggbeeswarm** package provid
 similar to `geom_jitter()`. List them and briefly describe what each one does
 
 ```{r}
-install.packages("ggbeeswarm")        # Not available in Anaconda Navigator, to install
+# install.packages("ggbeeswarm")    # Not available in Anaconda Navigator, to install
 library(ggbeeswarm)
 ```
 
