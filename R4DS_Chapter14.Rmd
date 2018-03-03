@@ -245,8 +245,10 @@ str_view(stringr::words, "^[aeiou]", match = TRUE)     # Better/clearer than abo
 A1.2
 ```{r}
 str_view(stringr::words, "^[^aeiou]", match = TRUE)    # Starts with a consonant. HOW DO I DO THAT FOR THE REST? (unless have a pattern for each specific length)
+
+# <From later in the course, we know about `?+*` ...s14.3.4>
+str_view(stringr::words, "^[^aeiou]+$", match = TRUE)  # (6 words)
 ```
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 A1.3
 ```{r}
@@ -353,7 +355,7 @@ str_view(stringr::words, "([aeiou][^aeiou]){2,}", match = TRUE)     # A3.3
 -----------
 
 Q4. Solve the beginner regexp crosswords at https://regexcrossword.com/challenges/beginner
-A4. (Did the 1st one ok. Then didn't know what \1 was, in the 2nd and 3rd. And gave up)
+A4. (Did the 1st one ok. Then didn't know what \1 was, in the 2nd and 3rd. And gave up.) <From later in the course, we know that \1 is a 'backreference' ...s14.3.5>
 
 
 ----------
@@ -368,6 +370,9 @@ Q1.2 `"(.)(.)\\2\\1"`
 Q1.3 `(..)\1`
 Q1.4 `"(.).\\1.\\1"`
 Q1.5 `"(.)(.)(.).*\\3\\2\\1"`
+
+A1.
+"Earlier, you learned about parentheses as a way to disambiguate complex expressions. They also define “groups” that you can refer to with backreferences, like \1, \2 etc" -- s14.3.5 R4DS book. (So \2 is a reference to the 2nd `()` group, not a multiplier)
 
 A1.1 Any character (the same one) 3 times in a row. (eg. `xxx`)
 A1.2 char1, char2, char2, char1. (eg. `xyyx`)
