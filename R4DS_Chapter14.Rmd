@@ -317,24 +317,24 @@ Describe the equivalents of `?`, `+`, `*` in `{m,n}` form
 A1.
 `?` : 0 or 1    -- s14.3.4 : `{,1}`, matching at most 1
 `+` : 1 or more -- s14.3.4 : `{1,}`, matching 1 or more
-`*` : 0 or more -- s14.3.4 : "There is no direct equivalent of * in {m,n} form since there are no bounds on the matches:
-#                              it can be 0 up to infinity matches" -- https://jrnold.github.io/e4qf/strings.html
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX CAN WE USE {0,} or {,} ?
+`*` : 0 or more -- s14.3.4 : "There is no direct equivalent of `*` in `{m,n}` form since there are no bounds on the matches: it can be 0 up to infinity matches" -- https://jrnold.github.io/e4qf/strings.html
+
+...<So presumably we can't use `{0,}` or `{,}`>
 
 -----------
 
 Q2.
 Describe in words what these regular expressions match:
 (read carefully to see if I’m using a regular expression or a string that defines a regular expression)
-Q2.1 `^.*$`
-Q2.2 `"\\{.+\\}"`
-Q2.3 `\d{4}-\d{2}-\d{2}`
-Q2.4 `"\\\\{4}"`
+Q2.1 `^.*$`                   # regexp
+Q2.2 `"\\{.+\\}"`             # string
+Q2.3 `\d{4}-\d{2}-\d{2}`      # regexp
+Q2.4 `"\\\\{4}"`              # string
 
 A2.1 `.*`             : Would match any string (of any length)
 A2.2 `\{.+\}`         : Would match curly braces around >= 1 character
 A2.3 eg. 1111-22-33   : 4 digits dash 2 digits dash 2 digits. Could be a date, with Year first
-A2.4 `\\{4}`          : 4 backslashes
+A2.4 `\\{4}`          : 4 backslashes (apparently ...re. 14.3.1.1 Exercises Q1)
 
 -----------
 
