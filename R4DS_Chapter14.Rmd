@@ -319,7 +319,7 @@ Describe the equivalents of `?`, `+`, `*` in `{m,n}` form
 A1.
 `?` : 0 or 1    -- s14.3.4 : `{,1}`, matching at most 1
 `+` : 1 or more -- s14.3.4 : `{1,}`, matching 1 or more
-`*` : 0 or more -- s14.3.4 : "There is no direct equivalent of `*` in `{m,n}` form since there are no bounds on the matches: it can be 0 up to infinity matches" -- https://jrnold.github.io/e4qf/strings.html
+`*` : 0 or more -- s14.3.4 : "There is no direct equivalent of `*` in `{m,n}` form since there are no bounds on the matches: it can be 0 up to infinity matches" -- https://jrnold.github.io/r4ds-exercise-solutions/strings.html#repetition
 
 ...<So presumably we can't use `{0,}` or `{,}`>
 
@@ -407,16 +407,18 @@ Q1.2 Find all words that start with a vowel and end with a consonant
 Q1.3 Are there any words that contain at least one of each different vowel?
 
 # A1.1
-str_view(stringr::words, "^x|x$", match = TRUE)                     # (None starts with x.) End: box, sex, six, tax
-stringr::words[str_detect(stringr::words, "^x|x$")]                 # Alternative. Same results in Console (not Viewer)
-str_subset(stringr::words, "^x|x$")                                 # Alternative. Same results in Console (not Viewer)
+```{r}
+str_view(stringr::words, "^x|x$", match = TRUE)         # (None starts with x.) End: box, sex, six, tax
+stringr::words[str_detect(stringr::words, "^x|x$")]     # Alternative. Same results in Console (not Viewer)
+str_subset(stringr::words, "^x|x$")                     # Alternative. Same results in Console (not Viewer)
 
 start_x <- str_detect(stringr::words, "^x")
 end_x <- str_detect(stringr::words, "x$")
-stringr::words[start_x | end_x]                                     # Combination. Same results in Console
-
+stringr::words[start_x | end_x]                         # Combination. Same results in Console
+```
 
 # A1.2
+```{r}
 str_view(stringr::words, "^[aeiou].*[^aeiou]$", match = TRUE)       # In Viewer
 stringr::words[str_detect(stringr::words, "^[aeiou].*[^aeiou]$")]   # Alternative. In Console
 str_subset(stringr::words, "^[aeiou].*[^aeiou]$")                   # Alternative. In Console
@@ -424,9 +426,10 @@ str_subset(stringr::words, "^[aeiou].*[^aeiou]$")                   # Alternativ
 start_vowel <- str_detect(stringr::words, "^[aeiou]")
 end_consonant <- str_detect(stringr::words, "[^aeiou]$")
 stringr::words[start_vowel & end_consonant]                         # Combination. Same results in Console
-
+```
 
 # A1.3
+```{r}
 str_view(stringr::words, "([aeiou]).*\\1.*\\1.*\\1.*\\1", match = TRUE)
 # None has 5 vowels, so none has 5 different. (WRONG - This code looks for the *same* vowel 5 times)
 str_view(stringr::words, "[aeiou].*[aeiou].*[aeiou].*[aeiou].*[aeiou]", match = TRUE)
@@ -439,7 +442,8 @@ contains_o <- str_detect(words, "o")
 contains_u <- str_detect(words, "u")
 words[contains_a & contains_e & contains_i & contains_o & contains_u]
 # Seemed to work ok (no errors). No matches (as expected, but doesn't prove that code works)
-# Replaced 'words' with "baeiout", and code worked (matched) -- Suggested by https://jrnold.github.io/e4qf/strings.html
+# Replaced `words` with "baeiout", and code worked (matched) -- Suggested by https://jrnold.github.io/r4ds-exercise-solutions/strings.html#exercises-1
+```
 
 -----------
 
@@ -449,16 +453,22 @@ What word has the highest number of vowels? What word has the highest proportion
 
 A2.
 ```{r}
-words[str_detect(words, "[aeiou].*[aeiou].*[aeiou].*[aeiou].*[aeiou]")]              # 5 vowels. re. A1.3
-words[str_detect(words, "[aeiou].*[aeiou].*[aeiou].*[aeiou].*[aeiou].*[aeiou]")]     # BUT 6 vowels. No match
+words[str_detect(words, "[aeiou].*[aeiou].*[aeiou].*[aeiou].*[aeiou]")]
+# 5 vowels. re. A1.3
+words[str_detect(words, "[aeiou].*[aeiou].*[aeiou].*[aeiou].*[aeiou].*[aeiou]")]
+# BUT 6 vowels. No match
 
-proportion_vowels <- str_count(words, "[aeiou]") / str_length(words)        # proportion, for each word
-words[which(proportion_vowels == max(proportion_vowels))]                   # max is 100%, when the word is a vowel
-# -- https://jrnold.github.io/e4qf/strings.html
+proportion_vowels <- str_count(words, "[aeiou]") / str_length(words)
+# proportion, for each word
+words[which(proportion_vowels == max(proportion_vowels))]
+# max is 100%, when the word is a vowel
+# -- https://jrnold.github.io/r4ds-exercise-solutions/strings.html#exercises-1
 # `str_length()` was in s14.2.1 so that's ok ...BUT we haven't coverered `which()` or `max()` in the book
 
-proportion_vowels <- str_count(words, "[aeiou]") / str_length(words)        # proportion, for each word
-words[proportion_vowels == 1]                                               # max is 100%, when the word is a vowel
+proportion_vowels <- str_count(words, "[aeiou]") / str_length(words)
+# proportion, for each word
+words[proportion_vowels == 1]
+# max is 100%, when the word is a vowel
 ```
 
 
