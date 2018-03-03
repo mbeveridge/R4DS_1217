@@ -231,9 +231,9 @@ str_view(stringr::words, "^.......", match = TRUE)   # A2.4 ? (>=16 words start 
 
 Q1. Create regular expressions to find all words that:
 Q1.1 Start with a vowel
-Q1.2 That only contain consonants. (Hint: thinking about matching “not”-vowels)
-Q1.3 End with ed, but not with eed
-Q1.4 End with ing or ise
+Q1.2 Only contain consonants. (Hint: thinking about matching “not”-vowels)
+Q1.3 End with `ed`, but not with `eed`
+Q1.4 End with `ing` or `ise`
 
 A1.1
 ```{r}
@@ -244,7 +244,7 @@ str_view(stringr::words, "^[aeiou]", match = TRUE)     # Better/clearer than abo
 
 A1.2
 ```{r}
-str_view(stringr::words, "^[^aeiou]", match = TRUE)    # Starts with a consonant. HOW DO I DO THAT FOR THE REST?
+str_view(stringr::words, "^[^aeiou]", match = TRUE)    # Starts with a consonant. HOW DO I DO THAT FOR THE REST? (unless have a pattern for each specific length)
 ```
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -289,8 +289,7 @@ A4.
 ```{r}
 str_view(stringr::words, "(our$|ise$|^bloke$|^brilliant$|ntre|^chap$|^quid$)", match = TRUE)
 ```
-Some false +ves, and came from looking through the list of `stringr::words` (though I did think of 'our' & 'ise')
-
+Some false +ves, and came from looking through the list of `stringr::words` (though I did think of `our` & `ise`)
 
 -----------
 
@@ -298,10 +297,12 @@ Q5.
 Create a regular expression that will match telephone numbers as commonly written in your country
 
 A5.
+"\d: matches any digit" -- s14.3.3 R4DS book
+
 ```{r}
 x <- c("0117 912 3456", "01179123456")
-str_view(x, "\\d\\d\\d\\d \\d\\d\\d \\d\\d\\d\\d")       # matches the first one, not the second
-str_view(x, "\\d\\d\\d\\d\\s\\d\\d\\d\\s\\d\\d\\d\\d")   # alternate ('better') way, using '\s' for whitespace
+str_view(x, "\\d\\d\\d\\d \\d\\d\\d \\d\\d\\d\\d")       # matches the first one, BUT not the second
+str_view(x, "\\d\\d\\d\\d\\s\\d\\d\\d\\s\\d\\d\\d\\d")   # alternate ('better') way, using '\s' for whitespace. (Still matches first, not second)
 ```
 
 
