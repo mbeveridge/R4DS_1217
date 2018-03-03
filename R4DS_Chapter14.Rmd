@@ -197,16 +197,16 @@ A1.
 "To force a regular expression to only match a complete string, anchor it with both `^` and `$`" -- s14.3.2
 
 ```{r}
-z <- "^\\$\\^\\$$" # Able to take a guess at this, but I still need to check/adjust using writeLines() and str_view()
+z <- "^\\$\\^\\$$" # Able to take a guess at this, but I still need to check/adjust using `writeLines()` and `str_view()`
 z                  # shows [1] "^\\$\\^\\$$"
 writeLines(z)      # shows ^\$\^\$$
 
-str_view(c("$^$", "pp$^$pp", "$^$qq", "rr$^$"), "^\\$\\^\\$$")
+str_view(c("$^$", "pp$^$pp", "$^$qq", "rr$^$"), "^\\$\\^\\$$")  # as a test
 ```
 
 -----------
 
-Q2. Given the corpus of common words in stringr::words, create regular expressions that find all words that:
+Q2. Given the corpus of common words in `stringr::words`, create regular expressions that find all words that:
 Q2.1 Start with “y”.
 Q2.2 End with “x”
 Q2.3 Are exactly three letters long. (Don’t cheat by using `str_length()`!)
@@ -217,10 +217,10 @@ Since this list is long, you might want to use the `match` argument to `str_view
 ?str_view
 stringr::words
 
-str_view(stringr::words, "^y", match = TRUE)         # A2.1
-str_view(stringr::words, "x$", match = TRUE)         # A2.2
-str_view(stringr::words, "^...$", match = TRUE)      # A2.3
-str_view(stringr::words, "^.......", match = TRUE)   # A2.4
+str_view(stringr::words, "^y", match = TRUE)         # A2.1 (6 words)
+str_view(stringr::words, "x$", match = TRUE)         # A2.2 (4 words)
+str_view(stringr::words, "^...$", match = TRUE)      # A2.3 ? (16 words start a/b)
+str_view(stringr::words, "^.......", match = TRUE)   # A2.4 ? (>=16 words start a)
 ```
 
 
