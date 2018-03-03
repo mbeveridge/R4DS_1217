@@ -143,10 +143,11 @@ Explain why each of these strings <in a regexp> don’t match a `\` <within stri
 A1.
 If \ is used as an escape character in regular expressions, how do you *match* a literal \? Well you need to escape it, creating the regular expression \\. To create that regular expression, you need to use a string, which also needs to escape \. That means to match a literal \ you need to write "\\\\" — you need four backslashes to match one! -- s14.3.1
 
-# "\" : will escape the next character in the regexp (whatever that is, but will not resolve to \)
-# "\\" : will resolve to \ in the regexp, which will escape the next character in the regexp
-# "\\\" : The first two will resolve to a literal backslash in the regexp, the third will escape the next character.
-#         So in the regular expression, this will escape some escaped character. ??? EH?
+* "\" : will escape the next character in the R string
+* "\\" : will resolve to \ in the regexp, which will escape the next character in the regexp
+* "\\\" : The first two will resolve to a literal backslash in the regexp, the third will escape the next character. So in the regexp, this will escape some escaped character. <??? EH?>
+-- https://jrnold.github.io/r4ds-exercise-solutions/strings.html#matching-patterns-and-regular-expressions
+
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 -----------
@@ -154,15 +155,19 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 Q2. How would you match <to> the sequence `"'\` <if it exists within a series of strings you're searching> ?
 
 A2.
-To include a literal single or double quote in a string you can use \ to “escape” it -- s14.2
-Beware that the printed representation of a string is not the same as string itself, because the printed representation shows the escapes. To see the raw contents of the string, use writeLines()
+"To include a literal single or double quote in a string you can use \ to “escape” it" -- s14.2 R4DS book
+
+"Beware that the printed representation of a string is not the same as string itself, because the printed representation shows the escapes. To see the raw contents of the string, use `writeLines()`" -- s14.2 R4DS book
+
+```{r}
 ?'"' # in order to see list of Character Constants (like \n, \t, etc) on the Help page
-?str_view # "str_view shows the first match; str_view_all shows all the matches"
+?str_view # "`str_view` shows the first match; `str_view_all` shows all the matches"
 
 x <- '\"\'\\'
 x                  # shows [1] "\"'\\"
 writeLines(x)      # shows "'\
 # Does that answer the question?
+```
 
 -----------
 
@@ -170,7 +175,7 @@ Q3.
 What patterns will the regular expression `\..\..\..` match? How would you represent it as a string?
 
 A3.
-...... : This is a literal dot followed by a 'wildcard', 3 times
+`......` : This is a literal dot followed by a 'wildcard', 3 times
 It will match any patterns that are a dot followed by any character, 3 times
 
 ```{r}
