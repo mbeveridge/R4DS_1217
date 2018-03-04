@@ -579,7 +579,14 @@ Q1.
 Find all words that come after a “number” like “one”, “two”, “three” etc. Pull out both the number and the word
 
 A1.
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+```{r}
+numword <- "(one|two|three|four|five|six|seven|eight|nine|ten) +(\\S+)"
+sentences[str_detect(sentences, numword)] %>%
+  str_extract(numword)
+
+# This answer from [https://jrnold.github.io/r4ds-exercise-solutions/strings.html#grouped-matches] includes matches which aren't really numbers eg. "(of)ten served", "(fas)ten your shoe", "(d)one before". (No sentences include `zero` or `none`, so their omission from `numword` has no effect)
+```
+
 
 -----------
 
@@ -587,7 +594,14 @@ Q2.
 Find all contractions. Separate out the pieces before and after the apostrophe
 
 A2.
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+```{r}
+contraction <- "([A-Za-z]+)'([A-Za-z]+)"
+sentences %>%
+  `[`(str_detect(sentences, contraction)) %>%
+  str_extract(contraction)
+
+# This answer from [https://jrnold.github.io/r4ds-exercise-solutions/strings.html#grouped-matches]. Not sure how unpaired `[` works, but gives errors without
+```
 
 
 ----------
