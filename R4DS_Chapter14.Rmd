@@ -485,16 +485,18 @@ words[proportion_vowels == 1]
 ### 14.4.3.1 Exercises
 
 Q1.
-In the previous example, you might have noticed that the regular expression matched “flickered”, which is not a colour.
-Modify the regex to fix the problem
+In the previous example, you might have noticed that the regular expression matched “flickered”, which is not a colour. Modify the regex to fix the problem
 
 A1.
 Question is referring to s14.4.3
-regex could have whitespace [\s] each side of each colour word. But I got confused which bits of s14.4.3 code did what.
-https://jrnold.github.io/e4qf/strings.html : "Add the \b before and after the pattern", which is similar but different to \s. ("You can also match the boundary between words with \b" -- s14.3.2). Copied from there (but edited `more2`) :
+regex could have whitespace (`\s`) each side of each colour word. But I got confused which bits of s14.4.3 code did what.
+
+https://jrnold.github.io/r4ds-exercise-solutions/strings.html#extract-matches : "Add the `\b` before and after the pattern", which is similar but different to `\s`. ("You can also match the boundary between words with `\b`" -- s14.3.2). Copied from there (but edited `more2`) :
+
 ```{r}
 colours <- c("red", "orange", "yellow", "green", "blue", "purple")
-colour_match2 <- str_c("\\b(", str_c(colours, collapse = "|"), ")\\b")       # This is the row that answers the question
+colour_match2 <- str_c("\\b(", str_c(colours, collapse = "|"), ")\\b")
+# ...This is the row that answers the question
 more2 <- sentences[str_count(sentences, colour_match2) > 1]
 str_view_all(more2, colour_match2, match = TRUE)
 ```
@@ -504,12 +506,14 @@ str_view_all(more2, colour_match2, match = TRUE)
 Q2.
 From the Harvard sentences data, extract:
 Q2.1 The first word from each sentence
-Q2.2 All words ending in ing
+Q2.2 All words ending in `ing`
 Q2.3 All plurals
 
+A2.1
 ```{r}
 ?str_extract
-str_extract(stringr::sentences, "^\\b(.+)\\b")      # A2.1 Why does this return whole sentence? - doesn't \b find a word?
+str_extract(stringr::sentences, "^\\b(.+)\\b")
+# Why does this return whole sentence? - doesn't `\b` find a word?
 str_extract(stringr::sentences, "^\\b.+\\b")        # Returned whole sentence
 
 str_extract(stringr::sentences, "^\\b[a-z]+\\b")
@@ -536,7 +540,7 @@ str_extract(stringr::sentences, "^\\b[A-Za-z]+\\b") # THIS ONE WORKED
 A2.2
 A2.3
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-Answers to Q2 at https://jrnold.github.io/e4qf/strings.html use things we haven't covered in the book ...`[a-zA-Z]`, `unique()`, `unlist()`
+Answers to Q2 at https://jrnold.github.io/r4ds-exercise-solutions/strings.html#extract-matches use things we haven't covered in the R4DS book yet ...`[a-zA-Z]`, `unique()`, `unlist()`
 
 
 ----------
