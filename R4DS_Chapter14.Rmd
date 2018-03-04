@@ -1,8 +1,8 @@
 ---
 title: "Chapter14"
 output:
-  github_document: default
   html_notebook: default
+  github_document: default
 ---
 
 ```{r}
@@ -402,11 +402,11 @@ str_view(stringr::words, "(.).*\\1.*\\1", match = TRUE)        # A2.3
 
 Q1.
 For each of the following challenges, try solving it by using both a single regular expression, and a combination of multiple `str_detect()` calls:
-Q1.1 Find all words that start or end with `x`
-Q1.2 Find all words that start with a vowel and end with a consonant
+Q1.1 Find all words that start or end with `x`.
+Q1.2 Find all words that start with a vowel and end with a consonant.
 Q1.3 Are there any words that contain at least one of each different vowel?
 
-# A1.1
+A1.1
 ```{r}
 str_view(stringr::words, "^x|x$", match = TRUE)
 # (None starts with x.) End: box, sex, six, tax
@@ -421,7 +421,7 @@ stringr::words[start_x | end_x]
 # Combination. Same results in Console
 ```
 
-# A1.2
+A1.2
 ```{r}
 str_view(stringr::words, "^[aeiou].*[^aeiou]$", match = TRUE)
 # In Viewer
@@ -436,7 +436,7 @@ stringr::words[start_vowel & end_consonant]
 # Combination. Same results in Console
 ```
 
-# A1.3
+A1.3
 ```{r}
 str_view(stringr::words, "([aeiou]).*\\1.*\\1.*\\1.*\\1", match = TRUE)
 # None has 5 vowels, so none has 5 different. (WRONG - This code looks for the *same* vowel 5 times)
@@ -456,8 +456,7 @@ words[contains_a & contains_e & contains_i & contains_o & contains_u]
 -----------
 
 Q2.
-What word has the highest number of vowels? What word has the highest proportion of vowels?
-(Hint: what is the denominator?)
+What word has the highest number of vowels? What word has the highest proportion of vowels? (Hint: what is the denominator?)
 
 A2.
 ```{r}
