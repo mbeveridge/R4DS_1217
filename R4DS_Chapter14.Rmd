@@ -489,9 +489,16 @@ In the previous example, you might have noticed that the regular expression matc
 
 A1.
 Question is referring to s14.4.3
-regex could have whitespace (`\s`) each side of each colour word. But I got confused which bits of s14.4.3 code did what.
+```{r}
+colours <- c("red", "orange", "yellow", "green", "blue", "purple")
+colour_match <- str_c(colours, collapse = "|")
+more <- sentences[str_count(sentences, colour_match) > 1]
+str_view_all(more, colour_match)
+```
 
-https://jrnold.github.io/r4ds-exercise-solutions/strings.html#extract-matches : "Add the `\b` before and after the pattern", which is similar but different to `\s`. ("You can also match the boundary between words with `\b`" -- s14.3.2). Copied from there (but edited `more2`) :
+regex could have whitespace (`\s`) each side of each colour word. ("You can also match the boundary between words with `\b`" -- s14.3.2)
+
+https://jrnold.github.io/r4ds-exercise-solutions/strings.html#extract-matches : "Add the `\b` before and after the pattern", which is similar but different to `\s`". Copied from there (but edited `more2`) :
 
 ```{r}
 colours <- c("red", "orange", "yellow", "green", "blue", "purple")
@@ -523,7 +530,7 @@ str_extract(stringr::sentences, "^\\b(.+)?\\b")     # Returned whole sentence **
 str_extract(stringr::sentences, "^\\b(.+)\\b?")     # Error
 str_extract(stringr::sentences, "^\\b.+?\\b")       # THIS ONE WORKED         ***
 str_extract(stringr::sentences, "^\\b.+\\b?")       # Error
-str_extract(stringr::sentences, "^\\b.?\\b")
+str_extract(stringr::sentences, "^\\b.?\\b")        # Reurned 1st letter "A" or ""
 str_extract(stringr::sentences, "^\\b.+?")          # Returned 1st letter
 str_extract(stringr::sentences, "^.+?\\b")          # THIS ONE WORKED
 str_extract(stringr::sentences, "^.+?")             # Returned 1st letter
@@ -538,9 +545,29 @@ str_extract(stringr::sentences, "^\\b[A-Za-z]+\\b") # THIS ONE WORKED
 
 
 A2.2
+```{r}
+str_extract(stringr::sentences, "\\b[A-Za-z]+ing\\b")
+# Pattern matches, but also shows lots of `NA`. (Won't see >1 match per sentence)
+
+# [https://jrnold.github.io/r4ds-exercise-solutions/strings.html#extract-matches] has things not covered in R4DS book yet ...`[a-zA-Z]`, `unique()`, `unlist()` :
+pattern <- "\\b[A-Za-z]+ing\\b"
+sentences_with_ing <- str_detect(sentences, pattern)
+unique(unlist(str_extract_all(sentences[sentences_with_ing], pattern))) %>%
+  head()
+```
+
+
 A2.3
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-Answers to Q2 at https://jrnold.github.io/r4ds-exercise-solutions/strings.html#extract-matches use things we haven't covered in the R4DS book yet ...`[a-zA-Z]`, `unique()`, `unlist()`
+```{r}
+str_extract(stringr::sentences, "\\b[A-Za-z]+s\\b")   # NO - eg. `is`, `was`, `gas'
+str_extract(stringr::sentences, "\\b[A-Za-z]{3,}s\\b")
+# Pattern matches, but also shows lots of `NA`. (Won't see >1 match per sentence)
+# (Also still includes : `guess`, `this`, `cross`, `dress`, `priceless`, etc)
+
+# [https://jrnold.github.io/r4ds-exercise-solutions/strings.html#extract-matches] has things not covered in R4DS book yet ...`[a-zA-Z]`, `unique()`, `unlist()` :
+unique(unlist(str_extract_all(sentences, "\\b[A-Za-z]{3,}s\\b"))) %>%
+  head()
+```
 
 
 ----------
