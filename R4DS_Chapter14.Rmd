@@ -411,9 +411,9 @@ A1.1
 str_view(stringr::words, "^x|x$", match = TRUE)
 # (None starts with x.) End: box, sex, six, tax
 stringr::words[str_detect(stringr::words, "^x|x$")]
-# Alternative. Same results in Console (not Viewer)
+# Subsetting alternative. Same results in Console (not Viewer)
 str_subset(stringr::words, "^x|x$")
-# Alternative. Same results in Console (not Viewer)
+# Subsetting alternative. Same results in Console (not Viewer)
 
 start_x <- str_detect(stringr::words, "^x")
 end_x <- str_detect(stringr::words, "x$")
@@ -426,9 +426,9 @@ A1.2
 str_view(stringr::words, "^[aeiou].*[^aeiou]$", match = TRUE)
 # In Viewer
 stringr::words[str_detect(stringr::words, "^[aeiou].*[^aeiou]$")]
-# Alternative. In Console
+# Subsetting alternative. In Console
 str_subset(stringr::words, "^[aeiou].*[^aeiou]$")
-# Alternative. In Console
+# Subsetting alternative. In Console
 
 start_vowel <- str_detect(stringr::words, "^[aeiou]")
 end_consonant <- str_detect(stringr::words, "[^aeiou]$")
@@ -441,7 +441,7 @@ A1.3
 str_view(stringr::words, "([aeiou]).*\\1.*\\1.*\\1.*\\1", match = TRUE)
 # None has 5 vowels, so none has 5 different. (WRONG - This code looks for the *same* vowel 5 times)
 str_view(stringr::words, "[aeiou].*[aeiou].*[aeiou].*[aeiou].*[aeiou]", match = TRUE)
-# Returns 8 words with 5 vowels. By *inspection*, none has 5 different. ('associate', 'colleague', 'appropriate' have 4)
+# 8 words with 5 vowels. By *inspection*, none has 5 different. (`associate`, `colleague`, `appropriate` have 4)
 
 contains_a <- str_detect(words, "a")
 contains_e <- str_detect(words, "e")
@@ -450,7 +450,7 @@ contains_o <- str_detect(words, "o")
 contains_u <- str_detect(words, "u")
 words[contains_a & contains_e & contains_i & contains_o & contains_u]
 # Seemed to work ok (no errors). No matches (as expected, but doesn't prove that code works)
-# Replaced `words` with "baeiout", and code worked (matched) -- Suggested by https://jrnold.github.io/r4ds-exercise-solutions/strings.html#exercises-1
+# Replaced `words` with "baeiout", and my code worked (matched) -- Suggested by https://jrnold.github.io/r4ds-exercise-solutions/strings.html#exercises-1
 ```
 
 -----------
@@ -463,19 +463,19 @@ A2.
 words[str_detect(words, "[aeiou].*[aeiou].*[aeiou].*[aeiou].*[aeiou]")]
 # 5 vowels. re. A1.3
 words[str_detect(words, "[aeiou].*[aeiou].*[aeiou].*[aeiou].*[aeiou].*[aeiou]")]
-# ...BUT 6 vowels: No match
+# ...BUT 6 vowels: No match. So 8 words have highest number of vowels (5)
 
 proportion_vowels <- str_count(words, "[aeiou]") / str_length(words)
 # proportion, for each word
 words[which(proportion_vowels == max(proportion_vowels))]
-# max is 100%, when the word is a vowel
+# max is 100%, when the word is a vowel (`a`)
 # -- https://jrnold.github.io/r4ds-exercise-solutions/strings.html#exercises-1
 # `str_length()` was in s14.2.1 so that's ok ...BUT we haven't coverered `which()` or `max()` in the R4DS book yet
 
 proportion_vowels <- str_count(words, "[aeiou]") / str_length(words)
 # proportion, for each word
 words[proportion_vowels == 1]
-# max is 100%, when the word is a vowel
+# max is 100%, when the word is a vowel. You could reason this, and test with `== 1`, without knowing about `which()` or `max()`
 ```
 
 
