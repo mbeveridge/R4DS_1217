@@ -621,7 +621,17 @@ Q1.
 Replace all forward slashes in a string with backslashes
 
 A1.
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+```{r}
+# 'If \ is used as an escape character in regular expressions ... to match a literal \ you need to write "\\\\" — you need four backslashes to match one!' -- s14.3.1
+
+x <- c("/", "/a", "b/c", "d//e", "f/g/h")
+y <- str_replace(x, "\\/", "\\\\")         # `\\\\` re. 14.3.1.1 Exercises A1
+writeLines(y)                              # `writeLines` re. 14.3.1.1 Exercises A2
+
+z <- str_replace_all(x, "\\/", "\\\\")     # Use `replace_all`, not `replace`
+writeLines(z)
+```
+
 
 -----------
 
@@ -629,15 +639,26 @@ Q2.
 Implement a simple version of `str_to_lower()` using `replace_all()`
 
 A2.
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+```{r}
+lower_case <- str_replace_all(stringr::words, c("A"="a", "B"="b", "C"="c", "D"="d", "E"="e", "F"="f", "G"="g", "H"="h", "I"="i", "J"="j", "K"="k", "L"="l", "M"="m", "N"="n", "O"="o", "P"="p", "Q"="q", "R"="r", "S"="s", "T"="t", "U"="u", "V"="v", "W"="w", "X"="x", "Y"="y", "Z"="z"))
+lower_case %>% tail(20)
+```
+
 
 -----------
 
 Q3.
-Switch the first and last letters in words. Which of those strings are still words?
+Switch the first and last letters in `words`. Which of those strings are still words?
 
 A3.
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+```{r}
+# Based on [https://jrnold.github.io/r4ds-exercise-solutions/strings.html#replacing-matches] :
+
+# First, switch the first and last letters in all the words, and save as vector...
+swapped <- str_replace_all(stringr::words, "^([A-Za-z])(.*)([a-z])$", "\\3\\2\\1")
+# Next, what in that vector was also in the original list, using `intersect()`...
+intersect(swapped, stringr::words)
+```
 
 
 ----------
