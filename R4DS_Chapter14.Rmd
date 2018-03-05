@@ -670,14 +670,30 @@ Q1.
 Split up a string like "apples, pears, and bananas" into individual components
 
 A1.
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+```{r}
+x <- "apples, pears, and bananas"
+x %>% str_split(", ")                # "apples"  "pears"  "and bananas"
+
+# Exclude the `and` as well : From [https://jrnold.github.io/r4ds-exercise-solutions/strings.html#splitting]...
+str_split(x, ", +(and +)?")[[1]]
+```
+
 
 -----------
 
 Q2. Why is it better to split up by `boundary("word")` than `" "`?
 
 A2.
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+```{r}
+# From s14.4.6 of R4DS book :
+x <- "This is a sentence.  This is another sentence."
+str_view_all(x, boundary("word"))
+
+str_split(x, boundary("word"))
+```
+
+Splitting by `boundary("word")` splits on punctuation as well as whitespace. So 'components' don't have a comma/period that needs to be removed. (And punctuation is NOT saved as a separate component either)
+
 
 -----------
 
@@ -685,7 +701,16 @@ Q3.
 What does splitting with an empty string ("") do? Experiment, and then read the documentation
 
 A3.
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+```{r}
+x <- "apples, pears, and bananas"
+x %>% str_split("")
+
+?str_split
+```
+
+When the 'pattern' is `""`, the string gets split into individual characters (including punctuation). (Had already seen this, when working out an answer to Q1)
+
+'An empty pattern, "", is equivalent to boundary("character")' -- RStudio Help
 
 
 ----------
