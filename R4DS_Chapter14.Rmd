@@ -584,7 +584,7 @@ numword <- "(one|two|three|four|five|six|seven|eight|nine|ten) +(\\S+)"
 sentences[str_detect(sentences, numword)] %>%
   str_extract(numword)
 
-# This answer from [https://jrnold.github.io/r4ds-exercise-solutions/strings.html#grouped-matches] includes matches which aren't really numbers eg. "(of)ten served", "(fas)ten your shoe", "(d)one before". (No sentences include `zero` or `none`, so their omission from `numword` has no effect)
+# This answer from [https://jrnold.github.io/r4ds-exercise-solutions/strings.html#grouped-matches] includes matches which aren't really numbers eg. "(of)ten served", "(fas)ten your", "(d)one before". (No sentences include `zero` or `none`, so their omission from `numword` has no effect)
 ```
 
 
@@ -600,7 +600,15 @@ sentences %>%
   `[`(str_detect(sentences, contraction)) %>%
   str_extract(contraction)
 
-# This answer from [https://jrnold.github.io/r4ds-exercise-solutions/strings.html#grouped-matches]. (Not sure how unpaired `[` works, but gives errors without.) This answer finds the contractions (1st part), but doesn't do the 2nd part
+# ...This answer from [https://jrnold.github.io/r4ds-exercise-solutions/strings.html#grouped-matches]. (Not sure what an unpaired `[` does, but gives errors without.) This answer finds the contractions (1st part), but doesn't do the 2nd part. So...
+
+sentences %>%
+  `[`(str_detect(sentences, contraction)) %>%
+  str_match(contraction)
+
+# Regarding `[`, the Rstudio 'Help' doesn't appear to help/mention...
+?`[`
+# ...but [https://stackoverflow.com/questions/41548719/if-is-a-function-for-subsetting-in-r-what-is] appears to say that it is "a _function_ that implements the subsetting operation"
 ```
 
 
