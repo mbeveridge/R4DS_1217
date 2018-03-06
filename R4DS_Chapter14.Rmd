@@ -723,10 +723,14 @@ How would you find all strings containing `\` with `regex()` vs. with `fixed()`?
 
 A1.
 ```{r}
+# s14.5 R4DS book : "When you use a pattern that’s a string, it’s automatically wrapped into a call to `regex()`" :
+str_view(fruit, "nana")                 # ...is shorthand for...
+str_view(fruit, regex("nana"))
+
+# s14.5 R4DS book : "`fixed()`: matches exactly the specified sequence of bytes. It ignores all special regular expressions and operates at a very low level"
+
 # From [https://jrnold.github.io/r4ds-exercise-solutions/strings.html#other-types-of-patterns] :
-
 str_subset(c("a\\b", "ab"), "\\\\")                # with `regex()`
-
 str_subset(c("a\\b", "ab"), fixed("\\"))           # with `fixed()`
 ```
 
@@ -734,20 +738,22 @@ str_subset(c("a\\b", "ab"), fixed("\\"))           # with `fixed()`
 -----------
 
 Q2.
-What are the five most common words in sentences?
+What are the five most common words in `sentences`?
 
 A2.
 ```{r}
-# From [https://jrnold.github.io/r4ds-exercise-solutions/strings.html#other-types-of-patterns] :
+# Based on [https://jrnold.github.io/r4ds-exercise-solutions/strings.html#other-types-of-patterns] :
 
-str_extract_all(stringr::sentences, boundary("word")) %>%
-  unlist() %>%
-  str_to_lower() %>%
-  tibble() %>%
-  set_names("word") %>%
+str_extract_all(stringr::sentences, boundary("word")) %>%    # (s14.4.3), s14.5
+  unlist() %>%          # "Unlist a list of vectors into a single vector". Not R4DS
+  str_to_lower() %>%    # s14.2.4 R4DS book
+  tibble() %>%          # s14.4.1 R4DS book
+  set_names("word") %>% # Not in R4DS book yet (re. s20.4.4: `purrr::set_names()`)
   group_by(word) %>%
   count(sort = TRUE) %>%
   head(5)
+
+# ...But I still don't understand all the specifics
 ```
 
 
@@ -763,9 +769,13 @@ Q1.2 Find duplicated strings
 Q1.3 Generate random text
 
 A1.
+```{r}
+?stringi
+```
+
 A1.1 `stri_count_words`
 A1.2 `stri_duplicated`
-A1.3 `stri_rand_strings` generates random strings. (`stri_rand_lipsum` generates lorem ipsum text)
+A1.3 `stri_rand_strings` generates random strings. (Also `stri_rand_lipsum` to generate 'lorem ipsum' text, and `stri_rand_shuffle`)
 
 -----------
 
@@ -776,6 +786,7 @@ A2.
 ```{r}
 ?stri_sort
 ```
-Use the `locale` argument to the `opts_collator` argument. [See also `stri_opts_collator()`]
+
+Use the `locale` argument to the `opts_collator` argument. [See also `stri_opts_collator()` ...it says 'single string, NULL or "" for default locale'.] Not sure what this looks like in practice
 
 
