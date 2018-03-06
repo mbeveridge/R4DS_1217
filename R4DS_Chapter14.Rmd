@@ -722,7 +722,13 @@ Q1.
 How would you find all strings containing `\` with `regex()` vs. with `fixed()`?
 
 A1.
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+```{r}
+# From [https://jrnold.github.io/r4ds-exercise-solutions/strings.html#other-types-of-patterns] :
+
+str_subset(c("a\\b", "ab"), "\\\\")                # with `regex()`
+
+str_subset(c("a\\b", "ab"), fixed("\\"))           # with `fixed()`
+```
 
 
 -----------
@@ -731,7 +737,18 @@ Q2.
 What are the five most common words in sentences?
 
 A2.
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+```{r}
+# From [https://jrnold.github.io/r4ds-exercise-solutions/strings.html#other-types-of-patterns] :
+
+str_extract_all(stringr::sentences, boundary("word")) %>%
+  unlist() %>%
+  str_to_lower() %>%
+  tibble() %>%
+  set_names("word") %>%
+  group_by(word) %>%
+  count(sort = TRUE) %>%
+  head(5)
+```
 
 
 ----------
