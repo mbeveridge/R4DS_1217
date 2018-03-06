@@ -21,14 +21,15 @@ How could you improve the plot?
 
 A1.
 ```{r}
-?gss_cat    # It’s a sample of data from the General Social Survey, which is a long-running US survey -- s15.3
+?gss_cat
+# It’s a sample of data from the General Social Survey, which is a long-running US survey -- s15.3 R4DS book
 
 forcats::gss_cat %>%
   ggplot(aes(x = rincome)) +
   geom_bar()
 ```
 
-I think "hard to understand" is referring to the x-axis labels being squashed/overlapping/unreadable. Usual way to overcome this (unless bars have to be vertical) is to make the bars horizontal :
+I think "hard to understand" refers to the x-axis labels being squashed/overlapping/unreadable. Usual way to overcome this (unless bars have to be vertical) is to make the bars horizontal :
 ```{r}
 forcats::gss_cat %>%
   ggplot(aes(rincome)) +
@@ -36,7 +37,7 @@ forcats::gss_cat %>%
   coord_flip()                     # "switches the x and y axes" -- s3.9 R4DS book
 ```
 
-Other improvements : descending values (re. reading down list), consistent bin size (but we can't affect that) ...and maybe to group together some of the 'no answer' categories, if no values can be got from them
+Other improvements : descending values (re. reading down list), consistent bin size (but we can't affect that) ...and maybe grouping some 'no answer' categories, if no values can be got from them
 
 -----------
 
@@ -63,7 +64,7 @@ Which `relig` does `denom` (denomination) apply to? How can you find out with a 
 A3.
 ```{r}
 forcats::gss_cat$denom             # Values for the first 1000 rows. Answer appears to be Protestant
-levels(forcats::gss_cat$denom)     # There are 30 different values. Answer is Protestant
+levels(forcats::gss_cat$denom)     # 30 different values. Answer is Protestant
 
 forcats::gss_cat %>%
   ggplot(aes(relig, denom)) +
@@ -119,9 +120,9 @@ Q3. Why did moving “Not applicable” to the front of the levels move it to th
 A3.
 The question is referring to the last `geom_point()` chart in s15.4
 
-Order of the levels in the `rincome()` factor can be seen with `levels(gss_cat$rincome)` or `gss_cat %>% count(rincome)`
-R assigns integers to each level, based on the order. So "1" to the 1st level, "2" to the 2nd level, etc
-When plotting `rincome` on the y-axis, the level nearest the '0' will be that with integer "1", etc
+* Order of the levels in the `rincome()` factor can be seen with `levels(gss_cat$rincome)` or `gss_cat %>% count(rincome)`
+* R assigns integers to each level, based on the order. So "1" to the 1st level, "2" to the 2nd level, etc
+* When plotting `rincome` on the y-axis, the level nearest the '0' will be that with integer "1", etc
 
 ```{r}
 ?fct_relevel
