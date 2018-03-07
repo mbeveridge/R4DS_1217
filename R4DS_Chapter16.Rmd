@@ -24,8 +24,7 @@ ymd(c("2010-10-10", "bananas"))
 
 A1.
 Results in an NA with warning message :
-[1] "2010-10-10" NA          
-Warning message: 1 failed to parse. 
+`1 failed to parse.[1] "2010-10-10" NA`
 
 -----------
 
@@ -39,7 +38,7 @@ A2.
 
 "a character vector specifying which time zone you would like to find the current date of. `tzone` defaults to the system time zone set on your computer" eg. `today("GMT")` -- Help
 
-Different time-zones can have different dates, so value of `today()` might vary ...And so it is important to know which time-zone it is
+Different time-zones can have different dates, so value of `today()` might vary ...And so it is important to know which time-zone is the 'point of view'
 
 -----------
 
@@ -72,7 +71,7 @@ Q1.
 How does the distribution of flight times within a day change over the course of the year?
 
 A1.
-Most obvious way to do this would be to compare daily distributions from during the year (either from a sample of individual days, or weekly/monthly/quarterly aggregates). Is this what the question means? (Else, if we look at how every day changes, I think we'd need to use an average (mean, SD) for the daily distribution, to plot it
+Most obvious way to do this would be to compare daily distributions from during the year (either from a sample of individual days, or weekly/monthly/quarterly aggregates). Is this what the question means? (Else, if we look at how every day changes, I think we'd need to use an average (mean, SD) for the daily distribution, to plot it)
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 -----------
@@ -89,7 +88,7 @@ nycflights13::flights %>%
 
 This plot shows most points along or near-below a diagonal line, indicating on-time departure (or small delay).
 The question is probably asking whether `sched_dep_time + dep_delay = dep_time`
-(cf. In a previous Section we found that `dep_time + air_time != arr_time` ...Delay on tarmac?)
+(cf. In a previous Chapter we found that `dep_time + air_time != arr_time` ...Delay on tarmac?)
 ```{r}
 glimpse(flights)
 ```
