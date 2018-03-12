@@ -29,7 +29,7 @@ forcats::gss_cat %>%
   geom_bar()
 ```
 
-I think "hard to understand" refers to the x-axis labels being squashed/overlapping/unreadable. Usual way to overcome this (unless bars have to be vertical) is to make the bars horizontal :
+Here, "hard to understand" refers to the x-axis labels being squashed/overlapping/unreadable. Usual way to improve this (unless bars have to be vertical) is to make the bars horizontal :
 ```{r}
 forcats::gss_cat %>%
   ggplot(aes(rincome)) +
@@ -37,11 +37,13 @@ forcats::gss_cat %>%
   coord_flip()                     # "switches the x and y axes" -- s3.9 R4DS book
 ```
 
-Other improvements : descending values (re. reading down list), consistent bin size (but we can't affect that) ...and maybe grouping some 'no answer' categories, if no values can be got from them
+Other improvements possible : descending values (re. reading down list), consistent bin size (but we can't affect that) ...and maybe grouping some 'no answer' categories, if no values can be got from them
 
 -----------
 
-Q2. What is the most common `relig` in this survey? What’s the most common `partyid`?
+Q2.
+What is the most common `relig` in this survey?
+What’s the most common `partyid`?
 
 A2.
 ```{r}
@@ -59,17 +61,19 @@ forcats::gss_cat %>%
 -----------
 
 Q3.
-Which `relig` does `denom` (denomination) apply to? How can you find out with a table? How can you find out with a visualisation?
+Which `relig` does `denom` (denomination) apply to?
+How can you find out with a table?
+How can you find out with a visualisation?
 
 A3.
 ```{r}
-forcats::gss_cat$denom             # Values for the first 1000 rows. Answer appears to be Protestant
-levels(forcats::gss_cat$denom)     # 30 different values. Answer is Protestant
+forcats::gss_cat$denom          # Values for first 1000 rows. Answer is Protestant?
+levels(forcats::gss_cat$denom)  # 30 different values. Answer is Protestant
 
 forcats::gss_cat %>%
   ggplot(aes(relig, denom)) +
   geom_point() +
-  coord_flip()                     # Incl/exclude this, to read labels on one axis, then other. (Q tells only 1 answer)
+  coord_flip()  # Incl/excl this, to read both axis labels. (Q tells only 1 answer)
 
 # Answer from [https://jrnold.github.io/r4ds-exercise-solutions/factors.html#general-social-survey] includes quantities as size, but its most useful feature is the rotation of labels on the x-axis :
 gss_cat %>%
@@ -92,11 +96,11 @@ A1.
 forcats::gss_cat %>%
   ggplot(aes(x = tvhours)) +
   geom_histogram(binwidth = 1)
-# Warning message: Removed 10146 rows containing non-finite values (stat_bin)
+# "Warning message: Removed 10146 rows containing non-finite values (stat_bin)""
 
 # Answer from [https://jrnold.github.io/r4ds-exercise-solutions/factors.html#modifying-factor-order] :
 gss_cat %>%
-  filter(!is.na(tvhours)) %>%      # extra line means no 'Warning message' (but same chart)
+  filter(!is.na(tvhours)) %>%      # extra line means no 'Warning' (but same chart)
   ggplot(aes(x = tvhours)) +
   geom_histogram(binwidth = 1)
 ```
