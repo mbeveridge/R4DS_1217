@@ -22,10 +22,10 @@ How could you improve the plot?
 A1.
 ```{r}
 ?gss_cat
-# It’s a sample of data from the General Social Survey, which is a long-running US survey -- s15.3 R4DS book
+# "It’s a sample of data from the General Social Survey, which is a long-running US survey" -- s15.3 R4DS book
 
 forcats::gss_cat %>%
-  ggplot(aes(x = rincome)) +
+  ggplot(aes(x = rincome)) +          # "Explore the distribution of `rincome`" per Q1.
   geom_bar()
 ```
 
@@ -34,10 +34,10 @@ Here, "hard to understand" refers to the x-axis labels being squashed/overlappin
 forcats::gss_cat %>%
   ggplot(aes(rincome)) +
   geom_bar() +
-  coord_flip()                     # "switches the x and y axes" -- s3.9 R4DS book
+  coord_flip()                        # "switches the x and y axes" -- s3.9 R4DS book
 ```
 
-Other improvements possible : descending values (re. reading down list), consistent bin size (but we can't affect that) ...and maybe grouping some 'no answer' categories, if no values can be got from them
+Other possible improvements to consider : descending values (ie. reading down an ordered list of `count`), consistent bin size (but we can't affect that) ...and maybe grouping some 'no answer' categories, if no values can be got from them
 
 -----------
 
@@ -53,7 +53,7 @@ forcats::gss_cat %>%
 # Most common `relig` is Protestant
 
 forcats::gss_cat %>%
-  count(partyid) %>%
+  count(partyid) %>%                           # `partyid` instead of `relig`
   arrange(desc(n))
 # Most common `partyid` is Independent
 ```
@@ -68,19 +68,19 @@ How can you find out with a visualisation?
 A3.
 ```{r}
 forcats::gss_cat$denom          # Values for first 1000 rows. Answer is Protestant?
-levels(forcats::gss_cat$denom)  # 30 different values. Answer is Protestant
+levels(forcats::gss_cat$denom)  # 30 different values. More confident in answer of Protestant
 
 forcats::gss_cat %>%
-  ggplot(aes(relig, denom)) +
+  ggplot(aes(relig, denom)) +   # With `relig` on other axis, can see the mapping. Protestant
   geom_point() +
-  coord_flip()  # Incl/excl this, to read both axis labels. (Q tells only 1 answer)
+  coord_flip()            # Incl/excl this, to read both axis labels. (Q implied only 1 answer)
 
-# Answer from [https://jrnold.github.io/r4ds-exercise-solutions/factors.html#general-social-survey] includes quantities as size, but its most useful feature is the rotation of labels on the x-axis :
+# Answer from [https://jrnold.github.io/r4ds-exercise-solutions/factors.html#general-social-survey] displays quantities as size, but its most useful feature is rotation of labels on the x-axis (so not necessary to keep 'flipping') :
 gss_cat %>%
   count(relig, denom) %>%
   ggplot(aes(x = relig, y = denom, size = n)) +
   geom_point() +
-  theme(axis.text.x = element_text(angle = 90))
+  theme(axis.text.x = element_text(angle = 90))        # rotates x-axis labels by 90dg
 ```
 
 
