@@ -100,11 +100,11 @@ A1.
 forcats::gss_cat %>%
   ggplot(aes(x = tvhours)) +
   geom_histogram(binwidth = 1)
-# "Warning message: Removed 10146 rows containing non-finite values (stat_bin)""
+# "Warning message: Removed 10146 rows containing non-finite values (stat_bin)"
 
 # Answer from [https://jrnold.github.io/r4ds-exercise-solutions/factors.html#modifying-factor-order] :
 gss_cat %>%
-  filter(!is.na(tvhours)) %>%      # extra line means no 'Warning' (but same chart)
+  filter(!is.na(tvhours)) %>%       # extra line means no 'Warning' received (but same chart)
   ggplot(aes(x = tvhours)) +
   geom_histogram(binwidth = 1)
 ```
@@ -117,9 +117,19 @@ gss_cat %>%
 Q2. For each factor in `gss_cat` identify whether the order of the levels is arbitrary or principled.
 
 A2.
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+"`rincome` already has a principled order that we shouldn’t mess with. Reserve `fct_reorder()` for factors whose levels are arbitrarily ordered" -- s15.4 R4DS book
+```{r}
+?gss_cat
+# variables : year, marital, age, race, rincome, partyid, relig, denom, tvhours
+# categorical variables : marital, race, rincome, partyid, relig, denom
 
-[https://jrnold.github.io/r4ds-exercise-solutions/factors.html#modifying-factor-order]
+summary(gss_cat)
+# factors : marital, race, rincome, partyid, relig, denom
+# arbitrary order : race, relig, denom
+# principled order : marital?, rincome, partyid?
+```
+
+Answer from [https://jrnold.github.io/r4ds-exercise-solutions/factors.html#modifying-factor-order] goes into more detail, with text & plots, and says `race` *does* have a principled order (based on count of observations)
 
 -----------
 
@@ -127,8 +137,13 @@ Q3. Why did moving “Not applicable” to the front of the levels move it to th
 
 A3.
 The question is referring to the last `geom_point()` chart in s15.4
+```{r}
+ggplot(rincome_summary, aes(age, fct_relevel(rincome, "Not applicable"))) +
+  geom_point()
+# (For reference. We haven't defined `rincome_summary` in this document, so it will error)
+```
 
-* Order of the levels in the `rincome()` factor can be seen with `levels(gss_cat$rincome)` or `gss_cat %>% count(rincome)`
+* Order of the levels in the `rincome()` factor can be seen with `levels(gss_cat$rincome)` or `gss_cat %>% count(rincome)`, etc
 * R assigns integers to each level, based on the order. So "1" to the 1st level, "2" to the 2nd level, etc
 * When plotting `rincome` on the y-axis, the level nearest the '0' will be that with integer "1", etc
 
