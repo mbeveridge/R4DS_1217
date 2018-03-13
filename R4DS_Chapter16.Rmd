@@ -7,7 +7,6 @@ output:
 
 ```{r}
 library(tidyverse)
-library(forcats)
 library(lubridate)
 library(nycflights13)
 ```
@@ -151,11 +150,13 @@ Q2.
 Explain `days(overnight * 1)` to someone who has just started learning R. How does it work?
 
 A2.
-This is referring to some code in s16.4.2, designed to add '`days(1)` to the arrival time of each overnight flight'
-
+This is referring to some code in s16.4.2, designed to add '`days(1)` to the arrival time of each overnight flight'...
 ```{r}
-overnight = arr_time < dep_time,
-arr_time = arr_time + days(overnight * 1)
+mutate(
+  overnight = arr_time < dep_time,
+  arr_time = arr_time + days(overnight * 1),
+  sched_arr_time = sched_arr_time + days(overnight * 1)
+)
 # We only want to add `days(1)` in cases where we omitted it before. `overnight` is TRUE (1) or FALSE (0).
 # So if it is an overnight flight, we add 1 day, and if not, no days are added
 ```
@@ -177,12 +178,12 @@ ymd("2015-01-01") + months(0:11)
 
 A3.2
 Again, could do it the 'long' way or 'concise' way, as above, just replacing 2015 with 2017. BUT that seems trivial.
-INSTEAD, assume that the question is asking us to code for a generic 'current year'
 
+INSTEAD, assume that the question is asking us to code for a generic 'current year' :
 ```{r}
 # "I can do that by taking `today()` and truncating it to the year using `floor_date`" :
 floor_date(today(), unit = "year") + months(0:11)
-# -- https://jrnold.github.io/e4qf/dates-and-times.html#exercises-40
+# -- [https://jrnold.github.io/r4ds-exercise-solutions/dates-and-times.html#time-spans]
 ```
 
 -----------
@@ -191,7 +192,7 @@ Q4.
 Write a function that given your birthday (as a date), returns how old you are in years
 
 A4.
-# We haven't covered Functions yet (s19). This is from [https://jrnold.github.io/e4qf/dates-and-times.html#exercises-40] :
+We haven't covered Functions yet (s19). This is from [https://jrnold.github.io/r4ds-exercise-solutions/dates-and-times.html#time-spans] :
 ```{r}
 age <- function(bday) {
   (bday %--% today()) %/% years(1)
