@@ -37,7 +37,11 @@ forcats::gss_cat %>%
   coord_flip()                        # "switches the x and y axes" -- s3.9 R4DS book
 ```
 
-Other possible improvements to consider : descending values (ie. reading down an ordered list of `count`), consistent bin size (but we can't affect that) ...and maybe grouping some 'no answer' categories, if no values can be got from them
+Other possible improvements to consider :
+
+* descending values (ie. reading down an ordered list of `count`) ...but "`rincome` already has a principled order that we shouldn’t mess with. Reserve `fct_reorder()` for factors whose levels are arbitrarily ordered" -- s15.5 of R4DS book
+* consistent bin size ...(but we can't affect that)
+* ...and maybe grouping some 'no answer' categories, if no values can be got from them
 
 -----------
 
