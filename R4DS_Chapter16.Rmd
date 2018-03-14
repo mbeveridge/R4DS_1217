@@ -202,7 +202,21 @@ Q4.
 How does the average delay time change over the course of a day? Should you use `dep_time` or `sched_dep_time`? Why?
 
 A4.
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+From [https://jrnold.github.io/r4ds-exercise-solutions/dates-and-times.html#date-time-components]
+```{r}
+flights_dt %>%
+  mutate(sched_dep_hour = hour(sched_dep_time)) %>%        # extract just the hour
+  group_by(sched_dep_hour) %>%
+  summarise(dep_delay = mean(dep_delay)) %>%               # 'average delay time' for each hour
+  ggplot(aes(y = dep_delay, x = sched_dep_hour)) +         # no reason to put `y` before `x` ?
+  geom_point() +
+  geom_smooth()
+```
+
+"Use `sched_dep_time` because that is the relevant metric for someone scheduling a flight. Also, using `dep_time` will always bias delays to later in the day since delays will push flights later."
+
+Isn't it because `dep_time` will already include the effect of `dep_delay`, (and we don't want that) ?
+
 
 -----------
 
