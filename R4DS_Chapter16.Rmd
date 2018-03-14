@@ -242,7 +242,21 @@ Q6.
 What makes the distribution of `diamonds$carat` and `flights$sched_dep_time` similar?
 
 A6.
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+From [https://jrnold.github.io/r4ds-exercise-solutions/dates-and-times.html#date-time-components] :
+```{r}
+ggplot(diamonds, aes(x = carat %% 1 * 100)) +              # 'fraction' (ignoring whole carats)
+  geom_histogram(binwidth = 1)                             # 1/100th carat
+
+
+ggplot(flights_dt, aes(x = minute(sched_dep_time))) +      # minute (ignoring which hour, etc)
+  geom_histogram(binwidth = 1)                             # 1 minute
+```
+
+'Both `carat` and `sched_dep_time` have disproportionately high counts at nice “human” numbers...
+
+* In `carats`, it is at 0, 1/3, 1/2, 2/3
+* In `sched_dep_time` it is at 00 and 30 minutes, (and minutes ending in 0 and 5)'
+
 
 -----------
 
