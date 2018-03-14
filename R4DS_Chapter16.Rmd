@@ -71,7 +71,51 @@ How does the distribution of flight times within a day change over the course of
 
 A1.
 Most obvious way to do this would be to compare daily distributions from during the year (either from a sample of individual days, or weekly/monthly/quarterly aggregates). Is this what the question means? (Else, if we look at how every day changes, I think we'd need to use an average (mean, SD) for the daily distribution, to plot it)
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+In 16.2.2 (R4DS book) `flights_dt` was defined (and would then used in plots) :
+```{r}
+make_datetime_100 <- function(year, month, day, time) {
+  make_datetime(year, month, day, time %/% 100, time %% 100)
+}
+
+flights_dt <- flights %>% 
+  filter(!is.na(dep_time), !is.na(arr_time)) %>% 
+  mutate(
+    dep_time = make_datetime_100(year, month, day, dep_time),
+    arr_time = make_datetime_100(year, month, day, arr_time),
+    sched_dep_time = make_datetime_100(year, month, day, sched_dep_time),
+    sched_arr_time = make_datetime_100(year, month, day, sched_arr_time)
+  ) %>% 
+  select(origin, dest, ends_with("delay"), ends_with("time"))
+```
+
+From s16.2.2 (R4DS book) we had 'distribution of departure times within a single day' :
+```{r}
+flights_dt %>%                            # `flights_dt` shown in code block above, for this
+  filter(dep_time < ymd(20130102)) %>%
+  ggplot(aes(dep_time)) +
+  geom_freqpoly(binwidth = 600)           # 600 seconds = 10 minutes
+```
+
+And from s16.3.3 (R4DS book) we had 'distribution of flights across the course of the day for every day of the year' :
+```{r}
+flights_dt %>%
+  mutate(dep_hour = update(dep_time, yday = 1)) %>%  # All 365 days treated as 1/1/13 (`yday=1`)
+  ggplot(aes(dep_hour)) +
+    geom_freqpoly(binwidth = 300)                    # 300 seconds = 5 minutes
+```
+
+From [https://jrnold.github.io/r4ds-exercise-solutions/dates-and-times.html#date-time-components] : "Let’s try plotting this by month" :
+```{r}
+flights_dt %>%
+  mutate(time = hour(dep_time) * 100 + minute(dep_time),  # max value 2359?
+         mon = as.factor(month(dep_time))                 # monthly aggregate of 'within a day'
+         ) %>%
+  ggplot(aes(x = time, color = mon)) +                    # No need for `group = mon` too
+  geom_freqpoly(binwidth = 100)                           # 100 minutes
+```
+
+...It continues : "This will look better if everything is normalized within groups. The reason that February is lower is that there are fewer days and thus fewer flights". And it plots that
 
 -----------
 
