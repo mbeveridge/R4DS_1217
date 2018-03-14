@@ -42,13 +42,13 @@ Different time-zones can have different dates, so value of `today()` might vary 
 -----------
 
 Q3.
-Use the appropriate lubridate function to parse each of the following dates:
+Use the appropriate **lubridate** function to parse each of the following dates:
 ```{r}
 d1 <- "January 1, 2010"                             # Q3.1
 d2 <- "2015-Mar-07"                                 # Q3.2
 d3 <- "06-Jun-2017"                                 # Q3.3
 d4 <- c("August 19 (2015)", "July 1 (2015)")        # Q3.4
-d5 <- "12/30/14" # Dec 30, 2014                     # Q3.5
+d5 <- "12/30/14"       # Dec 30, 2014               # Q3.5
 ```
 
 A3.
