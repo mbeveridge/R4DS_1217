@@ -125,18 +125,26 @@ Compare `dep_time`, `sched_dep_time` and `dep_delay`. Are they consistent? Expla
 A2.
 ```{r}
 nycflights13::flights %>%
-  ggplot(aes(dep_time, sched_dep_time)) +
+  ggplot(aes(dep_time, sched_dep_time)) +         # "Compare `dep_time`, `sched_dep_time`"
   geom_point()
 ```
 
-This plot shows most points along or near-below a diagonal line, indicating on-time departure (or small delay).
-The question is probably asking whether `sched_dep_time + dep_delay = dep_time`
-(cf. In a previous Chapter we found that `dep_time + air_time != arr_time` ...Delay on tarmac?)
+* This plot shows most points along or near-below a diagonal line, indicating on-time departure (or small delay) ...ie. `dep_time` is usually similar to `sched_dep_time`.
+* When the question asks about 'consistent', it probably means whether `sched_dep_time + dep_delay = dep_time` ...(cf. In a previous Chapter we found that `dep_time + air_time != arr_time` ...Delay on tarmac?)
+
 ```{r}
-glimpse(flights)
+glimpse(flights)    # From this we'd (usually?) expect `sched_dep_time + dep_delay = dep_time`
 ```
 
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+From [https://jrnold.github.io/r4ds-exercise-solutions/dates-and-times.html#date-time-components] :
+```{r}
+flights_dt %>%                                              # proper datetime (v's `flights`)
+  mutate(dep_time_ = sched_dep_time + dep_delay * 60) %>%   # but `dep_delay` still in minutes
+  filter(dep_time_ != dep_time) %>%                         # keep the discrepancies
+  select(dep_time_, dep_time, sched_dep_time, dep_delay)    # What explains a wrong `dep_time`?
+```
+
+"These are flights in which the actual departure time is on the next day relative to the scheduled departure time. We forgot to account for this when creating the date-times [in `flights_dt`]. ...simply adding the delay time is more robust because it will automatically account for crossing into the next day."
 
 -----------
 
