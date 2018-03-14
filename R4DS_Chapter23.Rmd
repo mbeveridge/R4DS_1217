@@ -39,7 +39,7 @@ measure_distance <- function(mod, data) {
 }
 ```
 
-Use optim() to fit this model to the simulated data above and compare it to the linear model.
+Use `optim()` to fit this model to the simulated data above and compare it to the linear model.
 
 A2.
 
@@ -62,32 +62,35 @@ A3.
 ### 23.3.3 Exercises
 
 Q1.
-Instead of using 'lm()' to fit a straight line, you can use 'loess()' to fit a smooth curve. Repeat the process of model fitting, grid generation, predictions, and visualisation on 'sim1' using 'loess()' instead of 'lm()'.
-How does the result compare to 'geom_smooth()'?
+Instead of using `lm()` to fit a straight line, you can use `loess()` to fit a smooth curve.
+
+* Repeat the process of model fitting, grid generation, predictions, and visualisation on `sim1` using `loess()` instead of `lm()`.
+* How does the result compare to 'geom_smooth()'?
 
 A1.
 
 -----------
 
 Q2.
-'add_predictions()' is paired with 'gather_predictions()' and 'spread_predictions()'.
-How do these three functions differ?
+`add_predictions()` is paired with `gather_predictions()` and `spread_predictions()`. How do these three functions differ?
 
 A2.
 
 -----------
 
 Q3.
-What does geom_ref_line() do? What package does it come from?
-Why is displaying a reference line in plots showing residuals useful and important?
+
+* What does `geom_ref_line()` do? What package does it come from?
+* Why is displaying a reference line in plots showing residuals useful and important?
 
 A3.
 
 -----------
 
 Q4.
-Why might you want to look at a frequency polygon of absolute residuals?
-What are the pros and cons compared to looking at the raw residuals?
+
+* Why might you want to look at a frequency polygon of absolute residuals?
+* What are the pros and cons compared to looking at the raw residuals?
 
 A4.
 
@@ -98,16 +101,18 @@ A4.
 ### 23.4.5 Exercises
 
 Q1.
-What happens if you repeat the analysis of 'sim2' using a model without an intercept.
-What happens to the model equation? What happens to the predictions?
+
+* What happens if you repeat the analysis of `sim2` using a model without an intercept.
+* What happens to the model equation? What happens to the predictions?
 
 A1.
 
 -----------
 
 Q2.
-Use 'model_matrix()' to explore the equations generated for the models I fit to 'sim3' and 'sim4'.
-Why is '*' a good shorthand for interaction?
+
+* Use `model_matrix()` to explore the equations generated for the models I fit to `sim3` and `sim4`.
+* Why is `*` a good shorthand for interaction?
 
 A2.
 
@@ -126,8 +131,9 @@ A3.
 -----------
 
 Q4.
-For 'sim4', which of 'mod1' and 'mod2' is better? I think mod2 does a slightly better job at removing patterns, but it’s pretty subtle.
-Can you come up with a plot to support my claim?
+
+* For `sim4`, which of `mod1` and `mod2` is better? I think `mod2` does a slightly better job at removing patterns, but it’s pretty subtle.
+* Can you come up with a plot to support my claim?
 
 A4.
 
