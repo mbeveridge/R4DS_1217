@@ -152,7 +152,49 @@ Q3.
 Compare `air_time` with the duration between the departure and arrival. Explain your findings. (Hint: consider the location of the airport)
 
 A3.
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+As mentioned in a bullet to A2, "(cf. In a previous Chapter we found that `dep_time + air_time != arr_time` ...Delay on tarmac?)"
+
+Based on [https://jrnold.github.io/r4ds-exercise-solutions/dates-and-times.html#date-time-components] :
+```{r}
+flights_dt %>%
+  mutate(flight_duration = as.numeric(arr_time - dep_time),
+         air_time_mins = air_time,
+         diff = flight_duration - air_time_mins
+         ) %>%
+  filter(diff != 0) %>%                                        # Only 196 rows have `diff == 0`
+  select(origin, dest, flight_duration, air_time_mins, diff)   # (327150 rows)
+```
+
+...And plotting that, it appears that the explanation isn't "Delay on tarmac" (because there are also many -ves, where duration was *less* than `air_time`) :
+```{r}
+flights_dt %>%
+  mutate(flight_duration = as.numeric(arr_time - dep_time),
+         air_time_mins = air_time,
+         diff = flight_duration - air_time_mins
+         ) %>%
+  filter(diff != 0) %>%
+  select(origin, dest, flight_duration, air_time_mins, diff) %>%
+  ggplot(aes(diff)) +
+  geom_histogram(binwidth = 60)                                # 60min = 1hr. (1440min = 24hr)
+```
+
+...including a cluster ~24hr different, for which the day must be wrong (re. "We forgot to account for this when creating the date-times [in `flights_dt`]" as stated in A2)
+
+However, given "(Hint: consider the location of the airport)", we should consider whether there is a correlation with `flight_duration`...
+```{r}
+flights_dt %>%
+  mutate(flight_duration = as.numeric(arr_time - dep_time),
+         air_time_mins = air_time,
+         diff = flight_duration - air_time_mins
+         ) %>%
+#  filter(diff != 0) %>%
+  select(origin, dest, flight_duration, air_time_mins, diff) %>%
+  ggplot(aes(flight_duration, diff)) +
+  geom_point()
+```
+
+...It looks like there are horizontal 'baselines' at hourly (timezone) intervals, with +ve `diff` distributions above them (probably 'delay on tarmac'). The furthest baseline from zero (ignoring those >24hr distant) looks like -360min ...which means no flights crossed >6 timezones, but also no flights departed Eastbound (towards Europe) as those would have a +ve `diff` baseline of 5+ hours???
+
 
 -----------
 
