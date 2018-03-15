@@ -264,7 +264,20 @@ Q7.
 Confirm my hypothesis that the early departures of flights in minutes 20-30 and 50-60 are caused by scheduled flights that leave early. (Hint: create a binary variable that tells you whether or not a flight was delayed)
 
 A7.
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+From [https://jrnold.github.io/r4ds-exercise-solutions/dates-and-times.html#date-time-components] :
+```{r}
+flights_dt %>%
+  mutate(early = dep_delay < 0,
+         minute = minute(sched_dep_time) %% 10) %>%     #
+  group_by(minute) %>%
+  summarise(early = mean(early)) %>%
+  ggplot(aes(x = minute, y = early)) +
+  geom_point()
+```
+
+"if grouped in 10 minute intervals, there is a higher proportion of early flights during those minutes"
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 
 ----------
