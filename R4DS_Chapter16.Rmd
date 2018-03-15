@@ -254,8 +254,8 @@ ggplot(flights_dt, aes(x = minute(sched_dep_time))) +      # minute (ignoring wh
 
 'Both `carat` and `sched_dep_time` have disproportionately high counts at nice “human” numbers...
 
-* In `carats`, it is at 0, 1/3, 1/2, 2/3
-* In `sched_dep_time` it is at 00 and 30 minutes, (and minutes ending in 0 and 5)'
+* In `carats` it is at 0, 1/3, 1/2, 2/3
+* In `sched_dep_time` it is at 00 and 30 minutes (and minutes ending in 0 and 5)'
 
 
 -----------
@@ -265,19 +265,34 @@ Confirm my hypothesis that the early departures of flights in minutes 20-30 and 
 
 A7.
 From [https://jrnold.github.io/r4ds-exercise-solutions/dates-and-times.html#date-time-components] :
+
+"At the minute level, there doesn’t appear to be anything". [I haven't shown that plot]
+
+"But if grouped in 10 minute intervals, there is a higher proportion of early flights during those minutes" :
 ```{r}
 flights_dt %>%
-  mutate(early = dep_delay < 0,
-         minute = minute(sched_dep_time) %% 10) %>%     #
+  mutate(early = dep_delay < 0,                         # define `early` as 'a binary variable'
+         minute = minute(sched_dep_time) %% 10) %>%     # 0-9 minute (ignoring which hour, etc)
   group_by(minute) %>%
   summarise(early = mean(early)) %>%
   ggplot(aes(x = minute, y = early)) +
   geom_point()
 ```
 
-"if grouped in 10 minute intervals, there is a higher proportion of early flights during those minutes"
+...This confirms something mentioned in A6 (scheduled departure times are more likely to be 'minutes ending in 0 and 5'). But I don't think it says anything about "minutes 20-30 and 50-60"
 
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+Repurposing the code, to see in which 10-minute interval the early-leaving flights were scheduled to depart :
+```{r}
+flights_dt %>%
+  mutate(early = dep_delay < 0,
+         minute = minute(sched_dep_time) %/% 10) %>%    # 10-minute interval (ignoring 0-9)
+  group_by(minute) %>%
+  summarise(early = mean(early)) %>%
+  ggplot(aes(x = minute, y = early)) +
+  geom_point()
+```
+
+...This DOES appear to prove the hypothesis that "the early departures of flights in minutes 20-30 and 50-60 are caused by scheduled flights that leave early" (because the peaks at 0&3 will have actual departures of 5&2)
 
 
 ----------
