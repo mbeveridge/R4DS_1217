@@ -317,9 +317,12 @@ mutate(
   arr_time = arr_time + days(overnight * 1),
   sched_arr_time = sched_arr_time + days(overnight * 1)
 )
-# We only want to add `days(1)` in cases where we omitted it before. `overnight` is TRUE (1) or FALSE (0).
-# So if it is an overnight flight, we add 1 day, and if not, no days are added
 ```
+
+* We only want to add `days(1)` in the cases that need correcting (where `arr_time < dep_time`). `overnight` is TRUE (1) or FALSE (0).
+* So if it is an overnight flight, we add 1 day, and if not, no days are added
+* The `* 1` is to force a Boolean to become a number ...?
+
 
 -----------
 
@@ -337,13 +340,12 @@ ymd("2015-01-01") + months(0:11)
 
 
 A3.2
-Again, could do it the 'long' way or 'concise' way, as above, just replacing 2015 with 2017. BUT that seems trivial.
+Again, could do it the 'long' way or 'concise' way, as above, just replacing 2015 with 2018. BUT that seems trivial. INSTEAD, assume that the question is asking us to code for a generic 'current year'...
 
-INSTEAD, assume that the question is asking us to code for a generic 'current year' :
+From [https://jrnold.github.io/r4ds-exercise-solutions/dates-and-times.html#time-spans] :
 ```{r}
 # "I can do that by taking `today()` and truncating it to the year using `floor_date`" :
 floor_date(today(), unit = "year") + months(0:11)
-# -- [https://jrnold.github.io/r4ds-exercise-solutions/dates-and-times.html#time-spans]
 ```
 
 -----------
@@ -357,8 +359,10 @@ We haven't covered Functions yet (s19). This is from [https://jrnold.github.io/r
 age <- function(bday) {
   (bday %--% today()) %/% years(1)
 }
-age(ymd("1969-07-29"))
 # The parts between `{}` were covered in s16.4.3 R4DS book
+
+age(ymd("1926-03-15"))
+# `[1] 92`
 ```
 
 -----------
@@ -369,15 +373,26 @@ Why can’t `(today() %--% (today() + years(1)) / months(1)` work?
 A5.
 ```{r}
 (today() %--% (today() + years(1)) / months(1)
-# Editor shows a red cross, with "unmatched opening bracket `(`" ...but I don't think that was the intended error ...?
+# `Error: Incomplete expression: (today() % (today() + years(1)) / months(1)`
+# Is the missing bracket the answer? ...Instead I assume it's a typo in the Question code?
 ```
 
+Not sure what the correction would be (ie. what the Question intended to ask). eg. :
 ```{r}
 (today() %--% (today() + years(1))) / months(1)
-# This works and gives an answer of 12
+# Closing bracket on numerator : This works : `[1] 12`
 
 (today() %--% (today() + years(1)) / months(1))
-# This works and gives an answer of 12
+# Closing bracket on the whole expression : This works : `[1] 12`
 ```
+
+Presumably it relates to the text in s16.4.3 R4DS book : "To find out how many periods fall into an interval, you need to use integer division"...
+```{r}
+next_year <- today() + years(1)
+(today() %--% next_year) %/% days(1)          # However this DOES work with `/ days(1)` instead
+```
+
+...and in that case `(today() %--% (today() + years(1))) / months(1)` would be the correction. But it wouldn't help answer the question (since it does work)
+
 
 
