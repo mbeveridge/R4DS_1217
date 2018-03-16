@@ -27,8 +27,25 @@ sim1a <- tibble(
 ```
 
 A1.
-
+From s23.2 R4DS book, "`lm()` has a special way to specify the model family: formulas. Formulas look like `y ~ x`, which `lm()` will translate to a function ... We can fit the model and look at the output" :
 ```{r}
+sim1a_mod <- lm(y ~ x, data = sim1a)
+
+coef(sim1a_mod)                                    # Slope=1.480507    Intercept=5.806916
+
+# Can't just put `sim1a_mod` into ggplot like this ...it plots same curve as `sim1a`. (WHY?)
+ggplot(sim1a_mod, aes(x, y)) +
+  geom_point() +
+  geom_smooth() 
+```
+
+
+From [https://jrnold.github.io/r4ds-exercise-solutions/model-basics.html#a-simple-model] :
+```{r}
+ggplot(sim1a, aes(x = x, y = y)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE)           # fit a linear model (straight line)
+
 
 ```
 
