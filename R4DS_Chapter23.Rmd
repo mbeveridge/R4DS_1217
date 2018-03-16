@@ -28,6 +28,10 @@ sim1a <- tibble(
 
 A1.
 
+```{r}
+
+```
+
 -----------
 
 Q2.
@@ -43,6 +47,10 @@ Use `optim()` to fit this model to the simulated data above and compare it to th
 
 A2.
 
+```{r}
+
+```
+
 -----------
 
 Q3.
@@ -54,6 +62,7 @@ model1 <- function(a, data) {
 ```
 
 A3.
+
 
 
 -----------
@@ -69,12 +78,17 @@ Instead of using `lm()` to fit a straight line, you can use `loess()` to fit a s
 
 A1.
 
+```{r}
+
+```
+
 -----------
 
 Q2.
 `add_predictions()` is paired with `gather_predictions()` and `spread_predictions()`. How do these three functions differ?
 
 A2.
+
 
 -----------
 
@@ -85,6 +99,9 @@ Q3.
 
 A3.
 
+*
+*
+
 -----------
 
 Q4.
@@ -93,6 +110,9 @@ Q4.
 * What are the pros and cons compared to looking at the raw residuals?
 
 A4.
+
+*
+*
 
 
 -----------
@@ -107,6 +127,10 @@ Q1.
 
 A1.
 
+```{r}
+
+```
+
 -----------
 
 Q2.
@@ -115,6 +139,12 @@ Q2.
 * Why is `*` a good shorthand for interaction?
 
 A2.
+
+```{r}
+
+```
+
+*
 
 -----------
 
@@ -128,6 +158,10 @@ mod2 <- lm(y ~ x1 * x2, data = sim3)
 
 A3.
 
+```{r}
+
+```
+
 -----------
 
 Q4.
@@ -136,4 +170,11 @@ Q4.
 * Can you come up with a plot to support my claim?
 
 A4.
+
+*
+
+```{r}
+
+```
+
 
