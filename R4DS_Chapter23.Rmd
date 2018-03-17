@@ -109,7 +109,7 @@ model1 <- function(a, data) {
 ```
 
 A3.
-If I understand [https://jrnold.github.io/r4ds-exercise-solutions/model-basics.html#a-simple-model] correctly, it's that although `a[2]` always has the same optimum value, there are many ways of reaching the optimum `a[1] + a[3]` ...and so many values of `a[1]` and `a[3]` can be part of an optimum. We'll get different solutions depending on what initial values seed `optim()`
+If I understand [https://jrnold.github.io/r4ds-exercise-solutions/model-basics.html#a-simple-model] correctly, it's that although `a[2]` always has the same optimum value, there are many ways of reaching the optimum `a[1] + a[3]` ...and hence many values of `a[1]` and `a[3]` can be part of an optimum. We'll get different solutions depending on which initial values seed `optim()`
 
 
 -----------
