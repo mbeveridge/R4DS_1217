@@ -75,10 +75,28 @@ measure_distance <- function(mod, data) {
 Use `optim()` to fit this model to the simulated data above and compare it to the linear model.
 
 A2.
-
+From s23.2 R4DS book, "a numerical minimisation tool called Newton-Raphson search ... In R, we can do that with `optim()`" :
 ```{r}
+best <- optim(c(0, 0), measure_distance, data = sim1a)
+best$par                                   # the best parameters of the 'mean-absolute distance'
 
+
+# HOWEVER, although the code in Q2 defines `measure_distance` (and we have `sim1a` from Q1), that definition doesn't include what the `make_prediction()` function is ...SO at the moment we just get an error
 ```
+
+From [https://jrnold.github.io/r4ds-exercise-solutions/model-basics.html#a-simple-model]
+```{r}
+# "For the above function to work, we need to define a function `make_prediction` that takes a numeric vector of length two (the intercept and slope) and returns the predictions..."
+
+make_prediction <- function(mod, data) {
+  mod[1] + mod[2] * data$x
+}
+
+# (I don't properly understand this, but) running that `make_prediction` code, and then the `optim` code again, gives : [1] 6.013145 1.511948
+
+# ...re. `lm()` with the same data, (in A1) : Slope=1.546082    Intercept=5.633505
+```
+
 
 -----------
 
