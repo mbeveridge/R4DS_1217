@@ -7,6 +7,9 @@ output:
 
 ```{r}
 library(tidyverse)
+
+library(modelr)
+options(na.action = na.warn)
 ```
 
 
@@ -139,6 +142,8 @@ A2.
 ?add_predictions
 
 # "A data frame. `add_prediction` adds a single new column, `.pred`, to the input data. `spread_predictions` adds one column for each model. `gather_predictions` adds two columns `.model` and `.pred`, and repeats the input rows for each model." -- Help
+
+# "Next we add predictions. We’ll use modelr::add_predictions() which takes a data frame and a model. It adds the predictions from the model to a new column in the data frame" -- s23.3.1 R4DS book
 ```
 
 
@@ -151,7 +156,13 @@ Q3.
 * Why is displaying a reference line in plots showing residuals useful and important?
 
 A3.
+This refers to code in s23.3.2 :
 ```{r}
+ggplot(sim1, aes(x, resid)) + 
+  geom_ref_line(h = 0) +
+  geom_point()
+# Just showing this for context. (Because running it here gives an error)
+
 ?geom_ref_line
 
 # "geom_ref_line {modelr}" "Add a reference line (ggplot2)" -- Help
