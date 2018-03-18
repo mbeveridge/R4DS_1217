@@ -135,6 +135,12 @@ Q2.
 `add_predictions()` is paired with `gather_predictions()` and `spread_predictions()`. How do these three functions differ?
 
 A2.
+```{r}
+?add_predictions
+
+# "A data frame. `add_prediction` adds a single new column, `.pred`, to the input data. `spread_predictions` adds one column for each model. `gather_predictions` adds two columns `.model` and `.pred`, and repeats the input rows for each model." -- Help
+```
+
 
 
 -----------
@@ -145,6 +151,12 @@ Q3.
 * Why is displaying a reference line in plots showing residuals useful and important?
 
 A3.
+```{r}
+?geom_ref_line
+
+# "geom_ref_line {modelr}" "Add a reference line (ggplot2)" -- Help
+```
+
 
 *
 *
