@@ -180,9 +180,12 @@ Q4.
 * What are the pros and cons compared to looking at the raw residuals?
 
 A4.
+"There are a few different ways to understand what the residuals tell us about the model. One way is to simply draw a frequency polygon to help us understand the spread of the residuals [ ] This helps you calibrate the quality of the model: how far away are the predictions from the observed values? Note that the average of the residual will always be 0" -- s23.3.2 R4DS book (and a plot of raw residuals is shown there, +ve & -ve)
 
 *
 *
+
+[https://jrnold.github.io/r4ds-exercise-solutions/model-basics.html#visualizing-models]
 
 
 -----------
