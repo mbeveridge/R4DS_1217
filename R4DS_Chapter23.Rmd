@@ -127,10 +127,32 @@ Instead of using `lm()` to fit a straight line, you can use `loess()` to fit a s
 * How does the result compare to 'geom_smooth()'?
 
 A1.
+From [https://jrnold.github.io/r4ds-exercise-solutions/model-basics.html#visualizing-models]
 
+* "I’ll use add_predictions and add_residuals to add the predictions and residuals from a loess regression to the sim1 data"
 ```{r}
+sim1_loess <- loess(y ~ x, data = sim1)
 
+grid_loess <- sim1 %>%
+  add_predictions(sim1_loess)                           # `add_predictions`
+
+# add the predictions and residuals from a loess regression to the sim1 data
+sim1 <- sim1 %>%
+  add_residuals(sim1_loess, var = "resid_loess") %>%    # `add_residuals`
+  add_predictions(sim1_loess, var = "pred_loess")
 ```
+
+"This plots the `loess` predictions. The `loess` produces a nonlinear, smooth line through the data"
+```{r}
+plot_sim1_loess <- 
+  ggplot(sim1, aes(x = x, y = y)) +
+  geom_point() +
+  geom_line(aes(x = x, y = pred), data = grid_loess, colour = "red")
+plot_sim1_loess
+```
+
+* "The predictions of `loess` are the same as the default method for `geom_smooth` because `geom_smooth()` uses `loess()` by default; the message even tells us that"
+
 
 -----------
 
