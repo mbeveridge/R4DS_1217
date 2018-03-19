@@ -146,6 +146,14 @@ A2.
 # "Next we add predictions. We’ll use modelr::add_predictions() which takes a data frame and a model. It adds the predictions from the model to a new column in the data frame" -- s23.3.1 R4DS book
 ```
 
+Based on [https://jrnold.github.io/r4ds-exercise-solutions/model-basics.html#visualizing-models] :
+
+`add_predictions` adds only a single model at a time (so to add two models, you use the function twice). BUT `gather_predictions` and `spread_predictions` allow for adding predictions from multiple models at once.
+
+* `gather_predictions` does it by stacking the results and adding a column with the model name
+* `spread_predictions` does it by adding multiple columns (postfixed with the model name) with predictions from each model.
+
+(`spread_predictions` is similar to the example which runs `add_predictions` for each model, and is equivalent to running `spread` after running `gather_predictions`)
 
 
 -----------
