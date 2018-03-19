@@ -180,12 +180,13 @@ Q4.
 * What are the pros and cons compared to looking at the raw residuals?
 
 A4.
-"There are a few different ways to understand what the residuals tell us about the model. One way is to simply draw a frequency polygon to help us understand the spread of the residuals [ ] This helps you calibrate the quality of the model: how far away are the predictions from the observed values? Note that the average of the residual will always be 0" -- s23.3.2 R4DS book (and a plot of raw residuals is shown there, +ve & -ve)
+"There are a few different ways to understand what the residuals tell us about the model. One way is to simply draw a frequency polygon to help us understand the spread of the residuals ... This helps you calibrate the quality of the model: how far away are the predictions from the observed values? Note that the average of the residual will always be 0" -- s23.3.2 R4DS book (and a plot of 'raw' residuals is shown there ...ie. +ve & -ve)
 
-*
-*
+"This looks like random noise, suggesting that our model has done a good job of capturing the patterns in the dataset" -- s23.3.2 R4DS book
 
-[https://jrnold.github.io/r4ds-exercise-solutions/model-basics.html#visualizing-models]
+* You might want to look at a frequency polygon of residuals (absolute or raw) to 'help you calibrate the quality of the model'
+* PRO (of absolute) : A clearer/simpler view of 'how far away the predictions are from the observed values', because only one thing (magnitude) is considered and because doubling the count reduces the chance that 'random' patterns are considered significant
+* CON : However, using absolute values (combining counts of + & -) might also hide patterns that are really meaningful/systemic ...and which would mean that the model isn't such a good fit
 
 
 -----------
