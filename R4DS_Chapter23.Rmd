@@ -127,23 +127,22 @@ Instead of using `lm()` to fit a straight line, you can use `loess()` to fit a s
 * How does the result compare to `geom_smooth()`?
 
 A1.
-From [https://jrnold.github.io/r4ds-exercise-solutions/model-basics.html#visualizing-models]
+* Repeat the process from s23.3.1 (and the end of s23.2 where we obtained `sim1_mod` by using `sim1_mod <- lm(y ~ x, data = sim1)`) ...But use `loess()` instead of `lm()` :
 
-* "I’ll use `add_predictions` to add the predictions from a `loess` regression to the `sim1 data`"
 ```{r}
-sim1_loess <- loess(y ~ x, data = sim1)
+sim1_loess <- loess(y ~ x, data = sim1)                # model fitting
 
 grid_loess <- sim1 %>%
-  add_predictions(sim1_loess)                          # `add_predictions`
+  add_predictions(sim1_loess)                          # grid generation, predictions
 
-# add the predictions from a `loess` regression to the `sim1` data
+# Add the predictions from a `loess` regression to the `sim1` data. Default name of output col would be `pred`
 # sim1 <- sim1 %>%
-#  add_predictions(sim1_loess, var = "pred_loess")     # Default name of output col w/be `pred`
+#  add_predictions(sim1_loess, var = "pred_loess")
 ```
 
 "This plots the `loess` predictions. The `loess` produces a nonlinear, smooth line through the data"
 ```{r}
-ggplot(sim1, aes(x)) +                 # Same code as s23.3.1 R4DS book (but with `grid_loess`)
+ggplot(sim1, aes(x)) +                                 # visualisation
   geom_point(aes(y = y)) +
   geom_line(aes(y = pred), data = grid_loess, colour = "red", size = 1)
 ```
