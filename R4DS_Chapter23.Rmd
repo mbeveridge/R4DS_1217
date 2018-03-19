@@ -124,22 +124,22 @@ Q1.
 Instead of using `lm()` to fit a straight line, you can use `loess()` to fit a smooth curve.
 
 * Repeat the process of model fitting, grid generation, predictions, and visualisation on `sim1` using `loess()` instead of `lm()`.
-* How does the result compare to 'geom_smooth()'?
+* How does the result compare to `geom_smooth()`?
 
 A1.
 From [https://jrnold.github.io/r4ds-exercise-solutions/model-basics.html#visualizing-models]
 
-* "I’ll use add_predictions and add_residuals to add the predictions and residuals from a loess regression to the sim1 data"
+* "I’ll use `add_predictions` and `add_residuals` to add the predictions and residuals from a `loess` regression to the `sim1 data`"
 ```{r}
 sim1_loess <- loess(y ~ x, data = sim1)
 
 grid_loess <- sim1 %>%
   add_predictions(sim1_loess)                           # `add_predictions`
 
-# add the predictions and residuals from a loess regression to the sim1 data
+# add the predictions and residuals from a `loess` regression to the `sim1` data
 sim1 <- sim1 %>%
   add_residuals(sim1_loess, var = "resid_loess") %>%    # `add_residuals`
-  add_predictions(sim1_loess, var = "pred_loess")
+  add_predictions(sim1_loess, var = "pred_loess")       # `add_predictions`
 ```
 
 "This plots the `loess` predictions. The `loess` produces a nonlinear, smooth line through the data"
