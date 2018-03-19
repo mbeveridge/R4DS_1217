@@ -164,7 +164,7 @@ Q3.
 * Why is displaying a reference line in plots showing residuals useful and important?
 
 A3.
-This refers to code in s23.3.2 :
+This question relates to code shown in s23.3.2 of R4DS book :
 ```{r}
 ggplot(sim1, aes(x, resid)) + 
   geom_ref_line(h = 0) +
@@ -176,9 +176,10 @@ ggplot(sim1, aes(x, resid)) +
 # "geom_ref_line {modelr}" "Add a reference line (ggplot2)" -- Help
 ```
 
+* `geom_ref_line()` adds a reference line to a plot (in **ggplot2**). It comes from **modelr**. "It is equivalent to running `geom_hline` or `geom_vline` with default settings that are useful for visualizing models" -- [https://jrnold.github.io/r4ds-exercise-solutions/model-basics.html#visualizing-models]
 
-*
-*
+* Displaying a reference line (at zero) is useful because "the average of the residual will always be 0" [s23.3.2 R4DS book] and the line (which is thicker than other gridlines) makes it easier to judge whether the model is 'good' ...with "approximately the same variance (or distribution) over the support of x, and no correlation" [https://jrnold.github.io/r4ds-exercise-solutions/model-basics.html#visualizing-models]. More generally, reference lines at other values might direct/maintain a reader's attention on characteristics of the data that show the model *isn't* 'good'. (As with other attention 'hooks', use them with restraint or they overwhelm and lose effectiveness)
+
 
 -----------
 
