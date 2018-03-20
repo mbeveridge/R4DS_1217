@@ -127,6 +127,7 @@ Instead of using `lm()` to fit a straight line, you can use `loess()` to fit a s
 * How does the result compare to `geom_smooth()`?
 
 A1.
+
 * Repeat the process from s23.3.1 (and the end of s23.2 where we obtained `sim1_mod` by using `sim1_mod <- lm(y ~ x, data = sim1)`) ...But use `loess()` instead of `lm()` :
 
 ```{r}
@@ -135,19 +136,23 @@ sim1_loess <- loess(y ~ x, data = sim1)                # model fitting
 grid_loess <- sim1 %>%
   add_predictions(sim1_loess)                          # grid generation, predictions
 
-# Add the predictions from a `loess` regression to the `sim1` data. Default name of output col would be `pred`
+# "You can also use this function to add predictions [eg. from a `loess` regression] to your original [`sim1`] dataset" -- s23.3.1 R4DS book. (By default, output column gets named `pred`, but here we name it `pred_loess`) :
 # sim1 <- sim1 %>%
 #  add_predictions(sim1_loess, var = "pred_loess")
 ```
 
-"This plots the `loess` predictions. The `loess` produces a nonlinear, smooth line through the data"
+"Next we plot the [`loess`] predictions". Local Polynomial Regression Fitting (or `loess`) produces a nonlinear, smooth line through the data...
+
+"Fitting is done locally. That is, for the fit at point x, the fit is made using points in a neighbourhood of x, weighted by their distance from x ... For the default family, fitting is by (weighted) least squares" -- Help (`?loess`)
+
+
 ```{r}
 ggplot(sim1, aes(x)) +                                 # visualisation
   geom_point(aes(y = y)) +
   geom_line(aes(y = pred), data = grid_loess, colour = "red", size = 1)
 ```
 
-* "The predictions of `loess` are the same as the default method for `geom_smooth` because `geom_smooth()` uses `loess()` by default; the message even tells us that"
+* "The predictions of `loess` are the same as the default method for `geom_smooth` because `geom_smooth()` uses `loess()` by default; the message even tells us that" -- [https://jrnold.github.io/r4ds-exercise-solutions/model-basics.html#visualizing-models]
 
 
 -----------
