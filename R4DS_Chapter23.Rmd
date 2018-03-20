@@ -232,10 +232,43 @@ Q1.
 * What happens to the model equation? What happens to the predictions?
 
 A1.
+Analysis of `sim2` was done in s23.4.1 R4DS book :
+```{r}
+mod2 <- lm(y ~ x, data = sim2)
+
+grid <- sim2 %>% 
+  data_grid(x) %>% 
+  add_predictions(mod2)
+grid
+```
+
+"The way that R adds the intercept to the model is just by having a column that is full of ones. By default, R will always add this column. If you don’t want, you need to explicitly drop it with `-1`" -- s23.4 R4DS book
+
+* 'Repeat the analysis of `sim2` using a model without an intercept' :
 
 ```{r}
+mod2a <- lm(y ~ x - 1, data = sim2)          # [cf. chunk above] "explicitly drop it with `-1`"
 
+grid <- sim2 %>% 
+  data_grid(x) %>% 
+  add_predictions(mod2a)
+grid
 ```
+
+* The model equation gains an extra `-1` term. The predictions are the same
+
+Better comparison, from [https://jrnold.github.io/r4ds-exercise-solutions/model-basics.html#formulas-and-model-families] :
+```{r}
+# "To run a model without an intercept, add `-1` or `+0` to the right-hand-side of the formula"
+mod2a <- lm(y ~ x - 1, data = sim2)
+
+grid <- sim2 %>% 
+  data_grid(x) %>% 
+  spread_predictions(mod2, mod2a)            # `spread_predictions` let us compare side-by-side
+grid
+# "The predictions are exactly the same in the models with and without an intercept"
+```
+
 
 -----------
 
