@@ -257,7 +257,7 @@ grid
 
 * The model equation gains an extra `-1` term. The predictions are the same
 
-Better comparison, from [https://jrnold.github.io/r4ds-exercise-solutions/model-basics.html#formulas-and-model-families] :
+Better comparison, from [https://jrnold.github.io/r4ds-exercise-solutions/model-basics.html#formulas-and-model-families], using `spread_predictions` (re. 23.3.3 Exercises Q2) :
 ```{r}
 # "To run a model without an intercept, add `-1` or `+0` to the right-hand-side of the formula"
 mod2a <- lm(y ~ x - 1, data = sim2)
