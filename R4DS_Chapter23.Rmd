@@ -283,7 +283,7 @@ A2.
 
 ```
 
-*
+* "The asterisk `*` is good shorthand for an interaction since an interaction between `x1` and `x2` includes terms for `x1`, `x2`, and the product of `x1` and `x2`" -- [https://jrnold.github.io/r4ds-exercise-solutions/model-basics.html#formulas-and-model-families]
 
 -----------
 
