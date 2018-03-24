@@ -84,7 +84,7 @@ best <- optim(c(0, 0), measure_distance, data = sim1a)
 best$par                                   # the best parameters of the 'mean-absolute distance'
 
 
-# HOWEVER, although the code in Q2 defines `measure_distance` (and we have `sim1a` from Q1), that definition doesn't include what the `make_prediction()` function is ...SO at the moment we just get an error
+# HOWEVER, although the code in Q2 defines `measure_distance` (and we have `sim1a` from Q1), that definition doesn't include what the `make_prediction()` function is ...SO at the moment we just get an ERROR
 ```
 
 From [https://jrnold.github.io/r4ds-exercise-solutions/model-basics.html#a-simple-model]
@@ -305,15 +305,26 @@ A3.
 
 Q4.
 
-* For `sim4`, which of `mod1` and `mod2` is better? I think `mod2` does a slightly better job at removing patterns, but it’s pretty subtle.
+For `sim4`, which of `mod1` and `mod2` is better? I think `mod2` does a slightly better job at removing patterns, but it’s pretty subtle.
 * Can you come up with a plot to support my claim?
 
 A4.
-
-*
+From [https://jrnold.github.io/r4ds-exercise-solutions/model-basics.html#formulas-and-model-families] :
 
 ```{r}
+# Estimate models `mod1` and `mod2` on `sim4` :
+mod1 <- lm(y ~ x1 + x2, data = sim4)
+mod2 <- lm(y ~ x1 * x2, data = sim4)
 
+# and add the residuals from these models to the `sim4` data :
+sim4_mods <- gather_residuals(sim4, mod1, mod2)
+```
+
+```{r}
+# Frequency plots of both the residuals :
+ggplot(sim4_mods, aes(x = resid, color = model)) +
+  geom_freqpoly(binwidth = 0.5) +
+  geom_rug()
 ```
 
 
