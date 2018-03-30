@@ -112,7 +112,7 @@ model1 <- function(a, data) {
 ```
 
 A3.
-If I understand [https://jrnold.github.io/r4ds-exercise-solutions/model-basics.html#a-simple-model] correctly, it's that although `a[2]` always has the same optimum value, there are many ways of reaching the optimum `a[1] + a[3]` ...and hence many values of `a[1]` and `a[3]` can be part of an optimum. We'll get different solutions depending on which initial values seed `optim()`
+If I understand [https://jrnold.github.io/r4ds-exercise-solutions/model-basics.html#a-simple-model] correctly, it's that although `a[2]` always has the same optimum value, there are many ways of reaching the optimum `a[1] + a[3]` ...and hence many values of `a[1]` and `a[3]` can be part of an optimum. We get different solutions depending on which initial values seed `optim()`
 
 
 -----------
@@ -143,13 +143,13 @@ grid_loess <- sim1 %>%
 
 "Next we plot the [`loess`] predictions". Local Polynomial Regression Fitting (or `loess`) produces a nonlinear, smooth line through the data...
 
-"Fitting is done locally. That is, for the fit at point x, the fit is made using points in a neighbourhood of x, weighted by their distance from x ... For the default family, fitting is by (weighted) least squares" -- Help (`?loess`)
+"Fitting is done locally. That is, for the fit at point `x`, the fit is made using points in a neighbourhood of `x`, weighted by their distance from `x` ... For the default family, fitting is by (weighted) least squares" -- Help (`?loess`)
 
 
 ```{r}
 ggplot(sim1, aes(x)) +                                 # visualisation
   geom_point(aes(y = y)) +
-  geom_line(aes(y = pred), data = grid_loess, colour = "red", size = 1)
+  geom_line(data = grid_loess, aes(y = pred), colour = "red", size = 1)
 ```
 
 * "The predictions of `loess` are the same as the default method for `geom_smooth` because `geom_smooth()` uses `loess()` by default; the message even tells us that" -- [https://jrnold.github.io/r4ds-exercise-solutions/model-basics.html#visualizing-models]
