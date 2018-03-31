@@ -139,10 +139,12 @@ A1.
 sim1_loess <- loess(y ~ x, data = sim1)                # model fitting
 
 grid_loess <- sim1 %>%
-  add_predictions(sim1_loess)                          # grid generation, predictions
+  data_grid(x) %>%                                     # grid generation
+  add_predictions(sim1_loess)                          # predictions
 
-# "You can also use this function to add predictions [eg. from a `loess` regression] to your original [`sim1`] dataset" -- s23.3.1 R4DS book. (By default, output column gets named `pred`, but here we name it `pred_loess`) :
+# "You can also use this function to add predictions [eg. from a `loess` regression] to your original [`sim1`] dataset" -- s23.3.1 R4DS book. (By default, output column gets named `pred`, but we could name it `pred_loess`) :
 # sim1 <- sim1 %>%
+#  data_grid(x) %>%
 #  add_predictions(sim1_loess, var = "pred_loess")
 ```
 
