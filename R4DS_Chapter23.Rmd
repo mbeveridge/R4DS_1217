@@ -181,7 +181,7 @@ Based on [https://jrnold.github.io/r4ds-exercise-solutions/model-basics.html#vis
 * `gather_predictions` does it by stacking the results and adding a column with the model name
 * `spread_predictions` does it by adding multiple columns (postfixed with the model name) with predictions from each model.
 
-(`spread_predictions` is similar to the example which runs `add_predictions` for each model, and is equivalent to running `spread` after running `gather_predictions`)
+(`spread_predictions` is similar to the example which runs `add_predictions` for each model, and is equivalent to running `tidyr::spread` after running `modelr::gather_predictions`)
 
 
 -----------
