@@ -100,6 +100,11 @@ make_prediction <- function(mod, data) {
 # ...re. `lm()` with the same data, (in A1) : Slope=1.546082    Intercept=5.633505
 ```
 
+PS. In s23.2 R4DS book, the equivalent of the `make_prediction` function was :
+      model1 <- function(a, data) {
+        a[1] + data$x * a[2]
+      }
+
 
 -----------
 
