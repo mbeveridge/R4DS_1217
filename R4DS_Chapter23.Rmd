@@ -369,8 +369,8 @@ From [https://jrnold.github.io/r4ds-exercise-solutions/model-basics.html#formula
 mod1 <- lm(y ~ x1 + x2, data = sim4)      # `x1` & `x2` are both continuous ...s23.4.3 R4DS book
 mod2 <- lm(y ~ x1 * x2, data = sim4)
 
-# and add the residuals from these models to the `sim4` data :
-sim4_mods <- gather_residuals(sim4, mod1, mod2)
+# and add the residuals from these models to the `sim4` data (as an extra column) :
+sim4_mods <- gather_residuals(sim4, mod1, mod2)      # re. `add_residuals()`, `add_predictions()`
 ```
 
 ```{r}
@@ -379,5 +379,10 @@ ggplot(sim4_mods, aes(x = resid, color = model)) +
   geom_freqpoly(binwidth = 0.5) +
   geom_rug()
 ```
+
+"The standard deviation of the residuals of `mod2` is [slightly] smaller than that of `mod1`"
+
+["The residuals are just the distances between the observed and predicted values" -- s23.3.2 R4DS book. So a smaller SD means "`mod2` does a slightly better job at removing patterns" (because it did a slightly better job at fitting/predicting the data)]
+
 
 
