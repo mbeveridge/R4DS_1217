@@ -239,6 +239,7 @@ Q1.
 * What happens to the model equation? What happens to the predictions?
 
 A1.
+
 Analysis of `sim2` was done in s23.4.1 R4DS book :
 ```{r}
 mod2 <- lm(y ~ x, data = sim2)
@@ -289,11 +290,11 @@ A2.
 ```{r}
 ?model_matrix
 
-# From 23.4.2 R4DS book :
+# From s23.4.2 R4DS book :
 mod1 <- lm(y ~ x1 + x2, data = sim3)    # `x1` is continuous, `x2` is categorical
 mod2 <- lm(y ~ x1 * x2, data = sim3)    # `x1` is continuous, `x2` is categorical
 
-# From 23.4.3 R4DS book :
+# From s23.4.3 R4DS book :
 mod1 <- lm(y ~ x1 + x2, data = sim4)    # `x1` & `x2` are both continuous
 mod2 <- lm(y ~ x1 * x2, data = sim4)    # `x1` & `x2` are both continuous
 ```
@@ -314,17 +315,41 @@ model_matrix(sim4, y ~ x1 * x2)         # (Intercept), x1, x2, x1:x2
 -----------
 
 Q3.
+
 Using the basic principles, convert the formulas in the following two models into functions.
 (Hint: start by converting the categorical variable into 0-1 variables.)
 ```{r}
-mod1 <- lm(y ~ x1 + x2, data = sim3)
+mod1 <- lm(y ~ x1 + x2, data = sim3)    # `x1` continuous, `x2` categorical ...s23.4.2 R4DS book
 mod2 <- lm(y ~ x1 * x2, data = sim3)
 ```
 
 A3.
 
+Based on [https://jrnold.github.io/r4ds-exercise-solutions/model-basics.html#formulas-and-model-families] :
 ```{r}
 
+model_matrix_mod1 <- function(.data) {
+  mutate(.data,
+         `x2b` = as.numeric(x2 == "b"),
+         `x2c` = as.numeric(x2 == "c"),
+         `x2d` = as.numeric(x2 == "d") %>%
+    select(x1, x2b, x2c, x2d)
+}
+
+model_matrix_mod2 <- function(.data) {
+  mutate(.data,
+         `x2b` = as.numeric(x2 == "b"),
+         `x2c` = as.numeric(x2 == "c"),
+         `x2d` = as.numeric(x2 == "d"),
+         `x1:x2b` = x1 * x2b,
+         `x1:x2c` = x1 * x2c,
+         `x1:x2d` = x1 * x2d) %>%
+    select(x1, x2b, x2c, x2d, `x1:x2b`, `x1:x2c`, `x1:x2d`)
+}
+
+
+model_matrix_mod1(sim3)
+model_matrix_mod2(sim3)
 ```
 
 -----------
@@ -332,14 +357,16 @@ A3.
 Q4.
 
 For `sim4`, which of `mod1` and `mod2` is better? I think `mod2` does a slightly better job at removing patterns, but it’s pretty subtle.
+
 * Can you come up with a plot to support my claim?
 
 A4.
+
 From [https://jrnold.github.io/r4ds-exercise-solutions/model-basics.html#formulas-and-model-families] :
 
 ```{r}
 # Estimate models `mod1` and `mod2` on `sim4` :
-mod1 <- lm(y ~ x1 + x2, data = sim4)
+mod1 <- lm(y ~ x1 + x2, data = sim4)      # `x1` & `x2` are both continuous ...s23.4.3 R4DS book
 mod2 <- lm(y ~ x1 * x2, data = sim4)
 
 # and add the residuals from these models to the `sim4` data :
