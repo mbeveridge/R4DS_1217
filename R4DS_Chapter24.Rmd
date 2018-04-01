@@ -16,28 +16,27 @@ options(na.action = na.warn)
 ## 24. "Model building" [Chapter 19 hardcopy]
 ### 24.2.3 Exercises
 
-Q1. In the plot of 'lcarat' vs. 'lprice', there are some bright vertical strips. What do they represent?
+Q1. In the plot of `lcarat` vs. `lprice`, there are some bright vertical strips. What do they represent?
 
 A1.
 
 -----------
 
-Q2. If 'log(price) = a_0 + a_1 * log(carat)', what does that say about the relationship between 'price' and 'carat'?
+Q2. If `log(price) = a_0 + a_1 * log(carat)`, what does that say about the relationship between `price` and `carat`?
 
 A2.
 
 -----------
 
 Q3.
-Extract the diamonds that have very high and very low residuals. Is there anything unusual about these diamonds?
-Are theY particularly bad or good, or do you think these are pricing errors?
+Extract the diamonds that have very high and very low residuals. Is there anything unusual about these diamonds? Are theY particularly bad or good, or do you think these are pricing errors?
 
 A3.
 
 -----------
 
 Q4.
-Does the final model, 'mod_diamonds2', do a good job of predicting diamond prices?
+Does the final model, `mod_diamonds2`, do a good job of predicting diamond prices?
 Would you trust it to tell you how much to spend if you were buying a diamond?
 
 A4.
@@ -58,8 +57,12 @@ A1.
 
 Q2.
 What do the three days with high positive residuals represent? How would these days generalise to another year?
+
+```{r}
 daily %>% 
   top_n(3, resid)
+```
+
 #> # A tibble: 3 × 5
 #>         date     n  wday resid   term
 #>       <date> <int> <ord> <dbl> <fctr>
@@ -72,8 +75,8 @@ A2.
 -----------
 
 Q3.
-Create a new variable that splits the 'wday' variable into terms, but only for Saturdays,
-i.e. it should have 'Thurs', 'Fri', but 'Sat-summer', 'Sat-spring', 'Sat-fall'.
+Create a new variable that splits the `wday` variable into terms, but only for Saturdays,
+i.e. it should have `Thurs`, `Fri`, but `Sat-summer`, `Sat-spring`, `Sat-fall`.
 How does this model compare with the model with every combination of wday and term?
 
 A3.
@@ -81,15 +84,14 @@ A3.
 -----------
 
 Q4.
-Create a new 'wday' variable that combines the day of week, term (for Saturdays), and public holidays.
-What do the residuals of that model look like?
+Create a new `wday` variable that combines the day of week, term (for Saturdays), and public holidays. What do the residuals of that model look like?
 
 A4.
 
 -----------
 
 Q5.
-What happens if you fit a day of week effect that varies by month (i.e. 'n ~ wday * month')?
+What happens if you fit a day of week effect that varies by month (i.e. `n ~ wday * month`)?
 Why is this not very helpful?
 
 A5.
@@ -97,7 +99,7 @@ A5.
 -----------
 
 Q6.
-What would you expect the model 'n ~ wday + ns(date, 5)' to look like?
+What would you expect the model `n ~ wday + ns(date, 5)` to look like?
 Knowing what you know about the data, why would you expect it to be not particularly effective?
 
 A6.
