@@ -20,7 +20,9 @@ library(lubridate)
 
 Q1. In the plot of `lcarat` vs. `lprice`, there are some bright vertical strips. What do they represent?
 
-A1. This refers to a plot in s24.2.1 of R4DS book, after we "Log-transform the `carat` and `price` variables". And 'bright' is a function of 'count' in `geom_hex()`
+A1.
+
+This refers to a plot in s24.2.1 of R4DS book, after we "Log-transform the `carat` and `price` variables". And 'bright' is a function of 'count' in `geom_hex()`
 
 "`log2` computes binary (i.e., base 2) logarithms" -- Help. "The log-transformation is particularly useful here because it makes the pattern linear, and linear patterns are the easiest to work with" -- R4DS book
 
@@ -33,10 +35,9 @@ Q2. If `log(price) = a_0 + a_1 * log(carat)`, what does that say about the relat
 
 A2.
 
-```{r}
+"`log` computes logarithms, by default natural logarithms" -- Help. [ie. `log(x)` is equivalent to `log(x, base = exp(1))`]
 
-```
-
+"An 1% increase in `carat` is associated with an `a_1`% increase in `price`" -- [https://jrnold.github.io/r4ds-exercise-solutions/model-building.html#why-are-low-quality-diamonds-more-expensive]
 
 -----------
 
