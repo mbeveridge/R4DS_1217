@@ -20,11 +20,11 @@ library(lubridate)
 
 Q1. In the plot of `lcarat` vs. `lprice`, there are some bright vertical strips. What do they represent?
 
-A1.
+A1. This refers to a plot in s24.2.1 of R4DS book, after we "Log-transform the `carat` and `price` variables". And 'bright' is a function of 'count' in `geom_hex()`
 
-```{r}
+"`log2` computes binary (i.e., base 2) logarithms" -- Help. "The log-transformation is particularly useful here because it makes the pattern linear, and linear patterns are the easiest to work with" -- R4DS book
 
-```
+The strips represent what we've noted before : an uneven distribution of diamond size, with the strips at 'human friendly' numbers (round numbers or fractions). (`lcarat`=0 means `carat`=1)
 
 
 -----------
