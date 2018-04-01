@@ -41,8 +41,7 @@ A2.
 
 -----------
 
-Q3.
-Extract the diamonds that have very high and very low residuals. Is there anything unusual about these diamonds? Are they particularly bad or good, or do you think these are pricing errors?
+Q3. Extract the diamonds that have very high and very low residuals. Is there anything unusual about these diamonds? Are they particularly bad or good, or do you think these are pricing errors?
 
 A3.
 
@@ -60,10 +59,10 @@ Does the final model, `mod_diamonds2`, do a good job of predicting diamond price
 Would you trust it to tell you how much to spend if you were buying a diamond?
 
 A4.
+I don't really follow this, but see [https://jrnold.github.io/r4ds-exercise-solutions/model-building.html#why-are-low-quality-diamonds-more-expensive] for brief calculations, followed by a conclusion of ['cleaned up']...
 
-```{r}
 
-```
+'The average squared and absolute errors are 2^0.192 (which is 1.1423) and 2^0.149 (which is 1.1088), so on average, the error is ±10-15%. And the 95% range of residuals [by averaging results of 0.975 and 0.025 ??] is about 2^0.37 (which is 1.2924), so within ±30%. This doesn’t seem terrible to me'
 
 
 -----------
