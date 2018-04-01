@@ -46,9 +46,11 @@ Extract the diamonds that have very high and very low residuals. Is there anythi
 
 A3.
 
-```{r}
+From s24.2.1 R4DS book : "To interpret the y axis [`lresid`], we need to think about what the residuals are telling us, and what scale they are on. A residual of -1 indicates that `lprice` was 1 unit lower than a prediction based solely on its weight. 2^-1 is 1/2, points with a value of -1 are half the expected price, and residuals with value 1 are twice the predicted price"
 
-```
+From s24.2.2 R4DS book (with 4 predictors now) : "This plot indicates that there are some diamonds with quite large residuals - remember a residual of 2 indicates that the diamond is 4x the price that we expected. It’s often useful to look at unusual values individually" ... [Some code to `filter()` residuals `> 1`] ... "Nothing really jumps out at me here, but it’s probably worth spending time considering if this indicates a problem with our model, or if there are errors in the data. If there are mistakes in the data, this could be an opportunity to buy diamonds that have been priced low incorrectly"
+
+From [https://jrnold.github.io/r4ds-exercise-solutions/model-building.html#why-are-low-quality-diamonds-more-expensive] : "This was already discussed in the text. I don’t see anything either"
 
 
 -----------
