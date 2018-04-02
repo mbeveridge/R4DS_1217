@@ -77,6 +77,13 @@ Q1.
 
 A1.
 
+* Those days were all Sundays. They were directly before US public holidays (on the Mondays)
+
+* Generalising to another year :
+
+Martin Luther King Jr Day : third Monday of January.
+Memorial Day : last Monday of May.
+Labor Day : first Monday in September.
 
 -----------
 
@@ -93,6 +100,15 @@ daily %>%
 #> 3 2013-12-28   814   Sat  69.4   fall
 
 A2.
+
+Positive residuals represent days where actual flights exceed those forecast by the model. (Our model has a weekly pattern where Sat & Sun are low, so a general pattern might have exaggerated effects on a Saturday, and to a lesser extent on a Sunday)
+
+28/11/13 : Thanksgiving
+29/11/13 : "The Day after Thanksgiving is not a public holiday but is a state holiday in almost half the states in the U.S [but not NY]. and is given as a paid day off by around 80% of employers"
+
+30/11/13 : Saturday after Thanksgiving
+1/12 : Sunday after Thanksgiving
+28/12 : Saturday after Xmas
 
 
 -----------
