@@ -95,33 +95,34 @@ A3. <See separate file. NOTE: I changed display of 'diamond-sizes.Rmd' to Raw vi
 
 -----------
 
-# 27. "R Markdown" [Chapter 21 hardcopy]
-# 27.4.7 Exercises
+## 27. "R Markdown" [Chapter 21 hardcopy]
+### 27.4.7 Exercises
   
-# Q1.
-# Add a section that explores how diamond sizes vary by cut, colour, and clarity. Assume you’re writing a report
-# for someone who doesn’t know R, and instead of setting 'echo = FALSE' on each chunk, set a global option
+Q1.
+Add a section that explores how diamond sizes vary by cut, colour, and clarity. Assume you’re writing a report for someone who doesn’t know R, and instead of setting 'echo = FALSE' on each chunk, set a global option
 
-# A1.
+A1.
+
+-----------
+
+Q2.
+Download 'diamond-sizes.Rmd' from https://github.com/hadley/r4ds/tree/master/rmarkdown. Add a section that describes the largest 20 diamonds, including a table that displays their most important attributes
+
+A2.
+
+-----------
+
+Q3.
+Modify 'diamonds-sizes.Rmd' to use 'comma()' to produce nicely formatted output. Also include the percentage of diamonds that are larger than 2.5 carats.
+
+A3.
+
+-----------
+
+Q4.
+Set up a network of chunks where 'd' depends on 'c' and 'b', and both 'b' and 'c' depend on 'a'. Have each chunk print 'lubridate::now()', set 'cache = TRUE', then verify your understanding of caching
+
+A4.
 
 
-# Q2.
-# Download 'diamond-sizes.Rmd' from https://github.com/hadley/r4ds/tree/master/rmarkdown.
-# Add a section that describes the largest 20 diamonds, including a table that displays their most important attributes
-
-# A2.
-
-
-# Q3.
-# Modify 'diamonds-sizes.Rmd' to use 'comma()' to produce nicely formatted output.
-# Also include the percentage of diamonds that are larger than 2.5 carats.
-
-# A3.
-
-
-# Q4.
-# Set up a network of chunks where 'd' depends on 'c' and 'b', and both 'b' and 'c' depend on 'a'.
-# Have each chunk print 'lubridate::now()', set 'cache = TRUE', then verify your understanding of caching
-
-# A4.
 
