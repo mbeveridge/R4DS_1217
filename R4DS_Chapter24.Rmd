@@ -182,8 +182,14 @@ It’s a little frustrating that Sunday and Saturday are on separate ends of the
 Write a small function to set the levels of the factor so that the week starts on Monday
 
 A8.
-```{r}
+From [https://jrnold.github.io/r4ds-exercise-solutions/model-building.html#what-affects-the-number-of-daily-flights] :
 
+"See the chapter Factors [Chapter 15, R4DS book] for the function `fct_relevel` [s15.4 R4DS book]. I use `fct_relevel` to put all levels in-front of the first level (“Sunday”)" :
+```{r}
+monday_first <- function(x) {
+  forcats::fct_relevel(x, levels(x)[-1])  
+}
 ```
 
+"Now Monday is the first day of the week"
 
