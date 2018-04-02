@@ -73,28 +73,28 @@ Q1.
 Practice what you’ve learned by creating a brief CV. The title should be your name, and you should include headings for (at least) education or employment. Each of the sections should include a bulleted list of jobs/degrees. Highlight the year in bold
 
 A1. <See separate file>
+
 [`@eringrand : If you're using a RNotebook, once you "preview it" (i.e knit it for the first time) it'll update on its own every time you Save the document`]
 
 -----------
 
 Q2.
 Using the R Markdown quick reference, figure out how to:
-Q2.1 Add a footnote
-Q2.2 Add a horizontal rule
-Q2.3 Add a block quote
+
+1. Add a footnote
+2. Add a horizontal rule
+3. Add a block quote
 
 A2. <ALSO see separate file>
-A2.1 :
-Reference : A footnote [^1]
-At the bottom of the document: [^1]: Here is the footnote
 
-A2.2 : "Horizontal Rule / Page Break : Three or more asterisks or dashes"
-A2.3 : Blockquote : each line preceded by a > character and an optional space
+1. eg. Within the text: `[^1]`. At bottom of the document: `[^1]: Here is the footnote`
+2. "Horizontal Rule / Page Break : Three or more asterisks or dashes" ...`---`
+3. Blockquote : each line preceded by a `>` character and an optional space
 
 -----------
 
 Q3.
-Copy and paste the contents of `diamond-sizes.Rmd` from https://github.com/hadley/r4ds/tree/master/rmarkdown in to a local R markdown document. Check that you can run it, then add text after the frequency polygon that describes its most striking features.
+Copy and paste the contents of `diamond-sizes.Rmd` from [https://github.com/hadley/r4ds/tree/master/rmarkdown] in to a local R markdown document. Check that you can run it, then add text after the frequency polygon that describes its most striking features.
 
 A3. <See separate file. NOTE: I changed display of `diamond-sizes.Rmd` to Raw view, to be able to copy the formatting>
 
