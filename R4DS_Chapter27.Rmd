@@ -19,6 +19,8 @@ Create a new notebook using `File > New File > R Notebook`. Read the instruction
 A1. <See separate file>
 Running code in RStudio updates the output (eg. plot) there. Saving it (Cmd-S) creates `*.nb.html` version in active directory
 
+"The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed." -- Instructions in an R Notebook template
+
 -----------
 
 Q2.
@@ -30,17 +32,20 @@ Prompted to give the `*.Rmd` file a title (and choose default output format) whe
 -----------
 
 Q3.
-Compare and contrast the R notebook and R markdown files you created above.
+Compare and contrast the R notebook and R Markdown files you created above.
 How are the outputs similar? How are they different?
 How are the inputs similar? How are they different?
 What happens if you copy the YAML header from one to the other?
 
 A3.
-Not sure what the difference is. <Do I have corruption?> [http://rmarkdown.rstudio.com/r_notebooks.html]
-Outputs appear similar/'expected' (though the default boilerplate code is different)
-Header for notebook was a generic [`title: "R Notebook"`] and [`output: html_notebook`]
-Header for R Markdown file was as selected when creating [`title: "R4DS_Wk13"`] and [`output: html_document`]
-Couldn't be sure of any/what effect when copy&paste YAML header from one to the other (and vice versa)
+[http://rmarkdown.rstudio.com/r_notebooks.html]
+
+* Outputs appear similar/'expected' (though the default boilerplate code is different)
+* Header for notebook was a generic [`title: "R Notebook"`] and [`output: html_notebook`]
+* Header for R Markdown file was as selected when creating [`title: "R4DS_Wk13"`] and [`output: html_document`]
+* Couldn't be sure of any/what effect when copy&paste YAML header from one to the other (and vice versa). [But what should happen is that `output:` determines what type of document it is]
+
+"R notebook files show the output inside the editor, while hiding the console. R markdown files shows the output inside the console, and does not show output inside the editor" -- [https://jrnold.github.io/r4ds-exercise-solutions/r-markdown.html]
 
 -----------
 
@@ -50,10 +55,13 @@ Knit each of the three documents. How does the output differ? How does the input
 (You may need to install LaTeX in order to build the PDF output — RStudio will prompt you if this is necessary.)
 
 A4. <See separate files>
-I used same (existing) R Markdown document, but knit to pdf and to Word. The YAML header 'output:' changed
-Was prompted to download TeX [`"Mac OS X: TexLive 2013 (Full) - http://tug.org/mactex/
+
+* I used same (existing) R Markdown document, but knit to pdf and to Word. The YAML header `output:` changed
+* Was prompted to download TeX [`"Mac OS X: TexLive 2013 (Full) - http://tug.org/mactex/
 (NOTE: Download with Safari rather than Chrome _strongly_ recommended)"`] ...which I did (3.0GB --> 5.48GB when unpacked)
-After restarting RStudio, could complete the knit to pdf. Knit to Word was ok
+* After restarting RStudio, could complete the knit to pdf. Knit to Word was ok
+
+"They produce different outputs, both in the final documents and intermediate files (notably the type of plots produced). The only difference in the inputs is the value of output in the YAML header: word_document for Word documents, pdf_document for PDF documents, and html_document for HTML documents" -- [https://jrnold.github.io/r4ds-exercise-solutions/r-markdown.html]
 
 
 -----------
