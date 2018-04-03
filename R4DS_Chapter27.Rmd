@@ -112,7 +112,7 @@ A1.
 -----------
 
 Q2.
-Download `diamond-sizes.Rmd` from https://github.com/hadley/r4ds/tree/master/rmarkdown. Add a section that describes the largest 20 diamonds, including a table that displays their most important attributes
+Download `diamond-sizes.Rmd` from [https://github.com/hadley/r4ds/tree/master/rmarkdown]. Add a section that describes the largest 20 diamonds, including a table that displays their most important attributes
 
 A2.
 

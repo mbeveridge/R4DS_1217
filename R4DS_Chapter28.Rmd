@@ -43,17 +43,14 @@ A1.
 -----------
 
 Q2.
-Read the documentation for `annotate()`.
-How can you use it to add a text label to a plot without having to create a tibble?
+Read the documentation for `annotate()`. How can you use it to add a text label to a plot without having to create a tibble?
 
 A2.
 
 -----------
 
 Q3.
-How do labels with `geom_text()` interact with faceting?
-How can you add a label to a single facet? How can you put a different label in each facet?
-(Hint: think about the underlying data.)
+How do labels with `geom_text()` interact with faceting? How can you add a label to a single facet? How can you put a different label in each facet? (Hint: think about the underlying data.)
 
 A3.
 
@@ -66,8 +63,7 @@ A4.
 -----------
 
 Q5.
-What are the four arguments to `arrow()`? How do they work?
-Create a series of plots that demonstrate the most important options
+What are the four arguments to `arrow()`? How do they work? Create a series of plots that demonstrate the most important options
 
 A5.
 
