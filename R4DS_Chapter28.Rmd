@@ -56,7 +56,7 @@ ggplot(mpg, aes(displ, hwy, colour = class)) +        # ADD: `colour = class` fo
   )
 ```
 
-Based on [https://jrnold.github.io/r4ds-exercise-solutions/graphics-for-communication.html#label] (but that answer had relabelled x&y axis the wrong way around) :
+Based on [https://jrnold.github.io/r4ds-exercise-solutions/graphics-for-communication.html#label] (but that answer had relabelled x&y axes the wrong way around) :
 
 ```{r}
 mod <- lm(hwy ~ class, data = mpg)             # model based on fuel economy for Class (Car type)
@@ -73,6 +73,8 @@ mpg %>%
     y = "Highway fuel economy, relative to Class (mpg)"
   )
 ```
+
+[Not sure what this is intended to show. I assume it's that after removing effects of all the coloured linear models, we're left with this one that's fairly 'flat'? Otherwise, I assume it's that the coloured models shouldn't be straight lines?]
 
 
 -----------
