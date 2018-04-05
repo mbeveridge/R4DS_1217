@@ -208,11 +208,26 @@ ggplot(df, aes(x, y)) +
 
 A1.
 
+
+
+
 -----------
 
 Q2. What is the first argument to every scale? How does it compare to `labs()`?
 
 A2.
+```{r}
+?scale_x_continuous
+# [The first argument is `name`,] "the name of the scale. Used as axis or legend title. If NULL, the default, the name of the scale is taken from the first mapping used for that aesthetic" -- Help
+
+?labs
+# [The arguments are] "A list of new name-value pairs. The name should either be an aesthetic, or one of 'title', 'subtitle', or 'caption' -- Help
+```
+
+Based on [https://jrnold.github.io/r4ds-exercise-solutions/graphics-for-communication.html#scales] :
+"The first argument to every scale is the name for the scale. It is equivalent to using `labs()`"
+
+
 
 -----------
 
@@ -227,6 +242,9 @@ Change the display of the presidential terms by:
 
 A3.
 
+
+
+
 -----------
 
 Q4.
@@ -238,6 +256,19 @@ ggplot(diamonds, aes(carat, price)) +
 ```
 
 A4.
+Colours in the `cut` legend all appear to be v v faint pastel (for Fair, Good, Very Good, Premium, Ideal), because the `alpha` is so small (5%)
+
+From s28.4.2 R4DS book :
+"The following example shows two important settings: controlling the number of rows the legend uses with `nrow`, and overriding one of the aesthetics to make the points bigger. This is particularly useful if you have used a low alpha to display many points on a plot" :
+`guides(colour = guide_legend(nrow = 1, override.aes = list(size = 4)))`
+
+
+We can use `override.aes` to make the points solid in the legend, without changing them in the plot :
+```{r}
+ggplot(diamonds, aes(carat, price)) +                                  # no change
+  geom_point(aes(colour = cut), alpha = 1/20)  +                       # no change
+  guides(colour = guide_legend(override.aes = list(alpha = 1)))        # `alpha = 1`
+```
 
 
 
