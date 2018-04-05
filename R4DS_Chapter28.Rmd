@@ -197,12 +197,11 @@ A5.
 ### 28.4.4 Exercises
 
 Q1.
-Why doesn’t the following code override the default scale?
-
+Why doesn’t the following code override the default scale? :
 ```{r}
 ggplot(df, aes(x, y)) +
   geom_hex() +
-  scale_colour_gradient(low = "white", high = "red") +             # COLOUR
+  scale_colour_gradient(low = "white", high = "red") +             # _COLOUR_
   coord_fixed()
 ```
 
@@ -218,7 +217,7 @@ From [https://jrnold.github.io/r4ds-exercise-solutions/graphics-for-communicatio
 
 ggplot(df, aes(x, y)) +
   geom_hex() +
-  scale_fill_gradient(low = "white", high = "red") +               # FILL
+  scale_fill_gradient(low = "white", high = "red") +               # _FILL_
   coord_fixed()
 ```
 
@@ -253,6 +252,34 @@ Change the display of the presidential terms by:
 5. Placing breaks every 4 years (this is trickier than it seems!)
 
 A3.
+The question is referring to this code from s28.4.3 R4DS book. (Not sure what 'the two variants' refers to) :
+```{r}
+presidential %>%
+  mutate(id = 33 + row_number()) %>%
+  ggplot(aes(start, id, colour = party)) +
+    geom_point() +
+    geom_segment(aes(xend = end, yend = id)) +
+    scale_colour_manual(values = c(Republican = "red", Democratic = "blue"))
+```
+
+From [https://jrnold.github.io/r4ds-exercise-solutions/graphics-for-communication.html#scales] :
+```{r}
+years <- lubridate::make_date(seq(year(min(presidential$start)),
+             year(max(presidential$end)),
+             by = 4), 1, 1)
+
+presidential %>%
+  mutate(id = 33 + row_number(),
+         name_id = stringr::str_c(name, " (", id, ")"),
+         name_id = factor(name_id, levels = name_id)) %>%
+  ggplot(aes(start, name_id, colour = party)) +
+    geom_point() +
+    geom_segment(aes(xend = end, yend = name_id)) +
+    scale_colour_manual(values = c(Republican = "red", Democratic = "blue")) +
+    scale_y_discrete(NULL) +
+    scale_x_date(NULL, breaks = years, date_labels = "'%y") +
+    theme(panel.grid.minor = element_blank())
+```
 
 
 
