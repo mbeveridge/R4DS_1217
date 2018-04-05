@@ -155,6 +155,7 @@ Based on [https://jrnold.github.io/r4ds-exercise-solutions/graphics-for-communic
 * To 'add a label to a single facet', add a column to the `label` data frame for the faceting variable, along with the value of the single facet. [eg. `class = "2seater"`]
 * To put 'a different label in each facet', use the faceting variable in the `label` dataframe.   [eg. `class = unique(mpg$class)`]
 
+
 -----------
 
 Q4. What arguments to `geom_label()` control the appearance of the background box?
@@ -237,7 +238,6 @@ A2.
 
 Based on [https://jrnold.github.io/r4ds-exercise-solutions/graphics-for-communication.html#scales] :
 "The first argument to every scale is the name for the scale. It is equivalent to using `labs()`"
-
 
 
 -----------
