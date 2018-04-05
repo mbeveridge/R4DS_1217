@@ -149,6 +149,11 @@ Q3.
 How do labels with `geom_text()` interact with faceting? How can you add a label to a single facet? How can you put a different label in each facet? (Hint: think about the underlying data.)
 
 A3.
+Based on [https://jrnold.github.io/r4ds-exercise-solutions/graphics-for-communication.html#annotations] (which also shows the plots) :
+
+* If the faceting variable isn't in the `label` data frame, the same text is put in all facets
+* To 'add a label to a single facet', add a column to the `label` data frame for the faceting variable, along with the value of the single facet. [eg. `class = "2seater"`]
+* To put 'a different label in each facet', use the faceting variable in the `label` dataframe.   [eg. `class = unique(mpg$class)`]
 
 -----------
 
