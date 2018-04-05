@@ -202,13 +202,25 @@ Why doesn’t the following code override the default scale?
 ```{r}
 ggplot(df, aes(x, y)) +
   geom_hex() +
-  scale_colour_gradient(low = "white", high = "red") +
+  scale_colour_gradient(low = "white", high = "red") +             # COLOUR
   coord_fixed()
 ```
 
 A1.
+From [https://jrnold.github.io/r4ds-exercise-solutions/graphics-for-communication.html#scales] :
+"It does not override the default scale because the colors in `geom_hex` are set by the `fill` aesthetic, not the `color` aesthetic"
 
+```{r}
+# df <- tibble(
+#   x = rnorm(10000),
+#   y = rnorm(10000)
+# )
 
+ggplot(df, aes(x, y)) +
+  geom_hex() +
+  scale_fill_gradient(low = "white", high = "red") +               # FILL
+  coord_fixed()
+```
 
 
 -----------
