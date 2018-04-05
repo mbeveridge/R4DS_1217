@@ -155,6 +155,18 @@ A3.
 Q4. What arguments to `geom_label()` control the appearance of the background box?
 
 A4.
+```{r}
+?geom_label
+
+# "`geom_text` adds text directly to the plot. `geom_label` draws a rectangle behind the text, making it easier to read" -- Help
+```
+
+* `label.padding`: Amount of padding around label. Defaults to 0.25 lines
+* `label.r`: Radius of rounded corners. Defaults to 0.15 lines
+* `label.size`: Size of label border, in mm
+
+"The `fill` aesthetic controls the background colour of the label""
+
 
 -----------
 
