@@ -6,7 +6,9 @@ output:
 ---
 
 ```{r}
-library(tidyverse)
+library("tidyverse")
+library("modelr")
+library("lubridate")
 ```
 
 
@@ -43,9 +45,9 @@ A2.
 Starting from the code in A2 and making 2 ADDitions, then revisualising :
 
 ```{r}
-ggplot(mpg, aes(displ, hwy, colour = class)) +        # ADD: `colour = class` for multiple lines
+ggplot(mpg, aes(displ, hwy, colour = class)) +      # ADD: `colour = class` to get multiple lines
   geom_point(aes(colour = class)) +
-  geom_smooth(method = "lm", se = FALSE) +            # ADD: `method = "lm"` for straight lines
+  geom_smooth(method = "lm", se = FALSE) +          # ADD: `method = "lm"` to get straight lines
   labs(
     title = "Fuel efficiency generally decreases with engine size",
     subtitle = "Two seaters (sports cars) are an exception because of their light weight",
@@ -74,7 +76,7 @@ mpg %>%
   )
 ```
 
-[Not sure what this is intended to show. I assume it's that after removing effects of all the coloured linear models, we're left with this one that's fairly 'flat'? Otherwise, I assume it's that the coloured models shouldn't be straight lines?]
+[Not sure what this is intended to show. I assume it's that after removing effects of all the coloured linear models, we're left with this one that's fairly 'flat' (and so there really is a linear relationship for each `Car type`)? Otherwise, I assume it's that the coloured models shouldn't be straight lines?]
 
 
 -----------
