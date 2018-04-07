@@ -117,8 +117,9 @@ A1.
 knitr::opts_chunk$set(
   echo = FALSE
 )
+
+# "That will hide the code by default, so only showing the chunks you deliberately choose to show (with `echo = TRUE`)" -- s27.4.5 R4DS book
 ```
-"That will hide the code by default, so only showing the chunks you deliberately choose to show (with `echo = TRUE`)" -- s27.4.5 R4DS book
 
 
 -----------
@@ -144,4 +145,31 @@ Q3.
 Modify `diamonds-sizes.Rmd` to use `comma()` to produce nicely formatted output. Also include the percentage of diamonds that are larger than 2.5 carats.
 
 A3.
+`comma()` was a 'helper function' created in s27.4.6 R4DS book :
+```{r}
+comma <- function(x) format(x, digits = 2, big.mark = ",")
+```
+
+`smaller` was defined in s27.2 R4DS book :
+```{r}
+smaller <- diamonds %>% 
+  filter(carat <= 2.5)
+```
+
+SO THEN : using inline code, (with `r `), like in s27.4.6 R4DS book :
+
+We have data about `r nrow(diamonds)` diamonds. Only `r comma((nrow(diamonds) - nrow(smaller))/nrow(diamonds) * 100)`% are larger than 2.5 carats.
+
+..."When the report is knit, the results of these computations are inserted into the text"
+
+However [https://jrnold.github.io/r4ds-exercise-solutions/r-markdown.html#code-chunks] suggests :
+"I moved the computation of the number larger and percent of diamonds larger than 2.5 carats into a code chunk. I find that it is best to keep inline R expressions simple, usually consisting of an object and a formatting function. This makes it both easier to read and test the R code, while simultaneously making the prose easier to read. It helps the readability of the code and document to keep the computation of objects used in prose close to their use. Calculating those objects in a code chunk with the include = FALSE option (as is done in `diamonds-size.Rmd`) is useful in this regard."
+
+
+-----------
+
+Q4.
+Set up a network of chunks where `d` depends on `c` and `b`, and both `b` and `c` depend on `a`. Have each chunk print `lubridate::now()`, set `cache = TRUE`, then verify your understanding of caching
+
+A4.
 
