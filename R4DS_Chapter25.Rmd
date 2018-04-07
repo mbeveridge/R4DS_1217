@@ -20,12 +20,13 @@ A linear trend seems to be slightly too simple for the overall trend.
 * How can you interpret the coefficients of the quadratic? (Hint: you might want to transform `year` so that it has mean zero.)
 
 A1.
+This is referring to 'the overall trend' in 
+
 
 -----------
 
 Q2.
-Explore other methods for visualising the distribution of `R squared`  per continent.
-You might want to try the **ggbeeswarm** package, which provides similar methods for avoiding overlaps as jitter, but uses deterministic methods
+Explore other methods for visualising the distribution of `R squared`  per continent. You might want to try the **ggbeeswarm** package, which provides similar methods for avoiding overlaps as jitter, but uses deterministic methods
 
 A2.
 
@@ -44,7 +45,7 @@ A3.
 ## 25. "Many models" [Chapter 20 hardcopy]
 ### 25.4.5 Exercises
 
-Q1. List all the functions that you can think of that take a atomic vector and return a list
+Q1. List all the functions that you can think of that take a atomic vector and return a list.
 
 A1.
 
@@ -57,7 +58,11 @@ A2.
 -----------
 
 Q3.
-What’s missing in the following data frame? How does `quantile()` return that missing piece? Why isn’t that helpful here? :
+
+* What’s missing in the following data frame?
+* How does `quantile()` return that missing piece?
+* Why isn’t that helpful here? :
+
 ```{r}
 mtcars %>% 
   group_by(cyl) %>% 
