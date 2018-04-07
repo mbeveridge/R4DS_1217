@@ -17,7 +17,7 @@ Q1.
 A linear trend seems to be slightly too simple for the overall trend.
 
 * Can you do better with a quadratic polynomial?
-* How can you interpret the coefficients of the quadratic? (Hint you might want to transform 'year' so that it has mean zero.)
+* How can you interpret the coefficients of the quadratic? (Hint: you might want to transform `year` so that it has mean zero.)
 
 A1.
 
@@ -25,7 +25,7 @@ A1.
 
 Q2.
 Explore other methods for visualising the distribution of `R squared`  per continent.
-You might want to try the **ggbeeswarm** package, which provides similar methods for avoiding overlaps as `jitter`, but uses deterministic methods
+You might want to try the **ggbeeswarm** package, which provides similar methods for avoiding overlaps as jitter, but uses deterministic methods
 
 A2.
 
@@ -57,9 +57,7 @@ A2.
 -----------
 
 Q3.
-What’s missing in the following data frame?
-How does `quantile()` return that missing piece? Why isn’t that helpful here?
-
+What’s missing in the following data frame? How does `quantile()` return that missing piece? Why isn’t that helpful here? :
 ```{r}
 mtcars %>% 
   group_by(cyl) %>% 
@@ -83,7 +81,7 @@ A3.
 -----------
 
 Q4.
-What does this code do? Why might might it be useful?
+What does this code do? Why might might it be useful? :
 ```{r}
 mtcars %>% 
   group_by(cyl) %>% 
