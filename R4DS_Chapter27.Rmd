@@ -115,6 +115,14 @@ Q2.
 Download `diamond-sizes.Rmd` from [https://github.com/hadley/r4ds/tree/master/rmarkdown]. Add a section that describes the largest 20 diamonds, including a table that displays their most important attributes
 
 A2.
+```{r}
+diamonds %>%
+  select(carat, cut, color, clarity, price) %>%
+  arrange(desc(carat)) %>%
+  head(20) %>%
+  knitr::kable()                                   # re. s27.4.3 R4DS book
+```
+
 
 -----------
 
@@ -122,13 +130,4 @@ Q3.
 Modify `diamonds-sizes.Rmd` to use `comma()` to produce nicely formatted output. Also include the percentage of diamonds that are larger than 2.5 carats.
 
 A3.
-
------------
-
-Q4.
-Set up a network of chunks where `d` depends on `c` and `b`, and both `b` and `c` depend on `a`. Have each chunk print `lubridate::now()`, set `cache = TRUE`, then verify your understanding of caching
-
-A4.
-
-
 
