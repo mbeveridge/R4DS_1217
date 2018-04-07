@@ -88,7 +88,7 @@ Using the R Markdown quick reference, figure out how to:
 A2. <ALSO see separate file>
 
 1. eg. Within the text: `[^1]`. At bottom of the document: `[^1]: Here is the footnote`
-2. "Horizontal Rule / Page Break : Three or more asterisks or dashes" ...`---`
+2. "Horizontal Rule / Page Break : Three or more asterisks or dashes" ...`***` or `---`
 3. Blockquote : each line preceded by a `>` character and an optional space
 
 -----------
