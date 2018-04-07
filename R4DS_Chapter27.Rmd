@@ -109,6 +109,18 @@ Add a section that explores how diamond sizes vary by cut, colour, and clarity. 
 
 A1.
 
+"echo = FALSE prevents code, but not the results from appearing in the finished file. Use this when writing reports aimed at people who don’t want to see the underlying R code" -- s27.4.2 R4DS book
+
+"As you work more with **knitr**, you will discover that some of the default chunk options don’t fit your needs and you want to change them. You can do this by calling `knitr::opts_chunk$set()` in a code chunk" -- s27.4.5 R4DS book
+
+```{r}
+knitr::opts_chunk$set(
+  echo = FALSE
+)
+```
+"That will hide the code by default, so only showing the chunks you deliberately choose to show (with `echo = TRUE`)" -- s27.4.5 R4DS book
+
+
 -----------
 
 Q2.
@@ -116,6 +128,8 @@ Download `diamond-sizes.Rmd` from [https://github.com/hadley/r4ds/tree/master/rm
 
 A2.
 ```{r}
+?kable
+
 diamonds %>%
   select(carat, cut, color, clarity, price) %>%
   arrange(desc(carat)) %>%
