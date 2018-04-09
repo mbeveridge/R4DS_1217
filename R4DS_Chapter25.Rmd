@@ -75,6 +75,8 @@ SO...xxxxxxxxxxx
 Q1. List all the functions that you can think of that take a atomic vector and return a list.
 
 A1.
+"Some useful functions take an atomic vector and return a list. For example, in strings [s14 R4DS book] you learned about `stringr::str_split()` which takes a character vector and returns a list of character vectors. If you use that inside `mutate`, you’ll get a list-column" -- s25.4.2 R4DS book
+
 From [https://jrnold.github.io/r4ds-exercise-solutions/many-models.html#creating-list-columns] : "E.g. Many of the **stringr** functions"
 
 -----------
@@ -111,6 +113,34 @@ mtcars %>%
 
 
 A3.
+`q` gives the `mpg` at which certain quantiles/probabilities or met for each `cyl`. The output indicates that there are 5 quantiles here, but I don't know what they are (nor how the default is calculated, if a 'numeric vector of probabilities' isn't provided)
+
+```{r}
+?quantile
+```
+
+* The data frame is missing the quantiles/probabilities. "To make useful results with unnest, you’ll also need to capture the probabilities" -- s25.4.3
+
+* s25.4.3 has `quantile()` return 'that missing piece' by providing a 'numeric vector of probabilities' ...In the case of the data in Q3, this doesn't quite match, but replacing 0.99 with 1.00 (trial & error) would give a match :
+```{r}
+probs <- c(0.01, 0.25, 0.5, 0.75, 0.99)
+mtcars %>% 
+  group_by(cyl) %>% 
+  summarise(p = list(probs), q = list(quantile(mpg, probs))) %>% 
+  unnest()
+```
+
+* However, the question presumably isn't asking about trial & error (because "Why isn’t that helpful here?" wouldn't make sense)
+
+INSTEAD, from [https://jrnold.github.io/r4ds-exercise-solutions/many-models.html#creating-list-columns], parts 2&3 are :
+
+* `quantile()` returns these in the names of the vector :
+```{r}
+quantile(mtcars$mpg)
+```
+
+* Since the `unnest` function drops the names of the vector, they aren’t useful here
+
 
 -----------
 
