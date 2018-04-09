@@ -7,6 +7,8 @@ output:
 
 ```{r}
 library(tidyverse)
+library(modelr)
+# library(gapminder)                # not available in anaconda
 ```
 
 
@@ -20,7 +22,10 @@ A linear trend seems to be slightly too simple for the overall trend.
 * How can you interpret the coefficients of the quadratic? (Hint: you might want to transform `year` so that it has mean zero.)
 
 A1.
-This is referring to 'the overall trend' in 
+(I think) this refers to `lm(lifeExp ~ year, data = df)` from s25.2.2 leaving some large residuals (especially for some African countries during 1980-2000 ish)
+
+See : [https://jrnold.github.io/r4ds-exercise-solutions/many-models.html#gapminder]
+...I don't have the **gapminder** package
 
 
 -----------
