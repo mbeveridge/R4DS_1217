@@ -24,16 +24,33 @@ A linear trend seems to be slightly too simple for the overall trend.
 A1.
 (I think) this refers to `lm(lifeExp ~ year, data = df)` from s25.2.2 leaving some large residuals (especially for some African countries during 1980-2000 ish). A quadratic polynomial would include a 'squared' element (of `year`), and 'has mean zero' presumably suggests taking into account what `lifeExp` has been doing to-date (??)
 
-See : [https://jrnold.github.io/r4ds-exercise-solutions/many-models.html#gapminder]
-...I don't have the **gapminder** package
+I don't have the **gapminder** package. See [https://jrnold.github.io/r4ds-exercise-solutions/many-models.html#gapminder], which ends with :
+
+```{r}
+by_country %>% 
+  mutate(glance = map(model, broom::glance)) %>%
+  unnest(glance, .drop = TRUE) %>%
+  ggplot(aes(continent, r.squared)) +
+  geom_jitter(width = 0.5)
+```
 
 
 -----------
 
 Q2.
-Explore other methods for visualising the distribution of `R squared`  per continent. You might want to try the **ggbeeswarm** package, which provides similar methods for avoiding overlaps as jitter, but uses deterministic methods
+Explore other methods for visualising the distribution of `R squared` per continent. You might want to try the **ggbeeswarm** package, which provides similar methods for avoiding overlaps as jitter, but uses deterministic methods
 
 A2.
+I don't have the **gapminder** package. See [https://jrnold.github.io/r4ds-exercise-solutions/many-models.html#gapminder] :
+
+```{r}
+by_country %>% 
+  mutate(glance = map(model, broom::glance)) %>%
+  unnest(glance, .drop = TRUE) %>%
+  ggplot(aes(continent, r.squared)) +
+  geom_beeswarm()                            # instead of `geom_jitter()`
+```
+
 
 -----------
 
