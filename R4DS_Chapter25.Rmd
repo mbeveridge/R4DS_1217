@@ -75,12 +75,14 @@ SO...xxxxxxxxxxx
 Q1. List all the functions that you can think of that take a atomic vector and return a list.
 
 A1.
+From [https://jrnold.github.io/r4ds-exercise-solutions/many-models.html#creating-list-columns] : "E.g. Many of the **stringr** functions"
 
 -----------
 
 Q2. Brainstorm useful summary functions that, like `quantile()`, return multiple values.
 
 A2.
+From [https://jrnold.github.io/r4ds-exercise-solutions/many-models.html#creating-list-columns] : "Some examples of summary functions that return multiple values are `range` and `fivenum`"
 
 -----------
 
