@@ -134,12 +134,12 @@ mtcars %>%
 
 INSTEAD, from [https://jrnold.github.io/r4ds-exercise-solutions/many-models.html#creating-list-columns], parts 2&3 are :
 
-* `quantile()` returns these in the names of the vector :
+* "`quantile()` returns these in the names of the vector" :
 ```{r}
 quantile(mtcars$mpg)
 ```
 
-* Since the `unnest` function drops the names of the vector, they aren’t useful here
+* "Since the `unnest` function drops the names of the vector, they aren’t useful here"
 
 
 -----------
@@ -152,9 +152,11 @@ mtcars %>%
   summarise_each(funs(list))
 ```
 
-
 A4.
+From [https://jrnold.github.io/r4ds-exercise-solutions/many-models.html#creating-list-columns] :
 
+* "It creates a data frame in which each row corresponds to a value of `cyl`, and each observation for each column (other than `cyl`) is a vector of all the values of that column for that value of `cyl`"
+* "It seems like it should be useful to have all the observations of each variable for each group, but off the top of my head, I can’t think of a specific use for this. But, it seems that it may do many things that `dplyr::do` does"
 
 -----------
 
