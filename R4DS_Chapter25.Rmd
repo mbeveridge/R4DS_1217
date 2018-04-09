@@ -60,9 +60,9 @@ To create the last plot (showing the data for the countries with the worst model
 It’s possible avoid this join if we use `unnest()` instead of `unnest(.drop = TRUE)`. How?
 
 A3.
-This refers to `bad_fit` data frame, which is plotted as a line chart, at the end of s25.2.4 R4DS book
+This refers to `bad_fit` data frame, plotted as a line chart, at the end of s25.2.4 R4DS book
 
-An earlier step (in s25.2.4 R4DS book) towards the `bad_fit` data frame tried `unnest(glance)`, but "This isn’t quite the output we want, because it still includes all the list columns. This is default behaviour when `unnest()` works on single row data frames. To suppress these columns we use `.drop = TRUE`" ...And then the book used `unnest(glance, .drop = TRUE)` instead
+An earlier step (in s25.2.4 R4DS book) towards `bad_fit` data frame tried `unnest(glance)`, but "This isn’t quite the output we want, because it still includes all the list columns. This is default behaviour when `unnest()` works on single row data frames. To suppress these columns we use `.drop = TRUE`" ...And then the book used `unnest(glance, .drop = TRUE)` instead
 
 SO...xxxxxxxxxxx
 
