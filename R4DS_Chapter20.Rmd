@@ -13,19 +13,27 @@ library(tidyverse)
 ## 20. "Vectors" [Chapter 16 hardcopy]
 ### 20.3.5 Exercises
 
-Q1. Describe the difference between 'is.finite(x)' and '!is.infinite(x)'
+Q1. Describe the difference between `is.finite(x)` and `!is.infinite(x)`
+
+A1.
+```{r}
 ?is.finite()
 ?is.infinite()
+```
 
-A1. "Error in file(out, "wt") : cannot open the connection" -- Help
+"Error in file(out, "wt") : cannot open the connection" -- Help
 
 -----------
 
-Q2. Read the source code for 'dplyr::near()' (Hint: to see the source code, drop the ()). How does it work?
+Q2. Read the source code for `dplyr::near()` (Hint: to see the source code, drop the `()`). How does it work?
+
+A2.
+```{r}
 ?dplyr::near()
 ?dplyr::near
+```
 
-A2. "Error in file(out, "wt") : cannot open the connection" -- Help
+"Error in file(out, "wt") : cannot open the connection" -- Help
 
 -----------
 
@@ -43,7 +51,7 @@ A4.
 
 -----------
 
-Q5. What functions from the readr package allow you to turn a string into logical, integer, and double vector?
+Q5. What functions from the **readr** package allow you to turn a string into logical, integer, and double vector?
 
 A5.
 
@@ -53,27 +61,27 @@ A5.
 ## 20. "Vectors" [Chapter 16 hardcopy]
 ### 20.4.6 Exercises
 
-Q1. What does 'mean(is.na(x))' tell you about a vector x? What about 'sum(!is.finite(x))' ?
+Q1. What does `mean(is.na(x))` tell you about a vector `x`? What about `sum(!is.finite(x))` ?
 A1.
 
 -----------
 
 Q2.
-Carefully read the documentation of 'is.vector()'. What does it actually test for?
-Why does is.atomic() not agree with the definition of atomic vectors above?
+Carefully read the documentation of `is.vector()`. What does it actually test for?
+Why does `is.atomic()` not agree with the definition of atomic vectors above?
 
 A2.
 
 -----------
 
-Q3. Compare and contrast 'setNames()' with 'purrr::set_names()'.
+Q3. Compare and contrast `setNames()` with `purrr::set_names()`.
 
 A3.
 
 -----------
 
 Q4. Create functions that take a vector as input and returns:
-Q4.1 The last value. Should you use [ or [[?
+Q4.1 The last value. Should you use `[` or `[[`?
 Q4.2 The elements at even numbered positions
 Q4.3 Every element except the last value
 Q4.4 Only even numbers (and no missing values)
@@ -85,7 +93,7 @@ A4.4
 
 -----------
 
-Q5. Why is 'x[-which(x > 0)]' not the same as 'x[x <= 0]' ?
+Q5. Why is `x[-which(x > 0)]` not the same as `x[x <= 0]` ?
 
 A5.
 
@@ -104,8 +112,8 @@ A6.
 ### 20.5.4 Exercises
 
 Q1. Draw the following lists as nested sets:
-Q1.1 'list(a, b, list(c, d), list(e, f))'
-Q1.2 'list(list(list(list(list(list(a))))))'
+Q1.1 `list(a, b, list(c, d), list(e, f))`
+Q1.2 `list(list(list(list(list(list(a))))))`
 
 A1.1
 A1.2
@@ -125,7 +133,7 @@ A2.
 ### 20.7.4 Exercises
 
 Q1.
-What does 'hms::hms(3600)' return? How does it print?
+What does `hms::hms(3600)` return? How does it print?
 What primitive type is the augmented vector built on top of? What attributes does it use?
 
 A1.
