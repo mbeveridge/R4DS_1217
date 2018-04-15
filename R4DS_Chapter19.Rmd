@@ -14,10 +14,34 @@ library(tidyverse)
 ### 19.2.1 Practice
 
 Q1.
-Why is `TRUE` not a parameter to `rescale01()`?
-What would happen if `x` contained a single missing value, and `na.rm` was `FALSE`?
+
+* Why is `TRUE` not a parameter to `rescale01()`?
+* What would happen if `x` contained a single missing value, and `na.rm` was `FALSE`?
 
 A1.
+This refers to a comment in s19.2 R4DS book, (where the `rescale01` function later gets defined), after code that includes `na.rm = TRUE` : "This code only has one input: `df$a`. (If you’re surprised that `TRUE` is not an input, you can explore why in the exercise below.)"
+
+* `TRUE` not a parameter to `rescale01()` because XXXXXXXXXXXXXXX XXXXXXXXXXXX XXXXXXXXXXXX
+
+* if `x` contained a single missing value, and `na.rm` was `FALSE` :
+```{r}
+# "it’s a good idea to check your function with a few different inputs" -- s19.2 R4DS book :
+rescale01 <- function(x) {
+  rng <- range(x, na.rm = TRUE)             # na.rm = TRUE
+  (x - rng[1]) / (rng[2] - rng[1])
+}
+rescale01(c(1, 2, 3, NA, 5))                # [1] 0.00 0.25 0.50   NA 1.00
+
+# function amended, then retested with the same input as above :
+rescale01 <- function(x) {
+  rng <- range(x, na.rm = FALSE)            # `na.rm = FALSE`
+  (x - rng[1]) / (rng[2] - rng[1])
+}
+rescale01(c(1, 2, 3, NA, 5))                # [1] NA NA NA NA NA
+```
+
+"If there were any NA values, and na.rm = FALSE, then the function would return NA" -- [https://jrnold.github.io/r4ds-exercise-solutions/functions.html#when-should-you-write-a-function]
+
 
 -----------
 
@@ -76,8 +100,7 @@ A6.2
 -----------
 
 Q7.
-Read the complete lyrics [https://en.wikipedia.org/wiki/Little_Bunny_Foo_Foo] to “Little Bunny Foo Foo”.
-There’s a lot of duplication in this song. Extend the initial piping example to recreate the complete song, and use functions to reduce the duplication
+Read the complete lyrics [https://en.wikipedia.org/wiki/Little_Bunny_Foo_Foo] to “Little Bunny Foo Foo”. There’s a lot of duplication in this song. Extend the initial piping example to recreate the complete song, and use functions to reduce the duplication
 
 A7.
 
