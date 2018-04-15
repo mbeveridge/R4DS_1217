@@ -137,6 +137,8 @@ Q5.
 Write `both_na()`, a function that takes two vectors of the same length and returns the number of positions that have an `NA` in both vectors
 
 A5.
+XXXXXXXXXXXXXXX XXXXXXXXXXXX XXXXXXXXXXXX
+
 
 -----------
 
@@ -149,7 +151,11 @@ is_readable <- function(x) file.access(x, 4) == 0     # Q6.2
 
 
 A6.1
+XXXXXXXXXXXXXXX XXXXXXXXXXXX XXXXXXXXXXXX
+
 A6.2
+XXXXXXXXXXXXXXX XXXXXXXXXXXX XXXXXXXXXXXX
+
 
 -----------
 
@@ -157,5 +163,6 @@ Q7.
 Read the complete lyrics [https://en.wikipedia.org/wiki/Little_Bunny_Foo_Foo] to “Little Bunny Foo Foo”. There’s a lot of duplication in this song. Extend the initial piping example to recreate the complete song, and use functions to reduce the duplication
 
 A7.
+XXXXXXXXXXXXXXX XXXXXXXXXXXX XXXXXXXXXXXX
 
 
