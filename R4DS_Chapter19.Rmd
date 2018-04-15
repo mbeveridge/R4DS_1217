@@ -40,7 +40,7 @@ rescale01 <- function(x) {
 rescale01(c(1, 2, 3, NA, 5))                # [1] NA NA NA NA NA
 ```
 
-"If there were any NA values, and na.rm = FALSE, then the function would return NA" -- [https://jrnold.github.io/r4ds-exercise-solutions/functions.html#when-should-you-write-a-function]
+"If there were any `NA` values, and `na.rm = FALSE`, then the function would return `NA`" -- [https://jrnold.github.io/r4ds-exercise-solutions/functions.html#when-should-you-write-a-function]
 
 
 -----------
@@ -50,6 +50,30 @@ In the second variant of `rescale01()`, infinite values are left unchanged.
 Rewrite `rescale01()` so that `-Inf` is mapped to 0, and `Inf` is mapped to 1
 
 A2.
+This is the "second variant of `rescale01()`", from s19.2 R4DS book :
+```{r}
+x <- c(1:10, Inf)
+
+rescale01 <- function(x) {
+  rng <- range(x, na.rm = TRUE, finite = TRUE)
+  (x - rng[1]) / (rng[2] - rng[1])
+}
+rescale01(x)
+```
+
+Rewriting it [https://jrnold.github.io/r4ds-exercise-solutions/functions.html#when-should-you-write-a-function] :
+```{r}
+rescale01 <- function(x) {
+  rng <- range(x, na.rm = TRUE, finite = TRUE)
+  y <- (x - rng[1]) / (rng[2] - rng[1])            # assigned to `y`
+  y[y == -Inf] <- 0                                # `-Inf` is mapped to 0
+  y[y == Inf] <- 1                                 # `Inf` is mapped to 1
+  y                                                # output
+}
+
+rescale01(c(Inf, -Inf, 0:5, NA))                   # [1] 1.0 0.0 0.0 0.2 0.4 0.6 0.8 1.0  NA
+```
+
 
 -----------
 
