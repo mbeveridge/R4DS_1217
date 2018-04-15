@@ -74,6 +74,8 @@ rescale01 <- function(x) {
 rescale01(c(Inf, -Inf, 0:5, NA))                   # [1] 1.0 0.0 0.0 0.2 0.4 0.6 0.8 1.0  NA
 ```
 
+Note that the regular numbers here (0:5) still get scaled 0:1, even though we have -Inf:Inf
+
 
 -----------
 
@@ -87,10 +89,34 @@ sd(x, na.rm = TRUE) / mean(x, na.rm = TRUE)          # Q3.3
 ```
 
 A3.
-```{r}
 A3.1
+```{r}
+# `is.na(x)` will be True/False (0/1) for each value in vector `x`. The mean will be between 0&1, and indicates the proportion of values that are `NA`
+proportion_na <- function(x) {
+  mean(is.na(x))
+}
+
+# Confirmed by [https://jrnold.github.io/r4ds-exercise-solutions/functions.html#when-should-you-write-a-function]
+```
+
 A3.2
+```{r}
+# for each value in vector `x` the function will be between 0&1, and they will total to 1 (?)
+weights <- function(x) {
+  x / sum(x, na.rm = TRUE)
+}
+
+# [https://jrnold.github.io/r4ds-exercise-solutions/functions.html#when-should-you-write-a-function] called the function `weights`, so I copied that name
+```
+
 A3.3
+```{r}
+# 'standard deviation divided by mean' is defined as the "Coefficient of Variation"
+coeff_variation <- function(x) {
+  sd(x, na.rm = TRUE) / mean(x, na.rm = TRUE)
+}
+
+# See [https://jrnold.github.io/r4ds-exercise-solutions/functions.html#when-should-you-write-a-function] for use
 ```
 
 
