@@ -1,5 +1,5 @@
 # MOOC : "R for Data Science"
-###### 30/12/17 - xx/yy/18
+###### 30/12/17 - 20/4/18 (for me)
 
 "The goal of this online community is to provide a friendly and supportive online space for you to work with likeminded people just getting started in data analysis by reading “[**R for Data Science**](http://r4ds.had.co.nz/)”, a free and publicly available book written by Garrett Grolemund and Hadley Wickham" -- Jesse Maegan [20/8/17 blog post](https://medium.com/@kierisi/join-the-r-for-data-science-online-learning-community-842527222ab3)
 
