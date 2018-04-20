@@ -219,6 +219,18 @@ A2.
 Q3. Compare and contrast `rnorm()` and `MASS::mvrnorm()`. How could you make them more consistent?
 
 A3.
+```{r}
+?rnorm           # "'The Normal Distribution' ... eg. `rnorm(n, mean = 0, sd = 1)`" -- Help
+                 # "The length of the result is determined by `n` for `rnorm`" -- Help
+
+?MASS::mvrnorm   # "Produces one or more samples from the specified multivariate normal distrib"
+                 # `mvrnorm(n = 1, mu, Sigma, tol = 1e-6, empirical = FALSE, EISPACK = FALSE)`" -- Help
+```
+
+Based on [https://jrnold.github.io/r4ds-exercise-solutions/functions.html#functions-are-for-humans-and-computers] :
+* `rnorm` samples from the univariate normal distribution, while `MASS::mvrnorm` samples from the multivariate normal distribution. The main arguments in `rnorm` are `n`, `mean`, `sd`. But in `MASS::mvrnorm` they are `n`, `mu`, `Sigma`
+* To be consistent they should have the same names. And in general, it's better to be consistent with the more-widely used function (ie. `MASS::mvrnorm` should follow the conventions of `rnorm`). However, this is difficult : while `mean` would make sense in the multivariate case, `sd` does not. (Both functions an internally consistent. It wouldn't be good practice to have/mix `mu` & `sd` as arguments, or `mean` & `Sigma`)"
+
 
 -----------
 
