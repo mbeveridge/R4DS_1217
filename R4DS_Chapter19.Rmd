@@ -188,6 +188,26 @@ f3 <- function(x, y) {
 
 A1.
 
+A1.1
+```{r}
+?substr         # "Extract or replace substrings in a character vector" -- Help
+                # Usage : `substr(x, start, stop)` -- Help
+```
+We don't know details of the `prefix` (or `string`) object contents, but `f1` appears to be a check of whether the start of `string` matches something from a list of prefixes. T/F value
+
+"The function `f1` returns whether a function has a common prefix ... A better name for `f1` is `has_prefix()`" -- [https://jrnold.github.io/r4ds-exercise-solutions/functions.html#functions-are-for-humans-and-computers]
+
+A1.2
+"The function `f2` drops the last element ... A better name for `f2` is `drop_last()`" -- [https://jrnold.github.io/r4ds-exercise-solutions/functions.html#functions-are-for-humans-and-computers]
+
+A1.3
+```{r}
+?rep            # "rep replicates the values in x. It is a generic function" -- Help
+                # "`length.out` : The desired length of the output vector" -- Help
+```
+"The function `f3` repeats `y` once for each element of `x` ... This is a harder one to name. I would say something like `recycle` (R’s name for this behavior), or `expand`" -- [https://jrnold.github.io/r4ds-exercise-solutions/functions.html#functions-are-for-humans-and-computers]
+
+
 -----------
 
 Q2. Take a function that you’ve written recently and spend 5 minutes brainstorming a better name for it and its arguments.
