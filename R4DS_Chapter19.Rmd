@@ -237,6 +237,18 @@ Based on [https://jrnold.github.io/r4ds-exercise-solutions/functions.html#functi
 Q4. Make a case for why `norm_r()`, `norm_d()` etc would be better than `rnorm()`, `dnorm()`. Make a case for the opposite.
 
 A4.
+```{r}
+?rnorm           # "`rnorm` generates random deviates" -- Help
+
+?dnorm           # "`dnorm` gives the density" -- Help
+```
+
+"If you have a family of functions that do similar things, make sure they have consistent names and arguments. Use a common prefix to indicate that they are connected. That’s better than a common suffix because autocomplete allows you to type the prefix and see all the members of the family" -- s19.3 R4DS book
+
+Based on [https://jrnold.github.io/r4ds-exercise-solutions/functions.html#functions-are-for-humans-and-computers] :
+
+* `norm_r` and `norm_d` would group the family of functions related to the normal distribution.
+* `rnorm` and `dnorm` would be part of families grouped by the action they perform : `r*` functions sample from distributions (`rnorm`, `rbinom`, `runif`, `rexp`), whereas `d*` functions calculate the probability density or mass of a distribution (`dnorm`, `dbinom`, `dunif`, `dexp`)
 
 
 -----------
