@@ -259,6 +259,19 @@ Based on [https://jrnold.github.io/r4ds-exercise-solutions/functions.html#functi
 Q1. What’s the difference between `if` and `ifelse()`? Carefully read the help and construct three examples that illustrate the key differences.
 
 A1.
+```{r}
+`if`        # "Control Flow" ... "Usage : `if(cond) expr`" -- Help
+
+?ifelse     # "Conditional Element Selection" ... "returns a value with the same shape as `test`"
+            # "Usage : `ifelse(test, yes, no)`" -- Help
+```
+
+"The keyword `if` tests a single condition, while `ifelse` tests each element" -- [https://jrnold.github.io/r4ds-exercise-solutions/functions.html#conditional-execution]
+
+* eg1.
+* eg2.
+* eg3.
+
 
 -----------
 
